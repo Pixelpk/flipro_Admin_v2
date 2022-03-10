@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "865306367197",
+    "project_id": "flipro-c6b6d",
+    "storage_bucket": "flipro-c6b6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865306367197:android:bdb947485e5eadcbf17734",
+        "android_client_info": {
+          "package_name": "com.flipro.renovateadminapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865306367197-8vfmu1d719gc869bcpth31ilmu7njudt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbgU093yOUmPj-UsHTH4AJlwt8FXPo_zQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865306367197-8vfmu1d719gc869bcpth31ilmu7njudt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "865306367197-3jkcqa802j2l7810mi3hhni1omo3vdt2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fliproadminapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865306367197:android:36fe92a13ce2ee8ef17734",
+        "android_client_info": {
+          "package_name": "com.flipro.renovatefranchiseeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865306367197-8vfmu1d719gc869bcpth31ilmu7njudt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbgU093yOUmPj-UsHTH4AJlwt8FXPo_zQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865306367197-8vfmu1d719gc869bcpth31ilmu7njudt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "865306367197-3jkcqa802j2l7810mi3hhni1omo3vdt2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fliproadminapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865306367197:android:1be3adef599a588df17734",
+        "android_client_info": {
+          "package_name": "com.flipro.renovatetradesmenapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865306367197-8vfmu1d719gc869bcpth31ilmu7njudt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbgU093yOUmPj-UsHTH4AJlwt8FXPo_zQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865306367197-8vfmu1d719gc869bcpth31ilmu7njudt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "865306367197-3jkcqa802j2l7810mi3hhni1omo3vdt2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fliproadminapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
