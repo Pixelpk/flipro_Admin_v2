@@ -1,6 +1,7 @@
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
+import 'package:fliproadmin/ui/view/forgot_password_screen/forgot_password_screen.dart';
 import 'package:fliproadmin/ui/view/home_screen/home_screen.dart';
 import 'package:fliproadmin/ui/widget/custom_input_decoration.dart';
 import 'package:fliproadmin/ui/widget/helper_widget.dart';
@@ -113,16 +114,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                 )),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Forgot Password?",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1!
-                                    .copyWith(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pushNamed(context, ForgotPasswordScreen.routeName);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Forgot Password?",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1!
+                                      .copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                             SizedBox(

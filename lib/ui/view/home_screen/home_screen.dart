@@ -2,6 +2,7 @@ import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
+import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/view/activity_screen/activity_screen.dart';
 import 'package:fliproadmin/ui/view/members_screen/members_screen.dart';
 import 'package:fliproadmin/ui/view/profile_screen/profile_Screen.dart';
@@ -40,12 +41,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+
   final List<Widget> bodyWidgets = [
     HomePageBody(),
     const ActivityScreen(),
     const ProjectAcceptanceScreen(),
     const MembersScreen(),
-     ProfileScreen(),
+    ProfileScreen(),
     const Text("4"),
   ];
   @override
@@ -54,7 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
-        child:  CustomAppBar(bannerText: homeProvider.getSelectedHomeIndex ==4? "Profile":"Admin Pannel",          automaticallyImplyLeading: false,
+        child: CustomAppBar(
+          bannerText: homeProvider.getSelectedHomeIndex == 4
+              ? "Profile"
+              : "Admin Pannel",
+          showBothIcon: true,
+          automaticallyImplyLeading: false,
         ),
       ),
       body: bodyWidgets.elementAt(homeProvider.getSelectedHomeIndex),

@@ -51,10 +51,9 @@ class DbService with ChangeNotifier {
     try {
       if (_box != null) {
         return _box!.read(key);
-        print("DB SERVICE READING ${_box!.read(key)}");
       }
     } catch (e) {
-      print(e);
+     return null ;
     }
   }
 

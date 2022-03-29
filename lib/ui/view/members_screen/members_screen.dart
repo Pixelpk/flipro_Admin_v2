@@ -1,3 +1,4 @@
+import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:fliproadmin/ui/view/members_screen/add_member/add_member_screen.dart';
 import 'package:fliproadmin/ui/view/members_screen/member_pages/franchisee_page.dart';
 import 'package:fliproadmin/ui/view/members_screen/member_pages/home_owner_page.dart';
@@ -46,7 +47,7 @@ class _MembersScreenState extends State<MembersScreen> {
                 });
               },
               controller: pageController,
-              children:   const <Widget>[
+              children: const <Widget>[
                 BuilderPage(),
                 ValuerPage(),
                 FranchiseePage(),
@@ -57,12 +58,51 @@ class _MembersScreenState extends State<MembersScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-
         onPressed: () {
-          Navigator.of(context).pushNamed(AddMemberScreen.routeName);
+          Navigator.of(context).pushNamed(AddMemberScreen.routeName,
+              arguments: {
+                "appUsers": getCurrentUser(_index),
+                "createAssign": false,
+
+              });
         },
-        child: const Icon(Icons.person_add_alt_1,),
+        child: const Icon(
+          Icons.person_add_alt_1,
+        ),
       ),
     );
   }
+}
+
+appUsers getCurrentUser(int index) {
+  appUsers _appuser = appUsers.admin;
+  switch (index) {
+    case 0:
+      {
+        _appuser = appUsers.builder;
+      }
+      break;
+
+    case 1:
+      {
+        _appuser = appUsers.evaluator;
+      }
+      break;
+    case 2:
+      {
+        _appuser = appUsers.franchise;
+      }
+      break;
+    case 3:
+      {
+        _appuser = appUsers.homeowner;
+      }
+      break;
+    default:
+      {
+        //statements;
+      }
+      break;
+  }
+  return _appuser;
 }

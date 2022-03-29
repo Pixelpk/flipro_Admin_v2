@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
+import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
+import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
 import 'package:fliproadmin/ui/view/view_unassigned_project/view_unassigned_project.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
@@ -7,20 +10,27 @@ import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import 'home_screen.dart';
 
 class HomeItem extends StatelessWidget {
-  const HomeItem({Key? key, required this.project}) : super(key: key);
+  const HomeItem({Key? key}) : super(key: key);
 
-  final home project;
 
   @override
   Widget build(BuildContext context) {
+    print("HOME ITEM REBUIKTS");
+    final projectProvider = Provider.of<ProjectProvider>(context).getProject;
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(ViewUnassignedProject.routeName);
+        Provider.of<LoadedProjectProvider>(context,listen: false).fetchLoadedProject(projectProvider.id!);
+        Navigator.of(context)
+            .pushNamed(ViewUnassignedProject.routeName);
+        if (!projectProvider.assigned!) {
+
+        } else {}
       },
       child: Container(
         padding: EdgeInsets.all(1.5.w),
@@ -35,11 +45,18 @@ class HomeItem extends StatelessWidget {
                 flex: 40,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      AppConstant.defaultProjectImage,
+                    child:
+
+                    CachedNetworkImage(
+                      imageUrl:            projectProvider.coverPhoto??'',
+                       fit: BoxFit.cover,
                       width: 100.w,
-                      fit: BoxFit.cover,
-                    ))),
+                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                          CircularProgressIndicator(value: downloadProgress.progress),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+
+                )),
             Expanded(
                 flex: 13,
                 child: Container(
@@ -54,7 +71,7 @@ class HomeItem extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              project.name,
+                              projectProvider.title!,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: Theme.of(context).textTheme.bodyText1,
@@ -69,7 +86,7 @@ class HomeItem extends StatelessWidget {
                               ),
                               Flexible(
                                   child: Text(
-                                project.loc,
+                                projectProvider.projectAddress!,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: Theme.of(context).textTheme.subtitle2,
@@ -79,7 +96,7 @@ class HomeItem extends StatelessWidget {
                         ],
                       )),
                       SvgPicture.asset(
-                        project.assigned
+                        projectProvider.assigned!
                             ? AppConstant.approved
                             : AppConstant.rejected,
                         height: 5.w,

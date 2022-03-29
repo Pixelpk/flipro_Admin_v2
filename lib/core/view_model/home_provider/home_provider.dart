@@ -1,9 +1,11 @@
+import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/widget/ui_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class HomeProvider with ChangeNotifier {
-  int _selectedHomeIndex =3;
+  int _selectedHomeIndex = 0;
   int _activityPageViewCurrentPage = 0;
   int _projectViewCurrentPage = 0;
   int get getSelectedHomeIndex => _selectedHomeIndex;
@@ -11,9 +13,9 @@ class HomeProvider with ChangeNotifier {
   int get getProjectViewCurrentPage => _projectViewCurrentPage;
   void onItemTapped(int index) {
     if (index == 5) {
-      UIHelper.deleteDialog(
-          "Are you sure you want to Logout?", () {}, Get.context!,
-          title: "Logout");
+      UIHelper.deleteDialog("Are you sure you want to Logout?", () {
+        Provider.of<UserProvider>(Get.context!, listen: false).logout();
+      }, Get.context!, title: "Logout");
     } else {
       _selectedHomeIndex = index;
       notifyListeners();

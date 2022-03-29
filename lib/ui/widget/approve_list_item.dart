@@ -1,44 +1,79 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
+import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
+import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
+import 'package:fliproadmin/core/view_model/projects_provider/projects_provider.dart';
+import 'package:fliproadmin/ui/widget/view_project_details.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class ApproveListItem extends StatelessWidget {
   const ApproveListItem({
     Key? key,
-    this.acceptCallback,this.rejectCallback,this.viewProjectCallback ,this.rejected =true ,
+    this.viewProjectCallback,
+    this.rejected = true,
+    this.projectProvider,
+    this.pagingController
   }) : super(key: key);
   final VoidCallback? viewProjectCallback;
-  final VoidCallback? acceptCallback;
-  final VoidCallback? rejectCallback;
-final bool rejected ;
+  final PagingController? pagingController ;
+  final ProjectProvider? projectProvider;
+  final bool rejected;
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 110,
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(10)),
       padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.w),
       margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.w),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             flex: 50,
             child: InkWell(
-              onTap: viewProjectCallback,
+              onTap: ()async{
+                Provider.of<LoadedProjectProvider>(context, listen: false)
+                    .fetchLoadedProject(projectProvider!.getProject.id!);
+                final refresh = await Navigator.pushNamed(
+                    context, ViewProjectDetails.routeName,
+                    arguments: rejected);
+                if (refresh != null && refresh == true) {
+                  pagingController!.refresh();
+                }
+                print("DO REFRESH $refresh");
+              },
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                       flex: 20,
-                      child: Image.asset(AppConstant.defaultProjectImage)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: CachedNetworkImage(
+                            imageUrl:                             projectProvider!.getProject.coverPhoto ?? '',
+                              fit: BoxFit.cover,
+                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                CircularProgressIndicator(value: downloadProgress.progress),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                          ),
+
+
+                      )),
                   Expanded(
                       flex: 30,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 4, right: 2),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Classify Projects",
+                              "${projectProvider!.getProject.title}",
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -46,7 +81,7 @@ final bool rejected ;
                               maxLines: 1,
                             ),
                             Text(
-                              "Str 123 , Lahore Pakistan ,Punjan ,South asia , Earth , Milkyway Galaxy tr 123 , Lahore Pakistan ,Punjan ,South asia , Earth , Milkyway Galaxytr 123 , Lahore Pakistan ,Punjan ,South asia , Earth , Milkyway Galaxy ",
+                              "${projectProvider!.getProject.projectAddress}",
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle1!
@@ -61,35 +96,63 @@ final bool rejected ;
             ),
           ),
           Expanded(
-              flex: rejected ? 15: 20,
+              flex: rejected ? 15 : 20,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  rejected ? Text("Rejected",style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.lightRed),) : Row(
-                    children: [
-                      IconButton(
-                          onPressed: acceptCallback,
-                          icon: Column(
-                            children: const [
-                              Icon(
-                                Icons.check_circle,
-                                color: AppColors.green,
+                  rejected
+                      ? Text(
+                          "Rejected",
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(color: AppColors.lightRed),
+                        )
+                      : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: ()async {
+                             bool doRefresh = await   Provider.of<ProjectsProvider>(context, listen: false)
+                                    .approveRejectProject(
+                                    isApproved: true,
+                                    projectId: projectProvider!.getProject.id!,doPop: false);
+                             if (doRefresh != null && doRefresh == true) {
+                               pagingController!.refresh();
+                             }
+                              },
+                              child: Column(
+                                children: const [
+                                  Icon(
+                                    Icons.check_circle,
+                                    color: AppColors.green,
+                                  ),
+                                  Text("Accept", style: TextStyle(fontSize: 8),overflow: TextOverflow.fade,)
+                                ],
                               ),
-                              Text("Accept", style: TextStyle(fontSize: 8))
-                            ],
-                          )),
-                      IconButton(
-                          onPressed: rejectCallback,
-                          icon: Column(
-                            children: const [
-                              Icon(
-                                Icons.cancel,
-                                color: AppColors.lightRed,
+                            ),
+                            GestureDetector(
+                              onTap: ()async {
+                                bool doRefresh =  await Provider.of<ProjectsProvider>(context, listen: false)
+                                    .approveRejectProject(
+                                    isApproved: false,
+                                    projectId: projectProvider!.getProject.id!,doPop: false);
+                                if (doRefresh != null && doRefresh == true) {
+                                  pagingController!.refresh();
+                                }
+                              },
+                              child: Column(
+                                children: const [
+                                  Icon(
+                                    Icons.cancel,
+                                    color: AppColors.darkRed,
+                                  ),
+                                  Text("Reject", style: TextStyle(fontSize: 8),overflow: TextOverflow.fade,)
+                                ],
                               ),
-                              Text("Reject", style: TextStyle(fontSize: 8))
-                            ],
-                          ))
-                    ],
-                  )
+                            ),
+                          ],
+                        )
                 ],
               ))
         ],

@@ -10,6 +10,7 @@ class UIHelper {
         title:title?? "Delete",
         backgroundColor: AppColors.mainThemeBlue,
         onConfirm: confirmCallBack,
+
         buttonColor: Colors.white,
         textConfirm: 'Yes',
         titleStyle: Theme.of(context).textTheme.headline5,
@@ -20,6 +21,7 @@ class UIHelper {
         confirmTextColor: AppColors.mainThemeBlue,
         radius: 8,
         middleText: subtitle,
+        middleTextStyle: TextStyle(color: Colors.white),
         cancelTextColor: Colors.white);
   }
 

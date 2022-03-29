@@ -1,17 +1,24 @@
+import 'package:fliproadmin/core/model/generic_model/generic_model.dart';
+import 'package:fliproadmin/core/model/note_model/note_model.dart';
+import 'package:fliproadmin/core/services/notes_service/notes_service.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
+import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/view/notes_screen/note_view_screen.dart';
+import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class NoteItem extends StatelessWidget {
-  const NoteItem({
-    Key? key,
-  }) : super(key: key);
-
+  const NoteItem({Key? key, this.note, required this.pagingController})
+      : super(key: key);
+  final Note? note;
+  final PagingController pagingController;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,8 +28,17 @@ class NoteItem extends StatelessWidget {
       height: 9.h,
       width: 90.w,
       child: InkWell(
-        onTap: () {
-          Navigator.of(context).pushNamed(NoteViewScreen.routeName,arguments: true);
+        onTap: () async {
+          ///SETTING EDITABLE TRUE SO WE CAN EDIT THIS NOTE
+          note!.isEditAble = true;
+          print(note!.toJson());
+          final isSucess = await Navigator.of(context)
+              .pushNamed(NoteViewScreen.routeName, arguments: note);
+          print("is CISSS ${isSucess}");
+          if (isSucess != null && isSucess == true) {
+            print("sdsf$isSucess");
+            pagingController.refresh();
+          }
         },
         child: Row(
           children: [
@@ -46,13 +62,13 @@ class NoteItem extends StatelessWidget {
                 SizedBox(
                   width: 60.w,
                   child: Text(
-                    "Note Title hti si ishdi sdkfns kdmn vksdn vvk smdvk mskdvm ksdmvksdmvk msd vksmdvksmdkv smkdvmskdvmskdvmskmdvskjdkjvsdkj",
+                    "${note!.notes}",
                     style: Theme.of(context).textTheme.bodyText1,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Text("1 week ago",
+                Text("${note!.timeago}",
                     style: Theme.of(context)
                         .textTheme
                         .subtitle2!
@@ -62,7 +78,21 @@ class NoteItem extends StatelessWidget {
             const Spacer(),
             IconButton(
                 onPressed: () {
-                 UIHelper.deleteDialog("Are you sure to delete this note?", () { }, context);
+                  UIHelper.deleteDialog("Are you sure to delete this note?",
+                      () async {
+                    GenericModel genericModel = await NotesService.deleteNote(
+                        accessToken:
+                            Provider.of<UserProvider>(context, listen: false)
+                                .getAuthToken,
+                        nodeId: note!.id);
+                    if (genericModel.success) {
+                      GetXDialog.showDialog(
+                          message: genericModel.message,
+                          title: genericModel.title);
+                      pagingController.refresh();
+                      Navigator.of(context).pop();
+                    }
+                  }, context);
                 },
                 icon: const Icon(
                   Icons.delete,

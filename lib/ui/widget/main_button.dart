@@ -11,10 +11,14 @@ class MainButton extends StatelessWidget {
   final double radius ;
   final TextStyle? buttonStyle;
   final bool startALignment ;
+  final Widget? child ;
+  final bool isloading ;
   const MainButton({
     Key? key,
     this.buttonText,
     this.buttonStyle,
+    this.child ,
+    this.isloading = false ,
     this.buttonColor,
     this.startALignment = false ,
     this.radius = 13 ,
@@ -39,8 +43,13 @@ class MainButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radius),
         ),
-        onPressed: callback,
-        child: userArrow ? Row(
+        onPressed: isloading ? null : callback,
+        child: isloading  ?  const Padding(
+          padding: EdgeInsets.all(12),
+          child: CircularProgressIndicator(
+            backgroundColor: Colors.white,
+          ),
+        ) :  userArrow ? Row(
           children: [
             startALignment ? Container(): Expanded(flex: 18, child: Container()),
             Text(buttonText!,

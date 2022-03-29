@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,10 @@ class ProfileAppbar extends StatelessWidget {
   const ProfileAppbar({
     Key? key,
     this.pictureEditable = false,
+   required this.imageUrl,
   }) : super(key: key);
   final bool pictureEditable;
+  final String imageUrl ;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -39,7 +42,7 @@ class ProfileAppbar extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 6.8.h,
                     backgroundImage:
-                        const AssetImage(AppConstant.defaultProjectImage),
+                    CachedNetworkImageProvider(imageUrl),
                     child: Stack(
                       clipBehavior: Clip.none,
                       alignment: Alignment.bottomLeft,

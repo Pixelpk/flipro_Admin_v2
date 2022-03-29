@@ -1,24 +1,73 @@
+import 'package:fliproadmin/core/model/generic_model/generic_model.dart';
+import 'package:fliproadmin/core/model/project_response/project_response.dart';
+import 'package:fliproadmin/core/model/user_role_response/user_role_response.dart';
 import 'package:fliproadmin/core/model/users_model/users_model.dart';
+import 'package:fliproadmin/core/services/projects_service/projects_service.dart';
+import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
+import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
+import 'package:fliproadmin/core/view_model/projects_provider/projects_provider.dart';
+import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/builder_access_control_screen.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/valuer_access_control_screen.dart';
+import 'package:fliproadmin/ui/view/members_screen/add_member/add_member_screen.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
 import 'package:fliproadmin/ui/widget/custom_input_decoration.dart';
+import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
+import 'package:fliproadmin/ui/widget/helper_widget.dart';
+import 'package:fliproadmin/ui/widget/search_user.dart';
 import 'package:fliproadmin/ui/widget/ui_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import '../../widget/trade_man_list_item.dart';
 
-class AddTradeManScreen extends StatelessWidget {
+class AddTradeManScreen extends StatefulWidget {
   const AddTradeManScreen({Key? key}) : super(key: key);
   static const routeName = '/AddTradeManScreen';
 
   @override
+  State<AddTradeManScreen> createState() => _AddTradeManScreenState();
+}
+
+class _AddTradeManScreenState extends State<AddTradeManScreen> {
+  @override
+  void initState() {
+    Future.microtask(() {
+      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      final appUser = args['appUser'];
+      final projectId = args['projectId'];
+      final userRole = LogicHelper.userTypeFromEnum(appUser);
+      Provider.of<ProjectsProvider>(context, listen: false).fetchUsers(
+          initialLoading: true, userRole: userRole, projectId: projectId);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final appUser = ModalRoute.of(context)!.settings.arguments as appUsers;
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    final appUser = args['appUser'];
     final userTitle = LogicHelper.userTitleHandler(appUser);
+    final userRole = LogicHelper.userTypeFromEnum(appUser);
+    final projectId = args['projectId'];
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ///CREATE MEMBER ON RUNTIME AND ASSIGN IT TO USER
+          ///true for assigning as well
+          ///false for just to create
+          Navigator.of(context).pushNamed(AddMemberScreen.routeName,
+              arguments: {"appUsers": appUser, "createAssign": true,});
+        },
+        child: const Icon(
+          Icons.person_add_alt_1,
+        ),
+      ),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
         child: CustomAppBar(
@@ -27,66 +76,59 @@ class AddTradeManScreen extends StatelessWidget {
           showBothIcon: false,
         ),
       ),
-      body: Column(
+      body: Stack(
+        alignment: Alignment.topCenter,
+        fit: StackFit.expand,
         children: [
-          Container(
-            padding:
-                EdgeInsets.only(right: 3.w, left: 3.w, bottom: 1.h, top: 2.2.h),
-            child: TextFormField(
-              decoration: customInputDecoration(
-                  context: context,
-                  hintText: "Search $userTitle",
-                  suffixIcon: const Icon(Icons.search)),
-            ),
-          ),
-          Expanded(
-              child: ListView.builder(
-            itemBuilder: (context, index) {
-              return InkWell(
-                  onTap: () {
-                    handleTrademanNavigation(context: context, user: appUser);
+          Consumer<ProjectsProvider>(builder: (ctx, projectProvider, c) {
+            print(projectProvider.getLoadingState);
+            if (projectProvider.getLoadingState == loadingState.loading &&
+                projectProvider.getCurrentPage == 1) {
+              return HelperWidget.progressIndicator();
+            }
+            return LazyLoadScrollView(
+                isLoading:
+                    projectProvider.getLoadingState == loadingState.loading,
+                onEndOfPage: () =>
+                    Provider.of<ProjectsProvider>(context, listen: false)
+                        .fetchUsers(
+                            initialLoading: false,
+                            projectId: projectId,
+                            userRole: userRole),
+                child: ListView.builder(
+                  padding: EdgeInsets.only(top: 9.h),
+                  itemBuilder: (context, index) {
+                    UserRoleModel fetchedUser =
+                        projectProvider.getFetchedUsers[index];
+                    return InkWell(
+                        onTap: () {
+                          HelperWidget.handleTrademanNavigation(
+                              context: context,
+                              user: appUser,
+                              userRoleModel: fetchedUser,
+                              currentRoute: args['currentRoute']);
+                        },
+                        child: TrademanListItem(
+                          userRoleModel: fetchedUser,
+                          showAssignButton: true,
+                        ));
                   },
-                  child: TrademanListItem(
-                    title: userTitle,
-                    member: Member(),
-                  ));
-            },
-            itemCount: 10,
-          ))
+                  itemCount: projectProvider.getFetchedUsers.length,
+                ));
+          }),
+          Container(
+              padding:
+                  EdgeInsets.only(right: 3.w, left: 3.w, bottom: 1.h, top: 1.h),
+              height: 5.5.h,
+              child: SearchUsers(
+                appuser: appUser,
+                currentRoute: args['currentRoute'],
+                projectId: projectId,
+                isPortrait: true,
+                role: userTitle.toLowerCase(),
+              )),
         ],
       ),
     );
-  }
-
-  handleTrademanNavigation(
-      {required appUsers user, required BuildContext context}) {
-    switch (user) {
-      // case appUsers.admin:
-      //   {
-      //     Navigator.of(context).pushNamed(
-      //         BuilderAccessControlScreen.routeName) ;
-      //   }
-      //   break;
-
-      // case appUsers.franchisee:
-      //   {
-      //     Navigator.of(context).pushNamed(
-      //         BuilderAccessControlScreen.routeName) ;
-      //   }
-      //   break;
-      case appUsers.builder:
-        {
-          Navigator.of(context).pushNamed(BuilderAccessControlScreen.routeName);
-        }
-        break;
-      case appUsers.evaluator:
-        {
-          Navigator.of(context).pushNamed(ValuerAccessControlScreen.routeName);
-        }
-        break;
-      default:
-        {}
-        break;
-    }
   }
 }
