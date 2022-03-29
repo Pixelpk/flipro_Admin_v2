@@ -6,8 +6,10 @@ import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
 import 'package:fliproadmin/ui/view/project_overview_screen/project_overview_Screen.dart';
+import 'package:fliproadmin/ui/view/share_screen/image_sharing.dart';
 import 'package:fliproadmin/ui/view/view_project_screen/view_project_screen.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
+import 'package:fliproadmin/ui/widget/custom_cache_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -30,11 +32,12 @@ class ActivityListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Provider.of<HomeProvider>(context,listen: false).onProjectViewPageChange(0);
+        Provider.of<HomeProvider>(context, listen: false)
+            .onProjectViewPageChange(0);
         Provider.of<LoadedProjectProvider>(context, listen: false)
             .fetchLoadedProject(project!.getProject.id!);
-        Navigator.of(context).pushNamed(ViewProjectScreen.routeName,
-            arguments: false);
+        Navigator.of(context)
+            .pushNamed(ViewProjectScreen.routeName, arguments: false);
       },
       child: Container(
         height: 15.h,
@@ -49,16 +52,12 @@ class ActivityListItem extends StatelessWidget {
             Expanded(
                 flex: 11,
                 child: ClipRRect(
-                  child:  CachedNetworkImage(
-                    imageUrl:          project!.getProject.coverPhoto ?? ''
-                 ,   fit: BoxFit.cover,
-                  height: double.infinity,
-                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        CircularProgressIndicator(value: downloadProgress.progress),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  child: CustomCachedImage(
+                    imageUrl: project!.getProject.coverPhoto ?? '',
+                    width: 100.w,
+                    fit: BoxFit.cover,
+                    height: double.infinity,
                   ),
-
-
                   borderRadius: BorderRadius.circular(15),
                 )),
             Expanded(
@@ -98,7 +97,9 @@ class ActivityListItem extends StatelessWidget {
                               : const Spacer(),
                           const Spacer(),
                           Text(
-                            "${LogicHelper.getTimeAgo(project!.getProject.createdAt!,)}",
+                            "${LogicHelper.getTimeAgo(
+                              project!.getProject.createdAt!,
+                            )}",
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1!

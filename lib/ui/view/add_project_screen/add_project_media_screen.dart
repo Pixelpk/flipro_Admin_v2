@@ -29,6 +29,7 @@ class AddProjectMediaScreen extends StatefulWidget {
 
 class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   late Project project;
+  bool isNewProject = true ;
   TextEditingController? areaController;
   TextEditingController? titleController;
   TextEditingController? anticipatedBudgetController;
@@ -40,7 +41,6 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   @override
   void initState() {
     Future.microtask(() => initControllers());
-
     super.initState();
   }
 
@@ -192,10 +192,19 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                   ),
                   Consumer<ProjectsProvider>(builder: (ctx, pProvider, c) {
                     return MainButton(
-                      height: 7.5.h,
+                      height: 7.h,
                       isloading:
                           pProvider.getLoadingState == loadingState.loading,
-                      callback: updateProjectProject,
+                      callback: (){
+                        if(isNewProject)
+                          {
+                            createProject();
+                          }
+                        if(!isNewProject)
+                          {
+                            updateProjectProject();
+                          }
+                      },
                       buttonText: "Submit Project",
                       width: 60.w,
                     );
@@ -213,9 +222,11 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   }
 
   initControllers() {
-    final _passedProject =
-        ModalRoute.of(context)!.settings.arguments as Project;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map;
+    final _passedProject = args['project'];
     project = _passedProject;
+
     if (_passedProject.area != null &&
         _passedProject.anticipatedBudget != null &&
         _passedProject.projectAddress != null &&
@@ -244,10 +255,17 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
       description = TextEditingController();
       // Provider.of<AssetProvider>(context,listen: ).clearAllMedia();
     }
+    isNewProject = args['newProject'];
     setState(() {});
   }
 
   createProject() async {
+    if (Provider.of<AssetProvider>(context, listen: false)
+        .getPickedImages
+        .isEmpty) {
+      GetXDialog.showDialog(
+          title: "Project Images", message: "Please add project images");
+    }
     if (_formKey.currentState!.validate() &&
         Provider.of<AssetProvider>(context, listen: false)
             .getPickedImages
@@ -277,12 +295,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
         Provider.of<AssetProvider>(context, listen: false).clearAllMedia();
       }
     }
-    if (Provider.of<AssetProvider>(context, listen: false)
-        .getPickedImages
-        .isEmpty) {
-      GetXDialog.showDialog(
-          title: "Project Images", message: "Please add project images");
-    }
+
   }
 
   updateProjectProject() async {
@@ -399,13 +412,16 @@ class VideoGridView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             assetProvider.getCompressedVidoesWithThumbnail.isNotEmpty
-                ? Text(
-                    "Picked Videos",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(color: AppColors.mainThemeBlue),
-                  )
+                ? Padding(
+              padding: EdgeInsets.only(left: 5.w, top: 5.w),
+                  child: Text(
+                      "Picked Videos",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(color: AppColors.mainThemeBlue),
+                    ),
+                )
                 : Container()
           ],
         ),

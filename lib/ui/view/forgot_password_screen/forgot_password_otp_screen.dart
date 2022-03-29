@@ -1,12 +1,9 @@
 import 'package:fliproadmin/core/utilities/app_colors.dart';
-import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
-import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

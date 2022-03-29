@@ -19,6 +19,7 @@ import 'package:sizer/sizer.dart';
 import 'builder_tab_screen.dart';
 import 'franchisee_tab_screen.dart';
 import 'package:share_plus/share_plus.dart';
+
 class ViewProjectScreen extends StatefulWidget {
   const ViewProjectScreen({Key? key}) : super(key: key);
   static const routeName = '/viewProjectScreen';
@@ -54,15 +55,8 @@ class _ViewProjectScreenState extends State<ViewProjectScreen> {
         child: CustomAppBar(
           automaticallyImplyLeading: true,
           shareCallback: () async {
-
-            // Provider.of<LoadedProjectProvider>(context,listen: false).getCachedImages().then((image){
-            //   print(image.length);
-            //   image as List<String?>;
-            //   List<String> i = image.map((e) => "$e").toList();
-            //   print(i.runtimeType);
-            //   Share.shareFiles(i, text: 'Great picture',);
-           // });
-Navigator.push(context, MaterialPageRoute(builder: (_)=>ShareScreen()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => const ShareScreen()));
           },
           bannerText: homeProvider.getActivityPageViewCurrentPage == 3
               ? "Project Closed"

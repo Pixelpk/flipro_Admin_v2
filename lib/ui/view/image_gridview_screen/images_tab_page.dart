@@ -3,6 +3,7 @@ import 'package:fliproadmin/core/model/media_compression_model/media_compression
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/ui/view/image_gridview_screen/video_preview.dart';
+import 'package:fliproadmin/ui/widget/custom_cache_network_image.dart';
 import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,15 +45,15 @@ class ImagesTabBody extends StatelessWidget {
                           index: index,
                         )));
               },
-              child:  CachedNetworkImage(
-                imageUrl:          mediaObject.images![index],
+              child:
+              CustomCachedImage(
+                imageUrl:  mediaObject.images![index],
                 fit: BoxFit.cover,
                 width: 100.w,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            );
+
+
+
+            ));
           });
     });
   }

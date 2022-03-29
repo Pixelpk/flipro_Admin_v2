@@ -4,11 +4,14 @@ import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
 import 'package:fliproadmin/core/view_model/projects_provider/projects_provider.dart';
+import 'package:fliproadmin/ui/view/share_screen/image_sharing.dart';
 import 'package:fliproadmin/ui/widget/view_project_details.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+
+import 'custom_cache_network_image.dart';
 
 class ApproveListItem extends StatelessWidget {
   const ApproveListItem({
@@ -54,13 +57,14 @@ class ApproveListItem extends StatelessWidget {
                       flex: 20,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: CachedNetworkImage(
-                            imageUrl:                             projectProvider!.getProject.coverPhoto ?? '',
-                              fit: BoxFit.cover,
-                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                CircularProgressIndicator(value: downloadProgress.progress),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                          ),
+                          child:
+                          CustomCachedImage(
+                            imageUrl:  projectProvider!.getProject.coverPhoto ?? '',
+                            fit: BoxFit.cover,
+
+                          )
+
+
 
 
                       )),

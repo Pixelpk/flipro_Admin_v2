@@ -37,7 +37,10 @@ class _HomePageBodyState extends State<HomePageBody> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.addchart_outlined),
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_)=>AddProjectScreen()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => const AddProjectScreen(
+                    isNewProject: true,
+                  )));
         },
       ),
       body: Consumer<ProjectsProvider>(builder: (ctx, projectProvider, c) {

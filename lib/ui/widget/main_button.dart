@@ -44,9 +44,11 @@ class MainButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(radius),
         ),
         onPressed: isloading ? null : callback,
-        child: isloading  ?  const Padding(
-          padding: EdgeInsets.all(12),
-          child: CircularProgressIndicator(
+        child: isloading  ?  Container(
+          height: 40,
+          width: 40,
+          padding: const EdgeInsets.all(8),
+          child: const CircularProgressIndicator(
             backgroundColor: Colors.white,
           ),
         ) :  userArrow ? Row(

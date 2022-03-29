@@ -75,6 +75,48 @@ class TradeManSection extends StatelessWidget {
                     ),
                   ),
           ),
+          // LabeledTextField(
+          //   label: "Add Builder",
+          //   maxlines: 1,
+          //   readonly: true,
+          //   hintText: builder != null && builder!.isNotEmpty
+          //       ? "${builder!.length} Builders Assigned"
+          //       : "Builder Name",
+          //   labelWidget: builder != null && builder!.length == 1
+          //       ? showBuilderRevokeAccess
+          //           ? ColoredLabel(
+          //               color: AppColors.lightRed,
+          //               text: 'Revoke Access',
+          //               callback: () {
+          //                 Navigator.pushNamed(
+          //                     context, BuilderAccessControlScreen.routeName,
+          //                     arguments: AccessControlObject(userRoleModel: builder![0], routeName: currentrouteName));
+          //               },
+          //             )
+          //           : null
+          //       : ColoredLabel(
+          //           color: AppColors.lightRed,
+          //           text: 'view all',
+          //           callback: () {
+          //             Navigator.pushNamed(context, AssignedTrademan.routeName,
+          //                 arguments: appUsers.builder);
+          //           },
+          //         ),
+          //   suffixIcon: IconButton(
+          //     onPressed: () {
+          //       Navigator.of(context).pushNamed(AddTradeManScreen.routeName,
+          //           arguments: {
+          //             "appUser": appUsers.builder,
+          //             "projectId": projectId,
+          //             "currentRoute":currentrouteName
+          //           });
+          //     },
+          //     icon: const Icon(
+          //       Icons.add_circle_outline,
+          //       color: AppColors.mainThemeBlue,
+          //     ),
+          //   ),
+          // ),
           LabeledTextField(
             label: "Add Builder",
             maxlines: 1,
@@ -82,26 +124,24 @@ class TradeManSection extends StatelessWidget {
             hintText: builder != null && builder!.isNotEmpty
                 ? "${builder!.length} Builders Assigned"
                 : "Builder Name",
-            labelWidget: builder != null && builder!.length == 1
-                ? showBuilderRevokeAccess
-                    ? ColoredLabel(
-                        color: AppColors.lightRed,
-                        text: 'Revoke Access',
-                        callback: () {
-                          Navigator.pushNamed(
-                              context, BuilderAccessControlScreen.routeName,
-                              arguments: AccessControlObject(userRoleModel: builder![0], routeName: currentrouteName));
-                        },
-                      )
-                    : null
-                : ColoredLabel(
-                    color: AppColors.lightRed,
-                    text: 'view all',
-                    callback: () {
-                      Navigator.pushNamed(context, AssignedTrademan.routeName,
-                          arguments: appUsers.builder);
-                    },
-                  ),
+            labelWidget: builder != null ? showValuerRevokeAccess ? builder!.isNotEmpty && builder!.length > 1 ?ColoredLabel(
+              color: AppColors.lightRed,
+              text: 'view all',
+              callback: () {
+                ///ALL ASSIGNED Builder
+                Navigator.pushNamed(context, AssignedTrademan.routeName,
+                    arguments: appUsers.builder);
+              },
+            ): builder!.isNotEmpty && builder!.length  == 1 ? ColoredLabel(
+              color: AppColors.lightRed,
+              text: 'Revoke Access',
+              callback: () {
+                Navigator.pushNamed(
+                    context, ValuerAccessControlScreen.routeName,
+                    arguments: AccessControlObject(userRoleModel: builder![0], routeName: currentrouteName));
+              },
+            ):  null:null:null ,
+
             suffixIcon: IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(AddTradeManScreen.routeName,
@@ -142,27 +182,6 @@ class TradeManSection extends StatelessWidget {
               },
             ):  null:null:null ,
 
-                //
-                // ? showValuerRevokeAccess && valuer!.length == 1
-                //     ? ColoredLabel(
-                //         color: AppColors.lightRed,
-                //         text: 'Revoke Access',
-                //         callback: () {
-                //           Navigator.pushNamed(
-                //               context, ValuerAccessControlScreen.routeName,
-                //               arguments: valuer![0]);
-                //         },
-                //       )
-                //     : null
-                // : ColoredLabel(
-                //     color: AppColors.lightRed,
-                //     text: 'view all',
-                //     callback: () {
-                //       ///ALL ASSIGNED VALUERS
-                //       Navigator.pushNamed(context, AssignedTrademan.routeName,
-                //           arguments: appUsers.evaluator);
-                //     },
-                //   ),
             suffixIcon: IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(AddTradeManScreen.routeName,

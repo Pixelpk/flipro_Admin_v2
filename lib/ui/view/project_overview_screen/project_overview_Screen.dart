@@ -79,7 +79,7 @@ class ProjectOverviewScreen extends StatelessWidget {
                           context, ProjectProgressTimeLineScreen.routeName);
                     },
                     radius: 15,
-                    height: 8.h,
+                    height: 7.h,
                   ),
                 ),
               Padding(
@@ -97,7 +97,7 @@ class ProjectOverviewScreen extends StatelessWidget {
                       callback: () {},
                       radius: 15,
                       width: 100.w,
-                      height: 8.h,
+                      height: 7.h,
                     ),
                   ],
                 ),
@@ -183,7 +183,7 @@ class ProjectOverviewScreen extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: const Icon(Icons.edit),
             onPressed: () async {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_)=>AddProjectScreen(project: ProjectProvider(loadedProject.getLoadedProject),)));
+              Navigator.of(context).push(MaterialPageRoute(builder: (_)=>AddProjectScreen(project: ProjectProvider(loadedProject.getLoadedProject),isNewProject: false,)));
 
             });
       }),

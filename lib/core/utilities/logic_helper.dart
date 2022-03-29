@@ -1,4 +1,7 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:fliproadmin/core/services/db_service/db_service.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
@@ -56,7 +59,7 @@ class LogicHelper {
         return timeago.format(dateTime);
       }
     } catch (e) {
-      print(e);
+
 
       return "Some time ago";
     }

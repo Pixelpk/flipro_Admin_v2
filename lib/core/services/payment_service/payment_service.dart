@@ -16,7 +16,7 @@ class PaymentService {
       required int page,
       required bool fetchPending,
       required bool fetchapproved,
-      required bool fetchRejected}) async {
+      required bool fetchRejected,bool getSingleProject = false ,int? projectId}) async {
     try {
       var headers = {
         'Accept': 'application/json',
@@ -31,6 +31,9 @@ class PaymentService {
       }
       if (fetchRejected) {
         url = "$url&filters[status]=rejected";
+      }
+      if (getSingleProject) {
+        url = "$url&filters[byProjectId]=$projectId";
       }
       print("REQ URL $url");
       var request = http.Request('GET', Uri.parse(url));

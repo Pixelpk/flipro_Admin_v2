@@ -63,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             MyProfileAppbar(
               pictureEditable: true,
-              imageUrl: userRoleModel.avatar!,
+              imageUrl: userRoleModel.avatar ?? '',
             ),
             SizedBox(
               height: 0.5.h,
@@ -147,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 3.h,
                       ),
                       MainButton(
-                        height: 7.5.h,
+                        height: 7.h,
                         width: 60.w,
                         isloading: Provider.of<UserProvider>(context)
                                 .getLoadingState ==

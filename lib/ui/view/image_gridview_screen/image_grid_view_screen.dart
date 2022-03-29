@@ -35,9 +35,6 @@ import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/ui/widget/approve_list_item.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-
 import 'images_tab_page.dart';
 
 

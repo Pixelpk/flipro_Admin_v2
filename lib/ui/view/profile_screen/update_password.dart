@@ -110,7 +110,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 height: 5.h,
               ),
               MainButton(
-                height: 7.5.h,
+                height: 7.h,
                 width: 60.w,
                 isloading: Provider.of<UserProvider>(context).getLoadingState ==
                     loadingState.loading,

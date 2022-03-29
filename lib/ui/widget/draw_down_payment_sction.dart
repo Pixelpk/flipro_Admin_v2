@@ -4,6 +4,7 @@ import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
+import 'package:fliproadmin/ui/view/view_project_screen/view_project_draw_down_payments.dart';
 import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,9 @@ class DrawDownPaymentScetion extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const ColoredLabel(text: 'View All')
+               ColoredLabel(text: 'View All',callback: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const ProjectDrwDownPayments()));
+              },)
             ],
           ),
           Container(

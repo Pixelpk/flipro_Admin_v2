@@ -377,7 +377,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                   children: [
                     Consumer<UsersProvider>(builder: (ctx, usersProvider, c) {
                       return MainButton(
-                        height: 8.h,
+                        height: 7.h,
                         width: 60.w,
                         buttonText: "Add Member",
                         isloading: usersProvider.getLoadingState ==

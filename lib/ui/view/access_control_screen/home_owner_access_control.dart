@@ -29,9 +29,9 @@ class HomeOwnerAccessControlScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(25.h),
-        child: const AccessControlAppBar(
+        child:  AccessControlAppBar(
           title: "Home Owner",
-          imageUrl: '',
+          imageUrl: receivedObject.userRoleModel.avatar ?? '',
         ),
       ),
       body: ChangeNotifierProxyProvider<LoadedProjectProvider,
@@ -133,78 +133,6 @@ class HomeOwnerAccessControlScreen extends StatelessWidget {
           );
         }),
       ),
-
-      // Container(
-      //   padding: EdgeInsets.symmetric(horizontal: 4.w),
-      //   width: double.infinity,
-      //   height: 75.h,
-      //   child: ListView(
-      //     children: [
-      //       SizedBox(
-      //         height: 8.h,
-      //       ),
-      //       SizedBox(
-      //         height: 8.h,
-      //         child: Column(
-      //           crossAxisAlignment: CrossAxisAlignment.center,
-      //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //           children: [
-      //             Flexible(
-      //               child: Text(
-      //                 "Valuer NAME",
-      //                 style: Theme.of(context).textTheme.headline5!.copyWith(
-      //                   color: AppColors.mainThemeBlue,
-      //                 ),
-      //                 maxLines: 2,
-      //                 textAlign: TextAlign.center,
-      //               ),
-      //             ),
-      //             Flexible(
-      //               child: Text("LOCATION",
-      //                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-      //                     color: AppColors.greyDark,
-      //                   ),
-      //                   maxLines: 2,
-      //                   textAlign: TextAlign.center),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //       SizedBox(
-      //         height: 4.h,
-      //       ),
-      //       SwitchTile(
-      //         private: true,
-      //         width: 90.w,
-      //         heigth: 7.5.h,
-      //         tileTitle: "Can Add Value ",
-      //       ),
-      //       SizedBox(
-      //         height: 4.h,
-      //       ),
-      //       SwitchTile(
-      //         private: true,
-      //         tileTitle: "Add Notes/Review",
-      //       ),
-      //       SizedBox(
-      //         height: 8.h,
-      //       ),
-      //       Row(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: [
-      //           MainButton(
-      //             height: 7.h,
-      //             buttonText: "Confirm",
-      //             width: 60.w,
-      //             radius: 15,
-      //             userArrow: false,
-      //             callback: () {},
-      //           ),
-      //         ],
-      //       )
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

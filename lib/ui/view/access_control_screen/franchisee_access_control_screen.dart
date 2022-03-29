@@ -28,9 +28,9 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(25.h),
-        child: const AccessControlAppBar(
+        child:  AccessControlAppBar(
           title: "Franchisee",
-          imageUrl: '',
+          imageUrl: receivedObject.userRoleModel.avatar ?? '',
         ),
       ),
       body: ChangeNotifierProxyProvider<LoadedProjectProvider,

@@ -24,8 +24,8 @@ class SingleProgressScreen extends StatelessWidget {
               child: const CustomAppBar(
                 automaticallyImplyLeading: true,
                 bannerText: "Progress",
-                showBothIcon: true,
-                showShareIcon: true,
+                showBothIcon: false,
+                showShareIcon: false,
                 showNoteIcon: false,
               ),
             )

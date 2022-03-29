@@ -5,6 +5,7 @@ import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/projects_provider/projects_provider.dart';
+import 'package:fliproadmin/core/view_model/share_provider/share_provider.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/core/view_model/users_provider/users_provider.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,7 @@ class FliproAdminApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_)=>AuthProvider(),),
           ChangeNotifierProvider(create: (_)=>UserProvider(),),
           ChangeNotifierProvider(create: (_)=>HomeProvider(),),
+          ChangeNotifierProvider(create: (_)=>ShareProvider(),),
           ChangeNotifierProvider(create: (_)=>AssetProvider(),),
           ChangeNotifierProxyProvider<UserProvider, UsersProvider>(
               create: (context) => UsersProvider(null),

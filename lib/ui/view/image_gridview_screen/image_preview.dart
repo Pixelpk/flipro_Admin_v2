@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fliproadmin/ui/widget/custom_cache_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImagePreview extends StatefulWidget {
@@ -36,15 +37,11 @@ class _ImagePreviewState extends State<ImagePreview> {
           controller: _pageController,
           itemCount: widget.images.length,
           itemBuilder: (ctz, index) {
-            return
-              CachedNetworkImage(
-                imageUrl:           widget.images[index],
+            return  CustomCachedImage(
+              imageUrl: widget.images[index],
+              fit: BoxFit.cover,
+            );
 
-
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              );
 
           }),
     );

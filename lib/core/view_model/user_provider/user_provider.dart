@@ -39,6 +39,7 @@ import 'package:fliproadmin/ui/view/login_screen/login_screen.dart';
 import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 
 class UserProvider with ChangeNotifier {
@@ -84,6 +85,7 @@ class UserProvider with ChangeNotifier {
   logout() {
     UsersService.logout(token: _authToken!).then((value) {
       _dbService!.truncateDb();
+      DefaultCacheManager().emptyCache();
       _user = null;
       _authToken = null;
       _userId = null;

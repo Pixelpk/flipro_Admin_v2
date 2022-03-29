@@ -14,10 +14,10 @@ import 'package:sizer/sizer.dart';
 import 'add_project_media_screen.dart';
 
 class AddProjectScreen extends StatefulWidget {
-  const AddProjectScreen({Key? key, this.showAppBar = true, this.project})
+  const AddProjectScreen({Key? key, this.showAppBar = true, this.project,required this.isNewProject})
       : super(key: key);
   final bool showAppBar;
-
+  final bool isNewProject ;
   final ProjectProvider? project;
   @override
   State<AddProjectScreen> createState() => _AddProjectScreenState();
@@ -267,7 +267,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     height: 5.h,
                   ),
                   MainButton(
-                    height: 7.3.h,
+                    height: 7.h,
                     callback:save,
                     buttonText: "Continue",
                     width: 60.w,
@@ -339,7 +339,10 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
 
        Navigator.of(context).pushNamed(
            AddProjectMediaScreen.routeName,
-           arguments: project);
+           arguments:{
+             "project":project,
+             "newProject":widget.isNewProject
+           } );
      }
      if (crossCollaterizedYes == false &&
          crossCollaterizedNo == false) {

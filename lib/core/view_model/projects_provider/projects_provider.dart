@@ -132,7 +132,7 @@ class ProjectsProvider with ChangeNotifier {
 
   Future<void> fetchProjects(
       {bool initialLoading = false, bool fetchAssigned = false}) async {
-    print("INITAIL FETCHS");
+    print("INITAIL FETCHS total$_totalPages");
     try {
       if (_authToken != null) {
         setStateLoading();

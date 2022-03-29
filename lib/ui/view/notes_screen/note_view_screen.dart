@@ -95,7 +95,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
             Form(
               key: _formKey,
               child: LabeledTextField(
-                label: "Franchisee",
+                label: "Note",
                 keyboardType: TextInputType.multiline,
                 validation: (e) {
                   if (e == null || e.trim().isEmpty) {

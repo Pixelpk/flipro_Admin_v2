@@ -109,7 +109,9 @@ class ViewUnassignedProject extends StatelessWidget {
                     buttonText: "Save",
                     height: 7.h,
                     width: 80.w,
-                    callback: () {},
+                    callback: () {
+                      Navigator.pop(context);
+                    },
                     userArrow: false,
                   ),
                 ],
