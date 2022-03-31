@@ -21,9 +21,10 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class ProjectOverviewScreen extends StatelessWidget {
-  const ProjectOverviewScreen({Key? key,this.parentRouteName}) : super(key: key);
+  const ProjectOverviewScreen({Key? key, this.parentRouteName})
+      : super(key: key);
   static const routeName = '/ProjectOverviewScreen';
-  final String? parentRouteName ;
+  final String? parentRouteName;
   @override
   Widget build(BuildContext context) {
     final showAppbar = ModalRoute.of(context)!.settings.arguments.toString();
@@ -145,14 +146,16 @@ class ProjectOverviewScreen extends StatelessWidget {
                           arguments: AccessControlObject(
                               userRoleModel:
                                   loadedProject.getLoadedProject!.franchisee!,
-                              routeName:parentRouteName ??ProjectOverviewScreen.routeName));
+                              routeName: parentRouteName ??
+                                  ProjectOverviewScreen.routeName));
                     },
                   ),
                 ),
               ),
 
               TradeManSection(
-                  currentrouteName: parentRouteName?? ProjectOverviewScreen.routeName,
+                  currentrouteName:
+                      parentRouteName ?? ProjectOverviewScreen.routeName,
                   showBuilderRevokeAccess: true,
                   showValuerRevokeAccess: true,
                   showHomeOwnerRevokeAccess: true,
@@ -167,24 +170,31 @@ class ProjectOverviewScreen extends StatelessWidget {
           ),
         );
       }),
-      floatingActionButton: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
+      floatingActionButton:
+          Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
         if (loadedProject.getLoadingState == loadingState.loading) {
-         return Container();
+          return Container();
         }
         if (loadedProject.getLoadedProject == null &&
             loadedProject.getLoadingState == loadingState.loaded) {
-         return Container();
+          return Container();
         }
-        if(loadedProject.getLoadedProject!.status == "closed"||loadedProject.getLoadedProject!.status == "completed") {
+        if (loadedProject.getLoadedProject!.status == "closed" ||
+            loadedProject.getLoadedProject!.status == "completed") {
           return Container();
         }
         return FloatingActionButton(
             mini: true,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: const Icon(Icons.edit),
             onPressed: () async {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_)=>AddProjectScreen(project: ProjectProvider(loadedProject.getLoadedProject),isNewProject: false,)));
-
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => AddProjectScreen(
+                        project:
+                            ProjectProvider(loadedProject.getLoadedProject),
+                        isNewProject: false,
+                      )));
             });
       }),
     );

@@ -51,6 +51,7 @@ class AccessControlProvider with ChangeNotifier {
   ValueChanged<bool>? setAddPhotosAccess(bool roleStatus) {
     print("PHOTO ACCESS $roleStatus");
     _projectRoles.addPhotos = roleStatus;
+
     notifyListeners();
   }
 

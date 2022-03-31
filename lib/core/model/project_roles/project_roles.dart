@@ -7,7 +7,7 @@ class ProjectRoles {
   bool? requestPayment;
 
   ProjectRoles(
-      {this.view =false,
+      {this.view =true,
         this.addValue =false,
         this.addNotes =false,
         this.uploadProgress =false,

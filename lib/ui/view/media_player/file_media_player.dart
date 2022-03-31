@@ -23,7 +23,7 @@ class FileMediaPlayer extends StatefulWidget {
 
 class _FileMediaPlayerState extends State<FileMediaPlayer> {
   TargetPlatform? _platform;
-  late VideoPlayerController _videoPlayerController1;
+  late VideoPlayerController _videoPlayerController1;\
   ChewieController? _chewieController;
 
   @override

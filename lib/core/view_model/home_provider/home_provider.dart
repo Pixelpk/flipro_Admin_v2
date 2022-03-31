@@ -17,6 +17,10 @@ class HomeProvider with ChangeNotifier {
         Provider.of<UserProvider>(Get.context!, listen: false).logout();
       }, Get.context!, title: "Logout");
     } else {
+      if(index == 1)
+      {
+        _activityPageViewCurrentPage = 0 ;
+      }
       _selectedHomeIndex = index;
       notifyListeners();
     }
