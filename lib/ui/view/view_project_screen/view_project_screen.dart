@@ -79,7 +79,7 @@ class _ViewProjectScreenState extends State<ViewProjectScreen> {
           Expanded(
             child: PageView(
               onPageChanged: homeProvider.onProjectViewPageChange,
-              physics: const BouncingScrollPhysics(),
+              physics:const NeverScrollableScrollPhysics(),
               controller: pageController,
               children: const <Widget>[
                 ProjectOverviewScreen(

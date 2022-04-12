@@ -88,7 +88,7 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                   heigth: 7.5.h,
                   callback: accessControlProvider.setviewAccess,
                   private: accessControlProvider.getSelectedRoles.view,
-                  tileTitle: "View Only",
+                  tileTitle: "View",
                 ),
                 SizedBox(
                   height: 3.h,

@@ -42,134 +42,163 @@ class ProjectOverviewScreen extends StatelessWidget {
               ),
             )
           : null,
-      body: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-        if (loadedProject.getLoadingState == loadingState.loading) {
-          return SizedBox(
-              height: 70.h, child: HelperWidget.progressIndicator());
-        }
-        if (loadedProject.getLoadedProject == null &&
-            loadedProject.getLoadingState == loadingState.loaded) {
-          return SizedBox(
-            height: 70.h,
-            child: const Center(
-              child: Text("Encounter an Error ,Please try again later"),
-            ),
-          );
-        }
-        return SizedBox(
-          height: 100.h,
-          child: ListView(
-            children: [
-              const ProjectInfoSection(),
-              MediaSection(
-                media: loadedProject.getLoadedProject!.projectMedia!,
+      body: RefreshIndicator(
+        onRefresh: () => Future.sync(() =>
+            Provider.of<LoadedProjectProvider>(context, listen: false)
+                .refresh()),
+        child: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
+          if (loadedProject.getLoadingState == loadingState.loading) {
+            return SizedBox(
+                height: 70.h, child: HelperWidget.progressIndicator());
+          }
+          if (loadedProject.getLoadedProject == null &&
+              loadedProject.getLoadingState == loadingState.loaded) {
+            return SizedBox(
+              height: 70.h,
+              child: const Center(
+                child: Text("Encounter an Error ,Please try again later"),
               ),
-
-              ///IF PROGRESS OBJECT IS NOT NULL
-              if (showAppbar != 'true' &&
-                  loadedProject.getLoadedProject!.latestProgress != null &&
-                  loadedProject.getLoadedProject!.latestProgress!.user != null)
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
-                  child: MainButton(
-                    startALignment: true,
-                    buttonText: "Project Progress Timeline",
-                    callback: () {
-                      Navigator.pushNamed(
-                          context, ProjectProgressTimeLineScreen.routeName);
-                    },
-                    radius: 15,
-                    height: 7.h,
-                  ),
+            );
+          }
+          return SizedBox(
+            height: 100.h,
+            child: ListView(
+              children: [
+                const ProjectInfoSection(),
+                MediaSection(
+                  media: loadedProject.getLoadedProject!.projectMedia!,
                 ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text("Current Value"),
-                    ),
-                    MainButton(
-                      userArrow: false,
-                      buttonText:
-                          "${loadedProject.getLoadedProject!.currentPropertyValue}\$",
-                      callback: () {},
+
+                ///IF PROGRESS OBJECT IS NOT NULL
+                if (showAppbar != 'true' &&
+                    loadedProject.getLoadedProject!.latestProgress != null &&
+                    loadedProject.getLoadedProject!.latestProgress!.user != null)
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+                    child: MainButton(
+                      startALignment: true,
+                      buttonText: "Project Progress Timeline",
+                      callback: () {
+                        Navigator.pushNamed(
+                            context, ProjectProgressTimeLineScreen.routeName);
+                      },
                       radius: 15,
-                      width: 100.w,
                       height: 7.h,
                     ),
-                  ],
+                  ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("Current Value"),
+                      ),
+                      MainButton(
+                        userArrow: false,
+                        buttonText:
+                            "${loadedProject.getLoadedProject!.currentPropertyValue}\$",
+                        callback: () {},
+                        radius: 15,
+                        width: 100.w,
+                        height: 7.h,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                if (
+                loadedProject.getLoadedProject!.projectLatestMarkedValue !=
+                    "0")
+                  Padding(
+                    padding:
+                    EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:   const Text("Marked Value"),
+                        ),
+                        MainButton(
+                          userArrow: false,
+                          buttonText:
+                          "${loadedProject.getLoadedProject!.projectLatestMarkedValue}\$",
+                          callback: () {},
+                          radius: 15,
+                          width: 100.w,
+                          height: 7.h,
+                        ),
+                      ],
+                    ),
+                  ),
 
-              ///FOR COMPLETED PROJECT
-              if (loadedProject.getLoadedProject!.final_progress_reviews !=
-                  null)
+                ///FOR COMPLETED PROJECT
+                if (loadedProject.getLoadedProject!.final_progress_reviews !=
+                    null)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                    child: LabeledTextField(
+                      label: "HomeOwner",
+                      maxlines: 4,
+                      readonly: false,
+                      labelWidget: ColoredLabel(
+                        color: loadedProject.getLoadedProject!.progressSatisfied!
+                            ? AppColors.green
+                            : AppColors.darkRed,
+                        text: loadedProject.getLoadedProject!.progressSatisfied!
+                            ? 'Satisfied'
+                            : "Not-Satisfied",
+                        callback: () {
+                          Navigator.pushNamed(
+                            context,
+                            HomeOwnerAccessControlScreen.routeName,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                   child: LabeledTextField(
-                    label: "HomeOwner",
-                    maxlines: 4,
+                    label: "Franchisee",
+                    maxlines: null,
                     readonly: false,
+                    hintText: loadedProject.getLoadedProject!.franchisee!.name!,
                     labelWidget: ColoredLabel(
-                      color: loadedProject.getLoadedProject!.progressSatisfied!
-                          ? AppColors.green
-                          : AppColors.darkRed,
-                      text: loadedProject.getLoadedProject!.progressSatisfied!
-                          ? 'Satisfied'
-                          : "Not-Satisfied",
+                      color: AppColors.lightRed,
+                      text: 'Edit Access',
                       callback: () {
                         Navigator.pushNamed(
-                          context,
-                          HomeOwnerAccessControlScreen.routeName,
-                        );
+                            context, FranchiseeAccessControlScreen.routeName,
+                            arguments: AccessControlObject(
+                                userRoleModel:
+                                    loadedProject.getLoadedProject!.franchisee!,
+                                routeName: parentRouteName ??
+                                    ProjectOverviewScreen.routeName));
                       },
                     ),
                   ),
                 ),
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-                child: LabeledTextField(
-                  label: "Franchisee",
-                  maxlines: null,
-                  readonly: false,
-                  hintText: loadedProject.getLoadedProject!.franchisee!.name!,
-                  labelWidget: ColoredLabel(
-                    color: AppColors.lightRed,
-                    text: 'Edit Access',
-                    callback: () {
-                      Navigator.pushNamed(
-                          context, FranchiseeAccessControlScreen.routeName,
-                          arguments: AccessControlObject(
-                              userRoleModel:
-                                  loadedProject.getLoadedProject!.franchisee!,
-                              routeName: parentRouteName ??
-                                  ProjectOverviewScreen.routeName));
-                    },
-                  ),
-                ),
-              ),
-
-              TradeManSection(
-                  currentrouteName:
-                      parentRouteName ?? ProjectOverviewScreen.routeName,
-                  showBuilderRevokeAccess: true,
-                  showValuerRevokeAccess: true,
-                  showHomeOwnerRevokeAccess: true,
-                  projectId: loadedProject.getLoadedProject!.id!,
-                  homeOwner: loadedProject.getLoadedProject!.lead,
-                  valuer: loadedProject.getLoadedProject!.valuers,
-                  builder: loadedProject.getLoadedProject!.builder),
-              SizedBox(
-                height: 5.h,
-              )
-            ],
-          ),
-        );
-      }),
+                TradeManSection(
+                    currentrouteName:
+                        parentRouteName ?? ProjectOverviewScreen.routeName,
+                    showBuilderRevokeAccess: true,
+                    showValuerRevokeAccess: true,
+                    showHomeOwnerRevokeAccess: true,
+                    projectId: loadedProject.getLoadedProject!.id!,
+                    homeOwner: loadedProject.getLoadedProject!.lead,
+                    valuer: loadedProject.getLoadedProject!.valuers,
+                    builder: loadedProject.getLoadedProject!.builder),
+                SizedBox(
+                  height: 5.h,
+                )
+              ],
+            ),
+          );
+        }),
+      ),
       floatingActionButton:
           Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
         if (loadedProject.getLoadingState == loadingState.loading) {

@@ -137,7 +137,7 @@ class TradeManSection extends StatelessWidget {
               text: 'Revoke Access',
               callback: () {
                 Navigator.pushNamed(
-                    context, ValuerAccessControlScreen.routeName,
+                    context, BuilderAccessControlScreen.routeName,
                     arguments: AccessControlObject(userRoleModel: builder![0], routeName: currentrouteName));
               },
             ):  null:null:null ,

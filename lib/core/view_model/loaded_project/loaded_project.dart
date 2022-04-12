@@ -63,7 +63,9 @@ class LoadedProjectProvider with ChangeNotifier {
       return ProjectRoles();
     }
   }
-
+  refresh(){
+    fetchLoadedProject(_loadedProject!.id!);
+  }
   ProjectRoles getValuerRoleById(int? valuerId) {
     try {
       UserRoleModel userRoleModel =

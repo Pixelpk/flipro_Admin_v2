@@ -42,9 +42,9 @@ int _index = 0 ;
               },
               physics: const NeverScrollableScrollPhysics(),
               controller: pageController,
-              children:  <Widget>[
-                const ProjectApprovalTabScreen(),
-                const ProjectPaymentTabScreen()
+              children:  const <Widget>[
+                ProjectApprovalTabScreen(),
+                ProjectPaymentTabScreen()
               ],
             ),
           ),

@@ -23,7 +23,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController emailController =
-      TextEditingController(text: "franchise@mailinator.com");
+      TextEditingController();
   @override
   void dispose() {
     emailController.dispose();

@@ -84,7 +84,14 @@ class BuilderAccessControlScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 4.h,
+                  height: 2.5.h,
+                ),
+                SwitchTile(
+                    private: accessControlProvider.getSelectedRoles.view,
+                    tileTitle: "View",
+                    callback: accessControlProvider.setviewAccess),
+                SizedBox(
+                  height: 2.5.h,
                 ),
                 SwitchTile(
                   private:
@@ -95,7 +102,7 @@ class BuilderAccessControlScreen extends StatelessWidget {
                   tileTitle: "Can Update Progress",
                 ),
                 SizedBox(
-                  height: 4.h,
+                  height: 2.5.h,
                 ),
                 SwitchTile(
                   private: accessControlProvider.getSelectedRoles.addPhotos,
@@ -103,14 +110,14 @@ class BuilderAccessControlScreen extends StatelessWidget {
                   callback: accessControlProvider.setAddPhotosAccess,
                 ),
                 SizedBox(
-                  height: 4.h,
+                  height: 2.5.h,
                 ),
                 SwitchTile(
                     private: accessControlProvider.getSelectedRoles.addNotes,
                     tileTitle: "Add Notes/Review",
                     callback: accessControlProvider.setAddNotesAccess),
                 SizedBox(
-                  height: 8.h,
+                  height: 6.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

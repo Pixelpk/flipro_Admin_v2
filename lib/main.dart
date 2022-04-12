@@ -60,10 +60,6 @@ class FliproAdminApp extends StatelessWidget {
               create: (context) => ProjectsProvider(null),
               update: (context, userProvider, projectsProvider) => ProjectsProvider(userProvider.getAuthToken),
           ),
-          // ChangeNotifierProxyProvider<UserProvider, AccessControlProvider>(
-          //   create: (context) => AccessControlProvider(null),
-          //   update: (context, userProvider, projectsProvider) => AccessControlProvider(userProvider.getAuthToken),
-          // ),
           ChangeNotifierProxyProvider<UserProvider, LoadedProjectProvider>(
             create: (context) => LoadedProjectProvider(null),
             update: (context, loadedProvider, projectsProvider) => LoadedProjectProvider(loadedProvider.getAuthToken),

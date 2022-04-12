@@ -49,6 +49,10 @@ class _HomePageBodyState extends State<HomePageBody> {
             projectProvider.getCurrentPage == 1) {
           return HelperWidget.progressIndicator();
         }
+        if (projectProvider.getLoadingState == loadingState.loaded &&
+            projectProvider.getProjects == null) {
+          return const Center(child: Text("Encounter an error please try again later"));
+        }
         return LazyLoadScrollView(
             isLoading: projectProvider.getLoadingState == loadingState.loading,
             onEndOfPage: () =>

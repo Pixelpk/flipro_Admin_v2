@@ -24,8 +24,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool obsuredPassword = true;
-  TextEditingController emailController = TextEditingController(text: "admin@mailinator.com");
-  TextEditingController passwordController = TextEditingController(text: "admin@123");
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

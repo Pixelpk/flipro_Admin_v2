@@ -85,6 +85,13 @@ class ValuerAccessControlScreen extends StatelessWidget {
                   height: 4.h,
                 ),
                 SwitchTile(
+                    private: accessControlProvider.getSelectedRoles.view,
+                    tileTitle: "View",
+                    callback: accessControlProvider.setviewAccess),
+                SizedBox(
+                  height: 4.h,
+                ),
+                SwitchTile(
                   private: accessControlProvider.getSelectedRoles.addValue,
                   width: 90.w,
                   heigth: 7.5.h,
@@ -102,10 +109,7 @@ class ValuerAccessControlScreen extends StatelessWidget {
                 SizedBox(
                   height: 4.h,
                 ),
-                SwitchTile(
-                    private: accessControlProvider.getSelectedRoles.view,
-                    tileTitle: "View Only",
-                    callback: accessControlProvider.setviewAccess),
+
                 SizedBox(
                   height: 8.h,
                 ),

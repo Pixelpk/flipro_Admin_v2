@@ -19,98 +19,103 @@ class FranchiseeTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: 100.w,
-        padding: EdgeInsets.symmetric(horizontal: 3.w),
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 2.h,
-            ),
-            Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-              if (loadedProject.getLoadingState == loadingState.loading) {
-                return SizedBox(
-                  height: 1.h,
-                );
-              }
-              if (loadedProject.getLoadedProject != null &&
-                  loadedProject.getLoadedProject!.franchisee != null ) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-                  child: LabeledTextField(
-                    label: "Franchisee",
-                    maxlines: null,
-                    readonly: false,
-                    hintText: loadedProject.getLoadedProject!.franchisee!.name!,
-                    labelWidget: ColoredLabel(
-                      color: AppColors.lightRed,
-                      text: 'Edit Access',
-                      callback: () {
-                        Navigator.pushNamed(
-                            context, FranchiseeAccessControlScreen.routeName,
-                            arguments: AccessControlObject(
-                                userRoleModel:
-                                loadedProject.getLoadedProject!.franchisee!,
-                                routeName: ViewProjectScreen.routeName));
-                      },
+      body: RefreshIndicator(
+        onRefresh: () => Future.sync(() =>
+            Provider.of<LoadedProjectProvider>(context, listen: false)
+                .refresh()),
+        child: Container(
+          width: 100.w,
+          padding: EdgeInsets.symmetric(horizontal: 3.w),
+          child: ListView(
+            children: [
+              SizedBox(
+                height: 2.h,
+              ),
+              Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
+                if (loadedProject.getLoadingState == loadingState.loading) {
+                  return SizedBox(
+                    height: 1.h,
+                  );
+                }
+                if (loadedProject.getLoadedProject != null &&
+                    loadedProject.getLoadedProject!.franchisee != null ) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                    child: LabeledTextField(
+                      label: "Franchisee",
+                      maxlines: null,
+                      readonly: false,
+                      hintText: loadedProject.getLoadedProject!.franchisee!.name!,
+                      labelWidget: ColoredLabel(
+                        color: AppColors.lightRed,
+                        text: 'Edit Access',
+                        callback: () {
+                          Navigator.pushNamed(
+                              context, FranchiseeAccessControlScreen.routeName,
+                              arguments: AccessControlObject(
+                                  userRoleModel:
+                                  loadedProject.getLoadedProject!.franchisee!,
+                                  routeName: ViewProjectScreen.routeName));
+                        },
+                      ),
                     ),
-                  ),
-                );
-              } else {
-                return Container();
-              }
-            }),
-            const DrawDownPaymentScetion(),
-            SizedBox(
-              height: 2.h,
-            ),
-            SizedBox(
-                height: 55.h,
-                child: Consumer<LoadedProjectProvider>(
-                    builder: (ctx, loadedProject, c) {
-                  if (loadedProject.getLoadingState == loadingState.loading) {
-                    return SizedBox(
-                      height: 1.h,
-                    );
-                  }
-                  if (loadedProject.getLoadedProject != null &&
-                      loadedProject.getLoadedProject!.latestProgress != null &&
-                      loadedProject.getLoadedProject!.latestProgress!.user!
-                              .userType ==
-                          'franchise') {
-                    return SingleProgressScreen(
-                      showAppBar: false,
-                      progressModel:
-                          loadedProject.getLoadedProject!.latestProgress!,
-                    );
-                  } else {
-                    return Container();
-                  }
-                })),
-            Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-              if (loadedProject.getLoadingState == loadingState.loading) {
-                return SizedBox(
-                  height: 1.h,
-                );
-              }
-              if (loadedProject.getLoadedProject != null &&
-                  loadedProject.getLoadedProject!.latestNote != null &&
-                  loadedProject.getLoadedProject!.latestNote!.user!.userType ==
-                      'franchise') {
-                return LabeledTextField(
-                  label: "Note",
-                  maxlines: 10,
-                  readonly: true,
-                  hintText: loadedProject.getLoadedProject!.latestNote!.notes!,
-                );
-              } else {
-                return Container();
-              }
-            }),
-            SizedBox(
-              height: 5.h,
-            )
-          ],
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+              const DrawDownPaymentScetion(),
+              SizedBox(
+                height: 2.h,
+              ),
+              SizedBox(
+                  height: 55.h,
+                  child: Consumer<LoadedProjectProvider>(
+                      builder: (ctx, loadedProject, c) {
+                    if (loadedProject.getLoadingState == loadingState.loading) {
+                      return SizedBox(
+                        height: 1.h,
+                      );
+                    }
+                    if (loadedProject.getLoadedProject != null &&
+                        loadedProject.getLoadedProject!.latestProgress != null &&
+                        loadedProject.getLoadedProject!.latestProgress!.user!
+                                .userType ==
+                            'franchise') {
+                      return SingleProgressScreen(
+                        showAppBar: false,
+                        progressModel:
+                            loadedProject.getLoadedProject!.latestProgress!,
+                      );
+                    } else {
+                      return Container();
+                    }
+                  })),
+              Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
+                if (loadedProject.getLoadingState == loadingState.loading) {
+                  return SizedBox(
+                    height: 1.h,
+                  );
+                }
+                if (loadedProject.getLoadedProject != null &&
+                    loadedProject.getLoadedProject!.latestNote != null &&
+                    loadedProject.getLoadedProject!.latestNote!.user!.userType ==
+                        'franchise') {
+                  return LabeledTextField(
+                    label: "Note",
+                    maxlines: 10,
+                    readonly: true,
+                    hintText: loadedProject.getLoadedProject!.latestNote!.notes!,
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+              SizedBox(
+                height: 5.h,
+              )
+            ],
+          ),
         ),
       ),
     );

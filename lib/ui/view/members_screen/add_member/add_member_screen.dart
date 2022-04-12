@@ -135,7 +135,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                       .subtitle1!
                       .copyWith(color: AppColors.greyFontColor),
                 ),
-                Container(
+                SizedBox(
                   height: 8.h,
                   child: Row(
                     children: [
@@ -194,19 +194,22 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                       // Expanded(child: Container()),
                       Flexible(
                           flex: 30,
-                          child: TextFormField(
-                            controller: phoneController,
-                            validator: (e) {
-                              if (e != null) {
-                                if (e.isEmpty) {
-                                  return "Please add phone number";
+                          child: SizedBox(
+                            height: 8.h,
+                            child: TextFormField(
+                              controller: phoneController,
+                              validator: (e) {
+                                if (e != null) {
+                                  if (e.isEmpty) {
+                                    return "Please add phone number";
+                                  }
+                                  return null;
                                 }
-                                return null;
-                              }
-                            },
-                            keyboardType: TextInputType.phone,
-                            decoration: customInputDecoration(
-                                context: context, hintText: "Phone no."),
+                              },
+                              keyboardType: TextInputType.phone,
+                              decoration: customInputDecoration(
+                                  context: context, hintText: "Phone no."),
+                            ),
                           )),
                     ],
                   ),

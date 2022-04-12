@@ -3,6 +3,7 @@ import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/projects_provider/projects_provider.dart';
+import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:fliproadmin/ui/widget/media_section.dart';
 import 'package:fliproadmin/ui/widget/project_info.dart';
@@ -42,7 +43,7 @@ class ViewProjectDetails extends StatelessWidget {
             return Container();
           }
           if (project.getLoadingState == loadingState.loading) {
-            return Container();
+            return HelperWidget.progressIndicator();
           }
             return ListView(
               children: [
@@ -53,7 +54,6 @@ class ViewProjectDetails extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-
                    Row(
                     mainAxisAlignment: projectRejected
                         ? MainAxisAlignment.center

@@ -86,7 +86,7 @@ class HomeOwnerAccessControlScreen extends StatelessWidget {
                 ),
                 SwitchTile(
                     private: accessControlProvider.getSelectedRoles.view,
-                    tileTitle: "View Only",
+                    tileTitle: "View",
                     callback: accessControlProvider.setviewAccess),
                 SizedBox(
                   height: 4.h,

@@ -84,7 +84,8 @@ class Project {
   String? phone;
   String? applicantAddress;
   String? registeredOwners;
-  int? currentPropertyValue;
+  int? currentPropertyValue;  String? projectLatestMarkedValue ;
+
   int? propertyDebt;
   int? crossCollaterized;
   String? status;
@@ -126,8 +127,9 @@ class Project {
       this.description,
       this.progressSatisfied,
       this.email,
-      this.phone,
-      this.applicantAddress,
+      this.phone,        this.projectLatestMarkedValue,
+
+        this.applicantAddress,
       this.registeredOwners,
       this.currentPropertyValue,
       this.valuers,
@@ -161,6 +163,7 @@ class Project {
     if (json['latest_note'] != null) {
       latestNote = Note.fromJson(json["latest_note"]);
     }
+    projectLatestMarkedValue = json['latest_value'].toString();
 
     area = json['area'] ?? '';
     progressSatisfied = json['progress_satisfied'] ?? false;
@@ -250,6 +253,7 @@ class Project {
     if (status != null) {
       data['status'] = status!;
     }
+    data['latest_value'] = projectLatestMarkedValue ?? '0' ;
     if (createdAt != null) {
       data['created_at'] = createdAt!;
     }
