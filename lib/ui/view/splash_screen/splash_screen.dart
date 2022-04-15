@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     firebaseMessagingServiceHandler!.notificationOnMessageHandler();
     // FirebaseMessagingService().fcmOnMessageListeners();
     super.initState();
-    Future.delayed(Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 4), () {
       if (dbService.hasData(AppConstant.getToken) &&
           dbService.readString(AppConstant.getToken) != null) {
         Navigator.of(context)

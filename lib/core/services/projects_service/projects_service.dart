@@ -283,7 +283,7 @@ class ProjectService {
       var request = http.Request(
           'GET',
           Uri.parse(
-              '${ENV.baseURL}/api/projects?page=$page&filters[status]=$status'));
+              '${ENV.baseURL}/api/projects?page=$page&filters[status]=$status&filters[approved]=approved'));
       request.headers.addAll(headers);
 
       http.StreamedResponse response =

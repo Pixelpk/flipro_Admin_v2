@@ -210,16 +210,16 @@ class AuthService {
     }
   }
 
-  static Future<GenericModel> login(String email, String password) async {
+  static Future<GenericModel> login(String email, String password, String fcm) async {
     try {
       var headers = {'Accept': 'application/json'};
 
       var request = http.MultipartRequest(
           'POST', Uri.parse('${ENV.baseURL}/api/authenticate'));
       request.fields
-          .addAll({"email": email, "password": password, "app": "admin"});
+          .addAll({"email": email, "password": password, "app": "admin",'fcm':fcm});
       request.headers.addAll(headers);
-
+      print( request.fields);
       http.StreamedResponse response =
           await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();

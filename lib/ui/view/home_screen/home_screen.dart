@@ -15,6 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/services/firebase_messaging_service/firebase_messaging_service.dart';
 import 'home_item.dart';
 import 'home_nav_bar.dart';
 import 'home_page_body.dart';
@@ -50,6 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileScreen(),
     const Text("4"),
   ];
+
+  @override
+  void initState() {
+    Future.microtask(() => FirebaseMessagingService.setupTerminatedInteractedMessage(context));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);

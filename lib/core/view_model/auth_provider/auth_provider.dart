@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fliproadmin/core/model/exception_model/exception_model.dart';
 import 'package:fliproadmin/core/model/generic_model/generic_model.dart';
 import 'package:fliproadmin/core/model/login_model/login_model.dart';
@@ -34,7 +35,8 @@ class AuthProvider with ChangeNotifier {
 
   Future emailLogin(String email, String password) async {
     setStateLoading();
-    GenericModel genericModel = await AuthService.login(email, password);
+    final String? fcm = await FirebaseMessaging.instance.getToken();
+    GenericModel genericModel = await AuthService.login(email, password,fcm?? '');
     setStateLoaded();
 
     if (genericModel.statusCode == 200) {

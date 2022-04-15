@@ -11,6 +11,7 @@ import 'package:fliproadmin/core/view_model/users_provider/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'core/services/firebase_messaging_service/firebase_messaging_service.dart';
 import 'core/utilities/app_colors.dart';
 import 'core/utilities/routes.dart';
 import 'firebase_options.dart';
@@ -70,6 +71,9 @@ class FliproAdminApp extends StatelessWidget {
         child: GetMaterialApp(
           navigatorKey: navigatorKey,
           title: 'Flipro Admin',
+          onInit: (){
+            FirebaseMessagingService.setupBackgroundInteractedMessage();
+          },
           theme: ThemeData(
             primarySwatch: AppColors.primaryBlueSwatch,
             scaffoldBackgroundColor: AppColors.blueScaffoldBackground,
