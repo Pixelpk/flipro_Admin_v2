@@ -217,7 +217,7 @@ class AuthService {
       var request = http.MultipartRequest(
           'POST', Uri.parse('${ENV.baseURL}/api/authenticate'));
       request.fields
-          .addAll({"email": email, "password": password, "app": "admin",'fcm':fcm});
+          .addAll({"email": email, "password": password, "app": "admin","fcm":fcm});
       request.headers.addAll(headers);
       print( request.fields);
       http.StreamedResponse response =
