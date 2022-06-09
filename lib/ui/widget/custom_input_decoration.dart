@@ -6,12 +6,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
 InputDecoration customInputDecoration(
-    {required  BuildContext context,  String prefixicon = '',required String hintText ,bool usePrefixIcon = true ,Widget? suffixIcon}) {
+    {required  BuildContext context,  String prefixicon = '',required String hintText ,bool usePrefixIcon = true ,Widget? suffixIcon , Color fillColor = Colors.white}) {
   return InputDecoration(
     border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide.none),
-    fillColor: Colors.white,
+    fillColor: fillColor,
     filled: true,
     hintText: hintText,
     suffixIcon: suffixIcon,

@@ -47,6 +47,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
         ActivityTabBar(pageController: pageController),
         Expanded(
           child: PageView(
+          physics: const NeverScrollableScrollPhysics(),
             onPageChanged: homeProvider.onActivityProjectsPageChange,
             controller: pageController,
             children: const <Widget>[

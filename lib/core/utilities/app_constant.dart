@@ -1,10 +1,10 @@
 class AppConstant {
-  static const baseUrl = "http://flipro.anasw.com/";
+
 
   static const getCurrentUser = "currentUser";
   static const getToken = "authToken";
   static const getCurrentUserID = "currentUserID";
-
+  static const photo = "assets/icons/photos.png";
   static const activityIcon = "assets/icons/activity_icon.svg";
   static const addIcon = "assets/icons/add_icon.svg";
   static const defaultImage = "assets/icons/default_image.svg";
@@ -40,7 +40,8 @@ class AppConstant {
 
 
   ///EXCEPTION MESSAGE
-  static const invalidCreds = 'Invalid email address or password';
+  static const sessionTitle = 'Session Expired';
+  static const sessionDescription = 'Please login again';
   static const networkError = "Network Error";
   static const networkErrorDescritpion =  "Please check your connectivity";
   static const timeoutError = "Timeout";

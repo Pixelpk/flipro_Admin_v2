@@ -1,3 +1,5 @@
+import 'package:fliproadmin/core/model/generic_model/generic_model.dart';
+import 'package:fliproadmin/core/model/project_response/project_response.dart';
 import 'package:fliproadmin/core/model/users_model/users_model.dart';
 import 'package:fliproadmin/core/services/db_service/db_service.dart';
 import 'package:fliproadmin/core/services/users_service/user_service.dart';
@@ -16,30 +18,44 @@ class BuilderPage extends StatefulWidget {
 }
 
 class _BuilderPageState extends State<BuilderPage> {
-  static const _pageSize = 10;
+  static const _pageSize = 20;
 
-  final PagingController<int, Member> _pagingController =
-  PagingController(firstPageKey: 1);
+  final PagingController<int, UserRoleModel> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
-
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
     super.initState();
   }
-
+  @override
+  void dispose() {
+    _pagingController.dispose();    super.dispose();
+  }
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await UsersService.getUsers(page:pageKey, type: 'builder',token: Provider.of<UserProvider>(context,listen: false).getAuthToken);
-      print(newItems.length);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(newItems, nextPageKey);
+      GenericModel genericModel = await UsersService.getUsers(
+          page: pageKey,
+          type: 'builder',
+          token:
+              Provider.of<UserProvider>(context, listen: false).getAuthToken);
+      if (genericModel.statusCode == 200) {
+        UsersModel usersModel = genericModel.returnedModel;
+        print("BUILDERS ${usersModel.data!.users.length}");
+        if (usersModel != null &&
+            usersModel.data != null &&
+            usersModel.data!.users != null) {
+          final newItems = usersModel.data!.users;
+          final isLastPage = newItems.length < _pageSize;
+          if (isLastPage) {
+            _pagingController.appendLastPage(newItems);
+          } else {
+            final nextPageKey = pageKey + 1;
+            _pagingController.appendPage(newItems, nextPageKey);
+          }
+        }
       }
     } catch (error) {
       print(error);
@@ -48,27 +64,18 @@ class _BuilderPageState extends State<BuilderPage> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-  PagedListView<int, Member>(
-    pagingController: _pagingController,
-    builderDelegate: PagedChildBuilderDelegate<Member>(
-        itemBuilder: (context, member, index) => InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, ViewTradeManProfile.routeName,
-                arguments: member);
-          },
-          child:  TrademanListItem(
-            title: 'Builder',
-            member: member,
-          ),
-        )
-    ),
-  );
+  Widget build(BuildContext context) => PagedListView<int, UserRoleModel>(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<UserRoleModel>(
+            itemBuilder: (context, user, index) => InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, ViewTradeManProfile.routeName,
+                        arguments: user);
+                  },
+                  child: TrademanListItem(
+                    userRoleModel: user,
+                  ),
+                )),
+      );
 
-  @override
-  void dispose() {
-    print("BUILDER PAGE DISPOSING");
-    _pagingController.dispose();
-    super.dispose();
-  }
 }

@@ -1,3 +1,4 @@
+import 'package:fliproadmin/core/model/project_response/project_response.dart';
 import 'package:fliproadmin/core/model/users_model/users_model.dart';
 import 'package:fliproadmin/core/model/users_model/users_model.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
@@ -17,12 +18,11 @@ class ViewTradeManProfile extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final Member _member =
-        ModalRoute.of(context)!.settings.arguments as Member;
+    final _member = ModalRoute.of(context)!.settings.arguments as UserRoleModel;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
-        child: CustomAppBar(
+        child: const CustomAppBar(
           bannerText: " Profile",
           automaticallyImplyLeading: true,
         ),
@@ -31,7 +31,7 @@ class ViewTradeManProfile extends StatelessWidget {
         height: 100.h,
         child: ListView(
           children: [
-            const ProfileAppbar(),
+             ProfileAppbar(imageUrl: _member.avatar ?? '',),
             SizedBox(
               height: 2.h,
             ),
@@ -66,7 +66,7 @@ class ViewTradeManProfile extends StatelessWidget {
                         controller: emailController,
                         decoration: customInputDecoration(
                             context: context,
-                            hintText:"${_member.phoneCode}${_member.phone}",
+                            hintText: "${_member.phoneCode}${_member.phone}",
                             prefixicon: AppConstant.phoneIcon),
                       ),
                       SizedBox(
