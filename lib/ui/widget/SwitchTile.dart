@@ -1,6 +1,8 @@
 import 'package:fliproadmin/core/utilities/app_colors.dart';
+import 'package:fliproadmin/core/view_model/access_control_provider/access_control_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class SwitchTile extends StatefulWidget {
@@ -8,6 +10,7 @@ class SwitchTile extends StatefulWidget {
     Key? key,
     this.width,
     this.heigth,
+    this.callback,
     required this.private,
     this.tileTitle,
   }) : super(key: key);
@@ -15,6 +18,7 @@ class SwitchTile extends StatefulWidget {
   final double? heigth;
   final String? tileTitle;
   final double? width;
+  final ValueChanged<bool>? callback;
   @override
   State<SwitchTile> createState() => _SwitchTileState();
 }
@@ -51,11 +55,7 @@ class _SwitchTileState extends State<SwitchTile> {
             activeColor: AppColors.blueScaffoldBackground,
             inactiveColor: Colors.white,
             toggleColor: AppColors.mainThemeBlue,
-            onToggle: (val) {
-              setState(() {
-                widget.private = val;
-              });
-            },
+            onToggle: widget.callback!
           ),
         ],
       ),

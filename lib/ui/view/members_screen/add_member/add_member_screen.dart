@@ -1,13 +1,17 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:fliproadmin/core/model/project_response/project_response.dart';
 import 'package:fliproadmin/core/model/registration_model/registration_model.dart';
 import 'package:fliproadmin/core/services/users_service/user_service.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
+import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
+import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/core/view_model/users_provider/users_provider.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
 import 'package:fliproadmin/ui/widget/custom_input_decoration.dart';
+import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +23,7 @@ import 'package:sizer/sizer.dart';
 
 class AddMemberScreen extends StatefulWidget {
   AddMemberScreen({Key? key}) : super(key: key);
+
   static const routeName = '/AddMemberScreen';
 
   @override
@@ -40,14 +45,12 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   bool isBuilder = true;
   bool isHomeOwner = false;
-
   bool isFranchisee = false;
-
   bool isValuer = false;
 
   @override
   Widget build(BuildContext context) {
-    final usersProvider = Provider.of<UsersProvider>(context);
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
@@ -132,77 +135,84 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                       .subtitle1!
                       .copyWith(color: AppColors.greyFontColor),
                 ),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 15,
-                      child: Container(
-                        height: 6.h,
-                        margin: const EdgeInsets.only(right: 4),
-                        // constraints: BoxConstraints(minWidth: 10.w),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: CountryCodePicker(
-                          onChanged: (value) {
-                            setState(() {
-                              countryCode = value.dialCode.toString();
-                            });
-                          },
-                          textStyle: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(color: Colors.black),
-                          backgroundColor: Colors.transparent,
+                SizedBox(
+                  height: 8.h,
+                  child: Row(
+                    children: [
+                      Flexible(
+                        flex: 15,
+                        child: Container(
+                          height: 7.5.h,
+                          margin: const EdgeInsets.only(right: 4),
+                          // constraints: BoxConstraints(minWidth: 10.w),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: CountryCodePicker(
+                            onChanged: (value) {
+                              setState(() {
+                                countryCode = value.dialCode.toString();
+                              });
+                            },
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(color: Colors.black),
+                            backgroundColor: Colors.transparent,
 
-                          dialogBackgroundColor: AppColors.mainThemeBlue,
-                          dialogTextStyle: const TextStyle(color: Colors.white),
-                          showFlagDialog: true,
-                          textOverflow: TextOverflow.visible,
+                            dialogBackgroundColor: AppColors.mainThemeBlue,
+                            dialogTextStyle:
+                                const TextStyle(color: Colors.white),
+                            showFlagDialog: true,
+                            textOverflow: TextOverflow.visible,
 
-                          searchDecoration: customInputDecoration(
-                              context: context,
-                              hintText: 'Search',
-                              usePrefixIcon: true,
-                              prefixicon: 'default'),
-                          // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                          initialSelection: 'US',
-                          onInit: (code) {
-                            countryCode = code!.dialCode.toString();
-                            print('country code init: ');
-                          },
-                          dialogSize: Size(90.w, 80.h),
+                            searchDecoration: customInputDecoration(
+                                context: context,
+                                hintText: 'Search',
+                                usePrefixIcon: true,
+                                prefixicon: 'default'),
+                            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                            initialSelection: 'US',
+                            onInit: (code) {
+                              countryCode = code!.dialCode.toString();
+                              print('country code init: ');
+                            },
+                            dialogSize: Size(90.w, 80.h),
 
-                          favorite: const ['+1', 'US'],
-                          // optional. Shows only country name and flag
-                          showCountryOnly: false,
-                          // optional. Shows only country name and flag when popup is closed.
-                          showOnlyCountryWhenClosed: false,
-                          showFlag: true,
-                          flagWidth: 20,
-                          // optional. aligns the flag and the Text left
-                          alignLeft: true,
+                            favorite: const ['+1', 'US'],
+                            // optional. Shows only country name and flag
+                            showCountryOnly: false,
+                            // optional. Shows only country name and flag when popup is closed.
+                            showOnlyCountryWhenClosed: false,
+                            showFlag: true,
+                            flagWidth: 20,
+                            // optional. aligns the flag and the Text left
+                            alignLeft: true,
+                          ),
                         ),
                       ),
-                    ),
-                    // Expanded(child: Container()),
-                    Flexible(
-                        flex: 30,
-                        child: TextFormField(
-                          controller: phoneController,
-                          validator: (e) {
-                            if (e != null) {
-                              if (e.isEmpty) {
-                                return "Please add phone number";
-                              }
-                              return null;
-                            }
-                          },
-                          keyboardType: TextInputType.phone,
-                          decoration: customInputDecoration(
-                              context: context, hintText: "Phone no."),
-                        )),
-                  ],
+                      // Expanded(child: Container()),
+                      Flexible(
+                          flex: 30,
+                          child: SizedBox(
+                            height: 8.h,
+                            child: TextFormField(
+                              controller: phoneController,
+                              validator: (e) {
+                                if (e != null) {
+                                  if (e.isEmpty) {
+                                    return "Please add phone number";
+                                  }
+                                  return null;
+                                }
+                              },
+                              keyboardType: TextInputType.phone,
+                              decoration: customInputDecoration(
+                                  context: context, hintText: "Phone no."),
+                            ),
+                          )),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 3.5.h,
@@ -229,60 +239,27 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           .textTheme
                           .subtitle1!
                           .copyWith(color: AppColors.greyFontColor),
-                      // suffixIcon: InkWell(
-                      //     onTap: () {
-                      //       setState(() {
-                      //         obsuredPassword = !obsuredPassword;
-                      //       });
-                      //     },
-                      //     child: Icon(obsuredPassword
-                      //         ? Icons.visibility
-                      //         : Icons.visibility_off)),
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(2.2.h),
-                        child: SvgPicture.asset(
-                          AppConstant.passwordIcon,
-                        ),
+                      suffixIcon: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                setState(() {
+                                  passwordController.text =
+                                      LogicHelper.generateRandomString(8);
+                                });
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(right: 12),
+                                child: Text(
+                                  "Generate Auto",
+                                  style:
+                                      TextStyle(color: AppColors.mainThemeBlue),
+                                ),
+                              )),
+                        ],
                       ),
-                    )),
-                SizedBox(
-                  height: 3.5.h,
-                ),
-                TextFormField(
-                    obscureText: obsuredPassword,
-                    controller: confirmPasswordController,
-                    validator: (pass) {
-                      if (pass != null) {
-                        if (pass.trim().length < 6) {
-                          return "Password must be at-least 6-digit long";
-                        } else if (passwordController.text.trim() !=
-                            confirmPasswordController.text.trim()) {
-                          return "Password must match";
-                        } else {
-                          return null;
-                        }
-                      }
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none),
-                      fillColor: Colors.white,
-                      filled: true,
-                      hintText: "Password*",
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .copyWith(color: AppColors.greyFontColor),
-                      suffixIcon: InkWell(
-                          onTap: () {
-                            setState(() {
-                              obsuredPassword = !obsuredPassword;
-                            });
-                          },
-                          child: Icon(obsuredPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off)),
                       prefixIcon: Padding(
                         padding: EdgeInsets.all(2.2.h),
                         child: SvgPicture.asset(
@@ -293,11 +270,13 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 SizedBox(
                   height: 3.h,
                 ),
-                 Text("Please User Role",
+                Text(
+                  "Please User Role",
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1!
-                      .copyWith(color: AppColors.greyFontColor),),
+                      .copyWith(color: AppColors.greyFontColor),
+                ),
                 const SizedBox(
                   height: 6,
                 ),
@@ -399,27 +378,46 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 ),
                 Column(
                   children: [
-                    MainButton(
-                      height: 8.h,
-                      width: 60.w,
-                      buttonText: "Add Member",
-                      callback: () {
-                        if (_formKey.currentState!.validate()) {
-                          RegistratingData registratingData = RegistratingData(
-                            password: passwordController.text.trim(),
-                            name: nameController.text,
-                            address: addressController.text,
-                            email: emailController.text.trim(),
-                            phone: phoneController.text,
-                            phoneCode: countryCode,
-                            userType: LogicHelper.getUserTypefromBool(isBuilder: isBuilder, isFranchisee: isFranchisee, isHomeOwner: isHomeOwner, isvaluer: isValuer)
-                          );
-
-                          usersProvider.addMember(token:  Provider.of<UserProvider>(context,listen: false).getAuthToken, registratingData: registratingData);
-                        }
-                      },
-                      userArrow: false,
-                    ),
+                    Consumer<UsersProvider>(builder: (ctx, usersProvider, c) {
+                      return MainButton(
+                        height: 7.h,
+                        width: 60.w,
+                        buttonText: "Add Member",
+                        isloading: usersProvider.getLoadingState ==
+                            loadingState.loading,
+                        callback: () async {
+                          if (_formKey.currentState!.validate()) {
+                            RegistratingData registratingData =
+                                RegistratingData(
+                                    password: passwordController.text.trim(),
+                                    name: nameController.text,
+                                    address: addressController.text,
+                                    email: emailController.text.trim(),
+                                    phone: phoneController.text,
+                                    phoneCode: countryCode,
+                                    userType: LogicHelper.getUserTypefromBool(
+                                        isBuilder: isBuilder,
+                                        isFranchisee: isFranchisee,
+                                        isHomeOwner: isHomeOwner,
+                                        isvaluer: isValuer));
+                            ///Create users and clear controller if success
+                            bool isSuccess = await usersProvider.addMember(
+                                appuser: args['appUsers'],
+                                createAssign: args['createAssign'],
+                                currentRoute: null,
+                                registratingData: registratingData);
+                            if (isSuccess) {
+                              passwordController.clear();
+                              nameController.clear();
+                              addressController.clear();
+                              emailController.clear();
+                              phoneController.clear();
+                            }
+                          }
+                        },
+                        userArrow: false,
+                      );
+                    }),
                   ],
                 ),
                 SizedBox(

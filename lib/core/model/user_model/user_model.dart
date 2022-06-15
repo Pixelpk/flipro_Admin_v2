@@ -12,18 +12,20 @@ class User {
   String? userType;
   int? createdBy;
   String? roles;
-
+  String? avatar;
   User(
       {this.id,
         this.name,
         this.email,
         this.phoneCode,
         this.phone,
+        this.avatar,
         this.address,
         this.emailVerifiedAt,
         this.createdAt,
         this.updatedAt,
         this.userType,
+
         this.createdBy,
         this.roles});
 
@@ -32,6 +34,7 @@ class User {
     name = json['name'];
     email = json['email'];
     phoneCode = json['phone_code'];
+    avatar = json['avatar'];
     phone = json['phone'];
     address = json['address'];
     emailVerifiedAt = json['email_verified_at'];
@@ -54,6 +57,7 @@ class User {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['user_type'] = userType;
+    data['avatar']=avatar;
     data['created_by'] = createdBy;
     data['roles'] = roles;
     return data;

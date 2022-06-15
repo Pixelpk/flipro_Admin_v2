@@ -1,11 +1,17 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fliproadmin/core/services/assets_provider/assets_provider.dart';
+import 'package:fliproadmin/core/view_model/access_control_provider/access_control_provider.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
+import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
+import 'package:fliproadmin/core/view_model/projects_provider/projects_provider.dart';
+import 'package:fliproadmin/core/view_model/share_provider/share_provider.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/core/view_model/users_provider/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'core/services/firebase_messaging_service/firebase_messaging_service.dart';
 import 'core/utilities/app_colors.dart';
 import 'core/utilities/routes.dart';
 import 'firebase_options.dart';
@@ -42,14 +48,32 @@ class FliproAdminApp extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiProvider(
         providers: [
-          ChangeNotifierProvider.value(value: HomeProvider()),
-          ChangeNotifierProvider.value(value: AuthProvider()),
-          ChangeNotifierProvider.value(value: UserProvider()),
-          ChangeNotifierProvider.value(value: UsersProvider()),
+          ChangeNotifierProvider(create: (_)=>AuthProvider(),),
+          ChangeNotifierProvider(create: (_)=>UserProvider(),),
+          ChangeNotifierProvider(create: (_)=>HomeProvider(),),
+          ChangeNotifierProvider(create: (_)=>ShareProvider(),),
+          ChangeNotifierProvider(create: (_)=>AssetProvider(),),
+          ChangeNotifierProxyProvider<UserProvider, UsersProvider>(
+              create: (context) => UsersProvider(null),
+              update: (context, userProvider, usersProvider) =>UsersProvider(userProvider.getAuthToken),
+          ),
+          ChangeNotifierProxyProvider<UserProvider, ProjectsProvider>(
+              create: (context) => ProjectsProvider(null),
+              update: (context, userProvider, projectsProvider) => ProjectsProvider(userProvider.getAuthToken),
+          ),
+          ChangeNotifierProxyProvider<UserProvider, LoadedProjectProvider>(
+            create: (context) => LoadedProjectProvider(null),
+            update: (context, loadedProvider, projectsProvider) => LoadedProjectProvider(loadedProvider.getAuthToken),
+          ),
+
+
         ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,
           title: 'Flipro Admin',
+          onInit: (){
+            FirebaseMessagingService.setupBackgroundInteractedMessage();
+          },
           theme: ThemeData(
             primarySwatch: AppColors.primaryBlueSwatch,
             scaffoldBackgroundColor: AppColors.blueScaffoldBackground,

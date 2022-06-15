@@ -1,4 +1,4 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class AccessControlAppBar extends StatelessWidget {
-  const AccessControlAppBar({
-    Key? key,
-    required this.title
-  }) : super(key: key);
-final String title ;
+  const AccessControlAppBar(
+      {Key? key, required this.title, required this.imageUrl})
+      : super(key: key);
+  final String title;
+  final String imageUrl;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,8 +25,8 @@ final String title ;
         children: [
           Column(
             children: [
-               CustomAppBar(
-                 automaticallyImplyLeading: true,
+              CustomAppBar(
+                automaticallyImplyLeading: true,
                 bannerText: "$title Access Control",
                 showBothIcon: false,
               ),
@@ -42,13 +42,13 @@ final String title ;
           ),
           Positioned(
             top: 18.h,
-            child:  const CircleAvatar(
+            child: CircleAvatar(
               backgroundColor: Colors.white,
               radius: 55,
               child: CircleAvatar(
                 radius: 53,
-                backgroundImage:
-                 AssetImage(AppConstant.defaultProjectImage),
+                backgroundImage: CachedNetworkImageProvider(imageUrl),
+                // AssetImage(AppConstant.defaultProjectImage),
               ),
             ),
           )

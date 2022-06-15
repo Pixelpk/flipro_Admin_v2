@@ -1,3 +1,5 @@
+import 'package:fliproadmin/core/model/project_response/project_response.dart';
+
 class UsersModel {
   String? message;
   PaginationData? data;
@@ -5,6 +7,7 @@ class UsersModel {
   UsersModel({this.message, this.data});
 
   UsersModel.fromJson(Map<String, dynamic> json) {
+
     message = json['message'];
     data = json['data'] != null ? PaginationData.fromJson(json['data']) : null;
   }
@@ -28,8 +31,8 @@ class PaginationData {
   List<Links>? links;
   String? nextPageUrl;
   String? path;
-  List<Member>users = [];
-  int? perPage;
+  List<UserRoleModel>users = [];
+  var perPage;
   String? prevPageUrl;
   int? to;
   int? total;
@@ -54,10 +57,11 @@ class PaginationData {
     from = json['from'];
     lastPage = json['last_page'];
     if (json['data'] != null) {
-      links = <Links>[];
+      users = <UserRoleModel>[];
       json['data'].forEach((v) {
-        users.add(Member.fromJson(v));
+        users.add(UserRoleModel.fromJson(v));
       });
+      print("usef $users");
     }
     lastPageUrl = json['last_page_url'];
     if (json['links'] != null) {

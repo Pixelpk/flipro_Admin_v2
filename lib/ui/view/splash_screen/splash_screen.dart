@@ -1,7 +1,10 @@
+import 'package:fliproadmin/core/services/db_service/db_service.dart';
 import 'package:fliproadmin/core/services/firebase_messaging_service/firebase_messaging_service.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
+import 'package:fliproadmin/ui/view/home_screen/home_screen.dart';
 import 'package:fliproadmin/ui/view/login_screen/login_screen.dart';
+import 'package:fliproadmin/ui/view/middleware_loading/middleware_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -16,8 +19,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseMessagingService? firebaseMessagingServiceHandler;
+  late DbService dbService;
   @override
   void initState() {
+    dbService = DbService();
+
     ///HANDLING FIREBASE NOTIFICATION
     firebaseMessagingServiceHandler = FirebaseMessagingService();
     // firebaseMessagingServiceHandler!.notificationOnMessageOpened();
@@ -25,8 +31,14 @@ class _SplashScreenState extends State<SplashScreen> {
     firebaseMessagingServiceHandler!.notificationOnMessageHandler();
     // FirebaseMessagingService().fcmOnMessageListeners();
     super.initState();
-    Future.delayed(Duration(seconds: 4),(){
-     Navigator.of(context).pushNamed(LoginScreen.routeName);
+    Future.delayed(const Duration(seconds: 4), () {
+      if (dbService.hasData(AppConstant.getToken) &&
+          dbService.readString(AppConstant.getToken) != null) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(MiddleWareLoading.routeName, (route) => false);
+      } else {
+        Navigator.of(context).pushNamed(LoginScreen.routeName);
+      }
     });
   }
 
