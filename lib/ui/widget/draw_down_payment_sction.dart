@@ -6,6 +6,7 @@ import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/view/view_project_screen/view_project_draw_down_payments.dart';
 import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
+import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -14,10 +15,17 @@ import 'colored_label.dart';
 import 'helper_widget.dart';
 import 'media_section.dart';
 
-class DrawDownPaymentScetion extends StatelessWidget {
+class DrawDownPaymentScetion extends StatefulWidget {
   const DrawDownPaymentScetion({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<DrawDownPaymentScetion> createState() => _DrawDownPaymentScetionState();
+}
+
+class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
+  late TextEditingController reasonController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,8 @@ class DrawDownPaymentScetion extends StatelessWidget {
           ),
         );
       }
-      print(loadedProject.getLoadedProject!.latestPaymentReq!.toJson());
+
+      reasonController.text = loadedProject.getLoadedProject!.latestPaymentReq!=null  ? loadedProject.getLoadedProject!.latestPaymentReq!.reason ?? '' : '';
       return Column(
         children: [
           Row(
@@ -109,6 +118,9 @@ class DrawDownPaymentScetion extends StatelessWidget {
                             .paymentReqMedia!,
                       )
                     : Container(),
+                SizedBox(height: 10,),
+                LabeledTextField(label: "Reason", maxlines: 2, readonly: false,textEditingController: reasonController,),
+                SizedBox(height: 10,),
                 SizedBox(
                   height: 2.h,
                 ),
@@ -137,7 +149,7 @@ class DrawDownPaymentScetion extends StatelessWidget {
                                       .getAuthToken,
                                   paymentReqId: loadedProject
                                       .getLoadedProject!.latestPaymentReq!.id!,
-                                  rejectionReason: ' ',
+                                  rejectionReason: reasonController.text,
                                   isRejected: false);
                           GetXDialog.showDialog(
                               title: genericModel.title,
@@ -163,7 +175,7 @@ class DrawDownPaymentScetion extends StatelessWidget {
                                       .getAuthToken,
                                   paymentReqId: loadedProject
                                       .getLoadedProject!.latestPaymentReq!.id!,
-                                  rejectionReason: ' ',
+                                  rejectionReason: reasonController.text,
                                   isRejected: true);
 
                           GetXDialog.showDialog(
@@ -217,7 +229,7 @@ class DrawDownPaymentScetion extends StatelessWidget {
                                       .getAuthToken,
                                   paymentReqId: loadedProject
                                       .getLoadedProject!.latestPaymentReq!.id!,
-                                  rejectionReason: ' ',
+                                  rejectionReason: reasonController.text,
                                   isRejected: false);
                           GetXDialog.showDialog(
                               title: genericModel.title,

@@ -8,25 +8,45 @@ import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
 import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
+import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:fliproadmin/ui/widget/media_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class RejectedPaymentScreen extends StatelessWidget {
-  const RejectedPaymentScreen({Key? key, required this.payment})
-      : super(key: key);
+class RejectedPaymentScreen extends StatefulWidget {
+  RejectedPaymentScreen({Key? key, required this.payment}) : super(key: key);
   final DrawDownPayment payment;
+
+  @override
+  State<RejectedPaymentScreen> createState() => _RejectedPaymentScreenState();
+}
+
+class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
+  late TextEditingController reasonController;
+  @override
+  void initState() {
+    reasonController = TextEditingController(text: widget.payment.reason ?? '');
+    super.initState();
+  }
+
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(15.h),
-          child: const CustomAppBar(
-            bannerText: "Rejected Payments",
+          child: CustomAppBar(
+            bannerText: widget.payment.status == "rejected"
+                ? "Rejected Payments"
+                : "Payment Request",
             automaticallyImplyLeading: true,
             showBothIcon: false,
-            bannerColor: AppColors.darkRed,
+            bannerColor: widget.payment.status == "rejected"
+                ? AppColors.darkRed
+                : widget.payment.status == "pending"
+                    ? AppColors.yellow
+                    : AppColors.green,
           )),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -35,12 +55,15 @@ class RejectedPaymentScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 10,
+            ),
             Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
-                    "Drawdown Payment Request",
+                    "Draw-down Payment Request",
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1!
@@ -50,6 +73,9 @@ class RejectedPaymentScreen extends StatelessWidget {
                 const Spacer(),
                 const ColoredLabel(text: 'View All')
               ],
+            ),
+            SizedBox(
+              height: 10,
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
@@ -69,7 +95,7 @@ class RejectedPaymentScreen extends StatelessWidget {
                       ),
                       Expanded(
                           child: ColoredLabel(
-                        text: '${payment.amount}\$',
+                        text: '${widget.payment.amount}\$',
                         height: 6.h,
                       ))
                     ],
@@ -79,127 +105,175 @@ class RejectedPaymentScreen extends StatelessWidget {
                   ),
 
                   ///MEDIA SECTION
-                  payment.paymentReqMedia != null &&
-                          (payment.paymentReqMedia!.images != null ||
-                              payment.paymentReqMedia!.videos != null)
+                  widget.payment.paymentReqMedia != null &&
+                          (widget.payment.paymentReqMedia!.images != null ||
+                              widget.payment.paymentReqMedia!.videos != null)
                       ? MediaSection(
-                          media: payment.paymentReqMedia!,
+                          media: widget.payment.paymentReqMedia!,
                         )
                       : Container(),
                   SizedBox(
                     height: 2.h,
                   ),
 
+                  LabeledTextField(
+                    label: "Reason",
+                    maxlines: 2,
+                    readonly: false,
+                    textEditingController: reasonController,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+
                   ///APPROVAL REJECTION BUTTONS
                   ///
                   ///
-                  if (payment.status == "pending")
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ColoredLabel(
-                          text: 'Approve',
-                          height: 6.h,
-                          color: AppColors.green,
-                          width: 30.w,
+                  if (widget.payment.status == "pending")
+                    isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ColoredLabel(
+                                text: 'Approve',
+                                height: 6.h,
+                                color: AppColors.green,
+                                width: 30.w,
 
-                          ///PAYMENT REQUEST APPROVE CALLBACK
-                          callback: () async {
-                            GenericModel genericModel =
-                                await PaymentService.approveRejectPaymentReq(
-                                    accessToken: Provider.of<UserProvider>(
-                                            context,
-                                            listen: false)
-                                        .getAuthToken,
-                                    paymentReqId: payment.id!,
-                                    rejectionReason: ' ',
-                                    isRejected: false);
-                            GetXDialog.showDialog(
-                                title: genericModel.title,
-                                message: genericModel.message);
-                            if (genericModel.success) {
-                              Navigator.pop(context, true);
-                            }
-                          },
-                        ),
-                        ColoredLabel(
-                          text: 'Reject',
-                          height: 6.h,
-                          color: AppColors.lightRed,
-                          width: 30.w,
+                                ///PAYMENT REQUEST APPROVE CALLBACK
+                                callback: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  GenericModel genericModel =
+                                      await PaymentService
+                                          .approveRejectPaymentReq(
+                                              accessToken:
+                                                  Provider.of<UserProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .getAuthToken,
+                                              paymentReqId: widget.payment.id!,
+                                              rejectionReason:
+                                                  reasonController.text,
+                                              isRejected: false);
+                                  GetXDialog.showDialog(
+                                      title: genericModel.title,
+                                      message: genericModel.message);
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  if (genericModel.success) {
+                                    Navigator.pop(context, true);
+                                  }
+                                },
+                              ),
+                              ColoredLabel(
+                                text: 'Reject',
+                                height: 6.h,
+                                color: AppColors.lightRed,
+                                width: 30.w,
 
-                          ///PAYMENT REQUEST REJECTION CALLBACK
-                          callback: () async {
-                            GenericModel genericModel =
-                                await PaymentService.approveRejectPaymentReq(
-                                    accessToken: Provider.of<UserProvider>(
-                                            context,
-                                            listen: false)
-                                        .getAuthToken,
-                                    paymentReqId: payment.id!,
-                                    rejectionReason: ' ',
-                                    isRejected: true);
-
-                            GetXDialog.showDialog(
-                                title: genericModel.title,
-                                message: genericModel.message);
-                            if (genericModel.success) {
-                              Navigator.pop(context, true);
-                            }
-                          },
-                        )
-                      ],
-                    ),
-                  if (payment.status == "approvedpaymen")
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "Payment has been approved",
-                          style: TextStyle(
-                            color: AppColors.green,
+                                ///PAYMENT REQUEST REJECTION CALLBACK
+                                callback: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  GenericModel genericModel =
+                                      await PaymentService
+                                          .approveRejectPaymentReq(
+                                              accessToken:
+                                                  Provider.of<UserProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .getAuthToken,
+                                              paymentReqId: widget.payment.id!,
+                                              rejectionReason:
+                                                  reasonController.text,
+                                              isRejected: true);
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  GetXDialog.showDialog(
+                                      title: genericModel.title,
+                                      message: genericModel.message);
+                                  if (genericModel.success) {
+                                    Navigator.pop(context, true);
+                                  }
+                                },
+                              )
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  if (payment.status == "rejected")
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Text(
-                          "Payment request is rejected",
-                          style: TextStyle(
-                            color: AppColors.darkRed,
+                  if (widget.payment.status == "approvedpaymen")
+                    isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "Payment has been approved",
+                                style: TextStyle(
+                                  color: AppColors.green,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        const Spacer(),
-                        ColoredLabel(
-                          text: 'Approve now',
-                          height: 6.h,
-                          color: AppColors.lightRed,
-                          width: 30.w,
+                  if (widget.payment.status == "rejected")
+                    isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text(
+                                "Payment request is rejected",
+                                style: TextStyle(
+                                  color: AppColors.darkRed,
+                                ),
+                              ),
+                              const Spacer(),
+                              ColoredLabel(
+                                text: 'Approve now',
+                                height: 6.h,
+                                color: AppColors.lightRed,
+                                width: 30.w,
 
-                          ///PAYMENT REQUEST REJECTION CALLBACK
-                          callback: () async {
-                            GenericModel genericModel =
-                                await PaymentService.approveRejectPaymentReq(
-                                    accessToken: Provider.of<UserProvider>(
-                                            context,
-                                            listen: false)
-                                        .getAuthToken,
-                                    paymentReqId: payment.id!,
-                                    rejectionReason: ' ',
-                                    isRejected: false);
-                            GetXDialog.showDialog(
-                                title: genericModel.title,
-                                message: genericModel.message);
-                            if (genericModel.success) {
-                              Navigator.pop(context, true);
-                            }
-                          },
-                        )
-                      ],
-                    ),
+                                ///PAYMENT REQUEST REJECTION CALLBACK
+                                callback: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  GenericModel genericModel =
+                                      await PaymentService
+                                          .approveRejectPaymentReq(
+                                              accessToken:
+                                                  Provider.of<UserProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .getAuthToken,
+                                              paymentReqId: widget.payment.id!,
+                                              rejectionReason:
+                                                  reasonController.text,
+                                              isRejected: false);
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  GetXDialog.showDialog(
+                                      title: genericModel.title,
+                                      message: genericModel.message);
+                                  if (genericModel.success) {
+                                    Navigator.pop(context, true);
+                                  }
+                                },
+                              )
+                            ],
+                          ),
                 ],
               ),
             )

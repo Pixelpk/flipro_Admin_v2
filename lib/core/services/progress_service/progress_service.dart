@@ -89,7 +89,7 @@ class ProgressService {
         'Accept': 'application/json',
         'Authorization': 'Bearer $accessToken'
       };
-      String url = '${ENV.baseURL}/api/payment-requests?id=$paymentReqId';
+      String url = '${ENV.baseURL}/api/payment-requests?id=$paymentReqId&reason=$rejectionReason';
       if (isRejected) {
         url = "$url&status=rejected";
       }

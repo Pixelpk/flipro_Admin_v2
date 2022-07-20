@@ -6,7 +6,9 @@ class DrawDownPayment {
   int? projectId;
   int? userId;
   int? amount;
+
   String? description;
+  String? reason;
   List<String>? images;
   List<MediaCompressionModel>? videos;
   String? status;
@@ -24,6 +26,7 @@ class DrawDownPayment {
       this.description,
       this.images,
       this.videos,
+        this.reason,
       this.project,
       this.status,
       this.createdAt,
@@ -34,6 +37,8 @@ class DrawDownPayment {
     projectId = json['project_id'];
     userId = json['user_id'];
     amount = json['amount'];
+
+    reason = json['reason'];
     project =
         json['project'] != null ? Project.fromJson(json['project']) : null;
     description = json['description'];

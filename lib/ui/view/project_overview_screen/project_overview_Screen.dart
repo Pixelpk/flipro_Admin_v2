@@ -10,6 +10,7 @@ import 'package:fliproadmin/ui/view/add_project_screen/add_project_screen.dart';
 import 'package:fliproadmin/ui/view/project_progress_timeline_screen/project_progress_timeline_screen.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
+import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:fliproadmin/ui/widget/main_button.dart';
@@ -19,6 +20,8 @@ import 'package:fliproadmin/ui/widget/trademan_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+
+import 'add_value_bottom_sheet.dart';
 
 class ProjectOverviewScreen extends StatelessWidget {
   const ProjectOverviewScreen({Key? key, this.parentRouteName})
@@ -46,7 +49,8 @@ class ProjectOverviewScreen extends StatelessWidget {
         onRefresh: () => Future.sync(() =>
             Provider.of<LoadedProjectProvider>(context, listen: false)
                 .refresh()),
-        child: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
+        child:
+            Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
           if (loadedProject.getLoadingState == loadingState.loading) {
             return SizedBox(
                 height: 70.h, child: HelperWidget.progressIndicator());
@@ -64,7 +68,9 @@ class ProjectOverviewScreen extends StatelessWidget {
             height: 100.h,
             child: ListView(
               children: [
-                const ProjectInfoSection(readOnly: true,),
+                const ProjectInfoSection(
+                  readOnly: true,
+                ),
                 MediaSection(
                   media: loadedProject.getLoadedProject!.projectMedia!,
                 ),
@@ -72,7 +78,8 @@ class ProjectOverviewScreen extends StatelessWidget {
                 ///IF PROGRESS OBJECT IS NOT NULL
                 if (showAppbar != 'true' &&
                     loadedProject.getLoadedProject!.latestProgress != null &&
-                    loadedProject.getLoadedProject!.latestProgress!.user != null)
+                    loadedProject.getLoadedProject!.latestProgress!.user !=
+                        null)
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
@@ -88,7 +95,8 @@ class ProjectOverviewScreen extends StatelessWidget {
                     ),
                   ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
                   child: Column(
                     children: [
                       const Padding(
@@ -107,17 +115,39 @@ class ProjectOverviewScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (
-                loadedProject.getLoadedProject!.projectLatestMarkedValue !=
+
+                ///VALUE THAT VALUER WILL MARK WHEN PROJECT GET VALUATED
+                ///EDIT EXISTING VALUE
+                if (loadedProject.getLoadedProject!.projectLatestMarkedValue !=
                     "0")
                   Padding(
                     padding:
                     EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child:   Text("Re-evaluation Value"),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              const Text("Marked Value"),
+                              const Spacer(),
+                              loadedProject.getLoadedProject!.status == "closed"
+                                  ? Container()
+                                  : InkWell(
+                                onTap: () {
+                                  addValueBottomSheet();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: AppColors.mainThemeBlue,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                         MainButton(
                           userArrow: false,
@@ -132,56 +162,79 @@ class ProjectOverviewScreen extends StatelessWidget {
                     ),
                   ),
 
+                ///ADD NEW VALUE
+                ///IF FRANCHISEE HAVE PERMISSION THAN HE CAN ADD PROJECT VALUE
+                if ((loadedProject.getLoadedProject!.projectLatestMarkedValue ==
+                        "0"))
+                  Padding(
+                    padding:
+                    EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
+                    child: MainButton(
+                      userArrow: false,
+                      buttonText: "Add Value",
+                      callback: () {
+                        addValueBottomSheet();
+                      },
+                      radius: 15,
+                      width: 100.w,
+                      height: 7.h,
+                    ),
+                  ),
+
                 ///FOR COMPLETED PROJECT - final progress reviews
                 if (loadedProject.getLoadedProject!.progressReviewed == true)
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                     child: LabeledTextField(
-                      label: "HomeOwner - Final Progress Review",
+                      label: "Franchisee Progress Review",
                       maxlines: 4,
                       readonly: true,
-                      hintText: loadedProject.getLoadedProject!.final_progress_reviews!,
+                      hintText: loadedProject
+                          .getLoadedProject!.final_progress_reviews!,
                       labelWidget: ColoredLabel(
-                        color: loadedProject.getLoadedProject!.progressSatisfied!
-                            ? AppColors.green
-                            : AppColors.darkRed,
+                        color:
+                            loadedProject.getLoadedProject!.progressSatisfied!
+                                ? AppColors.green
+                                : AppColors.darkRed,
                         text: loadedProject.getLoadedProject!.progressSatisfied!
                             ? 'Satisfied'
                             : "Not-Satisfied",
-                        callback: () {
-                          Navigator.pushNamed(
-                            context,
-                            HomeOwnerAccessControlScreen.routeName,
-                          );
-                        },
+
                       ),
                     ),
                   ),
 
-                if (loadedProject.getLoadedProject!.valuationReviewed!)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-                    child: LabeledTextField(
-                      label: "HomeOwner - Evaluation Review",
-                      maxlines: 4,
-                      readonly: true,
-                      hintText: loadedProject.getLoadedProject!.valuationReviews!,
-                      labelWidget: ColoredLabel(
-                        color: loadedProject.getLoadedProject!.valuationSatisfied!
-                            ? AppColors.green
-                            : AppColors.darkRed,
-                        text: loadedProject.getLoadedProject!.valuationSatisfied!
-                            ? 'Satisfied'
-                            : "Not-Satisfied",
-                        callback: () {
-                          Navigator.pushNamed(
-                            context,
-                            HomeOwnerAccessControlScreen.routeName,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+
+                ///REMOVING THE FUNCTINALITY OF SHOW REMARKS/REVIEW OF EVALUATION
+                // if (loadedProject.getLoadedProject!.valuationReviewed!)
+                //   Padding(
+                //     padding:
+                //         EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                //     child: LabeledTextField(
+                //       label: "HomeOwner - Evaluation Review",
+                //       maxlines: 4,
+                //       readonly: true,
+                //       hintText:
+                //           loadedProject.getLoadedProject!.valuationReviews!,
+                //       labelWidget: ColoredLabel(
+                //         color:
+                //             loadedProject.getLoadedProject!.valuationSatisfied!
+                //                 ? AppColors.green
+                //                 : AppColors.darkRed,
+                //         text:
+                //             loadedProject.getLoadedProject!.valuationSatisfied!
+                //                 ? 'Satisfied'
+                //                 : "Not-Satisfied",
+                //         callback: () {
+                //           Navigator.pushNamed(
+                //             context,
+                //             HomeOwnerAccessControlScreen.routeName,
+                //           );
+                //         },
+                //       ),
+                //     ),
+                //   ),
 
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
@@ -216,6 +269,24 @@ class ProjectOverviewScreen extends StatelessWidget {
                     homeOwner: loadedProject.getLoadedProject!.lead,
                     valuer: loadedProject.getLoadedProject!.valuers,
                     builder: loadedProject.getLoadedProject!.builder),
+                if(((loadedProject.getLoadedProject!.status == 'complete')||(loadedProject.getLoadedProject!.progressReviewed == true)) && loadedProject.getLoadedProject!.projectLatestMarkedValue !=
+                    "0")
+                  Padding(
+                    padding:
+                    EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+                    child: MainButton(
+                      startALignment: true,
+                      buttonColor: AppColors.darkRed,
+                      buttonText: "Close Project",
+                      callback: () {
+
+                        loadedProject.closeProject(true, 'NA');
+                      },
+                      radius: 15,
+                      height: 7.h,
+                    ),
+                  ),
+
                 SizedBox(
                   height: 5.h,
                 )
@@ -235,24 +306,25 @@ class ProjectOverviewScreen extends StatelessWidget {
         }
         if (loadedProject.getLoadedProject!.status == "closed" ||
             loadedProject.getLoadedProject!.status == "completed" ||
-            loadedProject.getLoadedProject!.status == "in-progress"
-
-        ) {
+            loadedProject.getLoadedProject!.status == "in-progress") {
           return Container();
         }
-        return FloatingActionButton(
-            mini: true,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            child: const Icon(Icons.edit),
-            onPressed: () async {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => AddProjectScreen(
-                        project:
-                            ProjectProvider(loadedProject.getLoadedProject),
-                        isNewProject: false,
-                      )));
-            });
+        if (loadedProject.getLoadedProject!.status == "new") {
+          return FloatingActionButton(
+              mini: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              child: const Icon(Icons.edit),
+              onPressed: () async {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => AddProjectScreen(
+                          project:
+                              ProjectProvider(loadedProject.getLoadedProject),
+                          isNewProject: false,
+                        )));
+              });
+        }
+        return Container();
       }),
     );
   }
