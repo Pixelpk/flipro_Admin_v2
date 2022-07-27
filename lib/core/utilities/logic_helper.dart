@@ -70,7 +70,7 @@ class LogicHelper {
   ) {
     try {
       DateTime dateTime = DateTime.parse(date);
-      return DateFormat.yMMMd().format(dateTime);
+      return DateFormat('yyyy-MM-dd – kk:mm').format(dateTime);
     } catch (e) {
       print(e);
 

@@ -7,6 +7,7 @@ import 'package:fliproadmin/core/view_model/project_provider/project_provider.da
 import 'package:fliproadmin/ui/view/access_control_screen/franchisee_access_control_screen.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/home_owner_access_control.dart';
 import 'package:fliproadmin/ui/view/add_project_screen/add_project_screen.dart';
+import 'package:fliproadmin/ui/view/project_activity_timeline_screen/project_progress_timeline_screen.dart';
 import 'package:fliproadmin/ui/view/project_progress_timeline_screen/project_progress_timeline_screen.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
@@ -89,6 +90,21 @@ class ProjectOverviewScreen extends StatelessWidget {
                       callback: () {
                         Navigator.pushNamed(
                             context, ProjectProgressTimeLineScreen.routeName);
+                      },
+                      radius: 15,
+                      height: 7.h,
+                    ),
+                  ),
+                ///PROJECT ACTIVITY TIMELINE
+                Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 1.h),
+                    child: MainButton(
+                      startALignment: true,
+                      buttonText: "Activity Timeline",
+                      callback: () {
+                        Navigator.pushNamed(
+                            context, ProjectActivityTimeLineScreen.routeName);
                       },
                       radius: 15,
                       height: 7.h,
@@ -269,7 +285,7 @@ class ProjectOverviewScreen extends StatelessWidget {
                     homeOwner: loadedProject.getLoadedProject!.lead,
                     valuer: loadedProject.getLoadedProject!.valuers,
                     builder: loadedProject.getLoadedProject!.builder),
-                if(((loadedProject.getLoadedProject!.status == 'complete')||(loadedProject.getLoadedProject!.progressReviewed == true)) && loadedProject.getLoadedProject!.projectLatestMarkedValue !=
+                if(loadedProject.getLoadedProject!.status == 'complete'&&loadedProject.getLoadedProject!.progressReviewed! && loadedProject.getLoadedProject!.projectLatestMarkedValue !=
                     "0")
                   Padding(
                     padding:

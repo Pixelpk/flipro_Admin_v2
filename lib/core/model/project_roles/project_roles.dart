@@ -5,10 +5,12 @@ class ProjectRoles {
   bool? uploadProgress;
   bool? addPhotos;
   bool? requestPayment;
+  bool? notify = true ;
 
   ProjectRoles(
       {this.view =true,
         this.addValue =false,
+
         this.addNotes =false,
         this.uploadProgress =false,
         this.addPhotos =false,

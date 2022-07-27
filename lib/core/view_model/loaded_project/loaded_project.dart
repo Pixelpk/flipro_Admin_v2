@@ -199,8 +199,9 @@ class LoadedProjectProvider with ChangeNotifier {
       ProjectRoles projectRoles, String routeName) async {
     ///
     try {
-      setStateLoading();
+
       if (_authToken != null) {
+        setStateLoading();
         GenericModel genericModel = await _accessControlService.updateAccess(
             projectId: projectId,
             projectRoles: projectRoles,
