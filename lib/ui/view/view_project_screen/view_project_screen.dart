@@ -81,7 +81,7 @@ class _ViewProjectScreenState extends State<ViewProjectScreen> {
               onPageChanged: homeProvider.onProjectViewPageChange,
               physics:const NeverScrollableScrollPhysics(),
               controller: pageController,
-              children: const <Widget>[
+              children:  <Widget>[
                 ProjectOverviewScreen(
                   parentRouteName: ViewProjectScreen.routeName,
                 ),

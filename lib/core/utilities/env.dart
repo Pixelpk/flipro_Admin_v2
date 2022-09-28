@@ -1,5 +1,5 @@
 class ENV{
-  static String baseURL = "http://flipro.anasw.com";
+  static String baseURL = "https://flipro.pixelpk.com";
 
 
 }

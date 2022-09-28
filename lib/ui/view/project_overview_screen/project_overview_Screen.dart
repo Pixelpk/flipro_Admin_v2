@@ -4,6 +4,7 @@ import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
+import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/franchisee_access_control_screen.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/home_owner_access_control.dart';
 import 'package:fliproadmin/ui/view/add_project_screen/add_project_screen.dart';
@@ -25,10 +26,16 @@ import 'package:sizer/sizer.dart';
 import 'add_value_bottom_sheet.dart';
 
 class ProjectOverviewScreen extends StatelessWidget {
-  const ProjectOverviewScreen({Key? key, this.parentRouteName})
+   ProjectOverviewScreen({Key? key, this.parentRouteName})
       : super(key: key);
   static const routeName = '/ProjectOverviewScreen';
   final String? parentRouteName;
+  final _formKey = GlobalKey<FormState>();
+   TextEditingController reviewController = TextEditingController();
+
+  bool clientSatisfied = true;
+  bool clientNotSatisfied = false;
+
   @override
   Widget build(BuildContext context) {
     final showAppbar = ModalRoute.of(context)!.settings.arguments.toString();
@@ -197,13 +204,184 @@ class ProjectOverviewScreen extends StatelessWidget {
                     ),
                   ),
 
+
+                if (loadedProject.getLoadedProject!.status == "complete" &&
+                    loadedProject.getLoadedProject?.franchisee?.id == context.read<UserProvider>().getCurrentUser.id &&
+                    loadedProject.getLoadedProject!.latestProgress != null &&
+                    loadedProject
+                        .getLoadedProject!.latestProgress!.finalProgress ==
+                        1)
+                  StatefulBuilder(
+                      builder: (BuildContext context, StateSetter changeState) {
+                        return Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Final progress satisfaction",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1!
+                                          .copyWith(color: AppColors.greyFontColor),
+                                    ),
+                                    if (loadedProject
+                                        .getLoadedProject!.progressReviewed!)
+                                      ColoredLabel(
+                                        width: 90,
+                                        text: loadedProject.getLoadedProject!
+                                            .progressSatisfied!
+                                            ? "Satisfied"
+                                            : "Not Satisfied",
+                                        color: loadedProject.getLoadedProject!
+                                            .progressSatisfied!
+                                            ? AppColors.green
+                                            : AppColors.darkRed,
+                                      ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                if ((loadedProject
+                                    .getLoadedProject!.progressReviewed! ||
+                                    !loadedProject.getLoadedProject!
+                                        .progressReviewed!) &&
+                                    !loadedProject
+                                        .getLoadedProject!.progressSatisfied!)
+                                  Container(
+                                    height: 8.h,
+                                    width: 100.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                    ),
+                                    padding: EdgeInsets.symmetric(horizontal: 8),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Are you satisfied",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(
+                                              color: AppColors.greyFontColor),
+                                        ),
+                                        Spacer(),
+                                        Row(
+                                          children: [
+                                            Checkbox(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(60)),
+                                                value: clientSatisfied,
+                                                onChanged: (c) {
+                                                  changeState(() {
+                                                    clientNotSatisfied = !c!;
+                                                    clientSatisfied = c;
+                                                  });
+                                                }),
+                                            Text(
+                                              "YES",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                  color:
+                                                  AppColors.greyFontColor),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Checkbox(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(60)),
+                                                value: clientNotSatisfied,
+                                                onChanged: (c) {
+                                                  changeState(() {
+                                                    clientNotSatisfied = c!;
+                                                    clientSatisfied = !c;
+                                                  });
+                                                }),
+                                            Text(
+                                              "NO",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1!
+                                                  .copyWith(
+                                                  color:
+                                                  AppColors.greyFontColor),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+
+                                SizedBox(
+                                  height: 1.h,
+                                ),
+
+                                ///FOR COMPLETED PROJECT
+                                LabeledTextField(
+                                  label: "Your Remarks",
+                                  maxlines: 4,
+                                  textEditingController: reviewController,
+                                  readonly: loadedProject
+                                      .getLoadedProject!.progressReviewed! &&
+                                      loadedProject
+                                          .getLoadedProject!.progressSatisfied!,
+                                  validation: (e) {
+                                    if (e == null || e.trim().isEmpty) {
+                                      return "Please add final review";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                if (!loadedProject
+                                    .getLoadedProject!.progressSatisfied!)
+                                  MainButton(
+                                      buttonText: loadedProject
+                                          .getLoadedProject!.progressReviewed!
+                                          ? "Update review"
+                                          : "Add Review",
+                                      height: 7.h,
+                                      width: 60.w,
+                                      userArrow: false,
+                                      callback: () {
+                                        if (_formKey.currentState!.validate() &&
+                                            loadedProject.getLoadedProject!
+                                                .progressSatisfied! ==
+                                                false) {
+                                          loadedProject.addProjectReview(
+                                              clientSatisfied,
+                                              reviewController.text.trim(),
+                                              progressSatisfaction: true);
+                                        }
+                                      },
+                                      isloading: loadedProject.getLoadingState ==
+                                          loadingState.loading),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+
                 ///FOR COMPLETED PROJECT - final progress reviews
                 if (loadedProject.getLoadedProject!.progressReviewed == true)
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                     child: LabeledTextField(
-                      label: "Franchisee Progress Review",
+                      label: "Progress Review",
                       maxlines: 4,
                       readonly: true,
                       hintText: loadedProject

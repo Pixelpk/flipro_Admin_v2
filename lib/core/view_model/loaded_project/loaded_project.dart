@@ -65,7 +65,30 @@ class LoadedProjectProvider with ChangeNotifier {
       return ProjectRoles();
     }
   }
-
+  addProjectReview(bool isSatisfied, String review,
+      {bool progressSatisfaction = false}) async {
+    try {
+      if (_authToken != null) {
+        setStateLoading();
+        GenericModel genericModel = await _projectService.addSatisfactionReview(
+            accessToken: _authToken!,
+            progressSatisfaction: progressSatisfaction,
+            projectId: _loadedProject!.id.toString(),
+            review: review,
+            isSatisfied: isSatisfied ? 1 : 0);
+        GetXDialog.showDialog(
+            title: genericModel.title, message: genericModel.message);
+        if (genericModel.statusCode == 200 &&
+            genericModel.returnedModel != null) {
+          _loadedProject = genericModel.returnedModel;
+          // notifyListeners();
+        }
+        return genericModel.statusCode ;
+      }
+    } finally {
+      setStateLoaded();
+    }
+  }
   UserRoleModel getBuilderById(int? builderId) {
     try {
       if(builderId == 00)

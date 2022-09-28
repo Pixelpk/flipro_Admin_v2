@@ -39,7 +39,7 @@ class Routes {
     NotesScreen.routeName: (_) =>  NotesScreen(),
     NoteViewScreen.routeName: (_) => NoteViewScreen(),
     ViewProjectScreen.routeName: (_) => const ViewProjectScreen(),
-    ProjectOverviewScreen.routeName: (_) => const ProjectOverviewScreen(),
+    ProjectOverviewScreen.routeName: (_) =>  ProjectOverviewScreen(),
     ProjectProgressTimeLineScreen.routeName: (_) =>
         const ProjectProgressTimeLineScreen(),
     ProjectActivityTimeLineScreen.routeName: (_) =>
