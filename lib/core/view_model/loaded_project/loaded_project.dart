@@ -15,7 +15,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 
-class LoadedProjectProvider extends ChangeNotifier {
+import '../../../ui/view/project_overview_screen/project_overview_Screen.dart';
+
+class LoadedProjectProvider with ChangeNotifier {
   Project? _loadedProject;
   Project? get getLoadedProject => _loadedProject;
   loadingState _isLoading = loadingState.loaded;
@@ -63,6 +65,49 @@ class LoadedProjectProvider extends ChangeNotifier {
       return ProjectRoles();
     }
   }
+  addProjectReview(bool isSatisfied, String review,
+      {bool progressSatisfaction = false}) async {
+    try {
+      if (_authToken != null) {
+        setStateLoading();
+        GenericModel genericModel = await _projectService.addSatisfactionReview(
+            accessToken: _authToken!,
+            progressSatisfaction: progressSatisfaction,
+            projectId: _loadedProject!.id.toString(),
+            review: review,
+            isSatisfied: isSatisfied ? 1 : 0);
+        GetXDialog.showDialog(
+            title: genericModel.title, message: genericModel.message);
+        if (genericModel.statusCode == 200 &&
+            genericModel.returnedModel != null) {
+          _loadedProject = genericModel.returnedModel;
+          // notifyListeners();
+        }
+        return genericModel.statusCode ;
+      }
+    } finally {
+      setStateLoaded();
+    }
+  }
+  UserRoleModel getBuilderById(int? builderId) {
+    try {
+      if(builderId == 00)
+        {
+          return _loadedProject!.builder![0];
+        }
+      UserRoleModel userRoleModel =
+      _loadedProject!.builder!.firstWhere((element) {
+        if (element.id == builderId) {
+          return true;
+        }
+        return false;
+      });
+      return userRoleModel;
+    } catch (e) {
+      print(e);
+      return UserRoleModel();
+    }
+  }
   refresh(){
     fetchLoadedProject(_loadedProject!.id!);
   }
@@ -101,7 +146,59 @@ class LoadedProjectProvider extends ChangeNotifier {
       return ProjectRoles();
     }
   }
+  addProjectValue(String markedValue) async {
+    try {
+      if (_authToken != null) {
+        setStateLoading();
+        GenericModel genericModel = await _projectService.addProjectValue(
+            accessToken: _authToken!,
+            projectId: _loadedProject!.id!,
+            markedValeu: markedValue);
+        GetXDialog.showDialog(
+            title: genericModel.title, message: genericModel.message);
+        if (genericModel.statusCode == 200 &&
+            genericModel.returnedModel != null) {
+          _loadedProject = genericModel.returnedModel;
+          // notifyListeners();
+        }
+      }
+    } finally {
+      setStateLoaded();
 
+      if (Get.currentRoute == ProjectOverviewScreen.routeName) {
+        Navigator.pop(Get.context!);
+      }
+    }
+  }
+
+  closeProject(bool isSatisfied, String review,
+      {bool progressSatisfaction = false}) async {
+    ///IF ADD VALUE REMAKRS TRUE THEN THE PROJECT WILL BE CONSIDERED AS CLOSED
+    try {
+      if (_authToken != null) {
+        setStateLoading();
+        GenericModel genericModel = await _projectService.addSatisfactionReview(
+            accessToken: _authToken!,
+            progressSatisfaction: progressSatisfaction,
+            projectId: _loadedProject!.id.toString(),
+            review: review,
+            isSatisfied: isSatisfied ? 1 : 0);
+        // GetXDialog.showDialog(
+        //     title: genericModel.title, message: genericModel.message);
+
+        GetXDialog.showDialog(
+            title: "Project Closed", message: "Project is moved to closed projects");
+        if (genericModel.statusCode == 200 &&
+            genericModel.returnedModel != null) {
+          _loadedProject = genericModel.returnedModel;
+          // notifyListeners();
+        }
+        return genericModel.statusCode ;
+      }
+    } finally {
+      setStateLoaded();
+    }
+  }
 
 
   fetchLoadedProject(int projectId) async {
@@ -125,8 +222,9 @@ class LoadedProjectProvider extends ChangeNotifier {
       ProjectRoles projectRoles, String routeName) async {
     ///
     try {
-      setStateLoading();
+
       if (_authToken != null) {
+        setStateLoading();
         GenericModel genericModel = await _accessControlService.updateAccess(
             projectId: projectId,
             projectRoles: projectRoles,

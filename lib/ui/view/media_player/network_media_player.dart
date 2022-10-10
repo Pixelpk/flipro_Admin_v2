@@ -28,6 +28,7 @@ class _NetworkMediaPlayerState extends State<NetworkMediaPlayer> {
 
   @override
   void initState() {
+    print("url is ${widget.videoURL}");
     super.initState();
     initializePlayer();
   }

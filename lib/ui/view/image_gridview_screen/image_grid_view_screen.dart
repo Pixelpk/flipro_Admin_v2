@@ -72,15 +72,16 @@ class _MediaViewAllState extends State<MediaViewAll> {
     );
   }
 
-late  List<Widget> bodyWidgets = [
-     Expanded(child: ImagesTabBody(mediaObject: mediaObject,)),
-     Expanded(child: VideosTabBody(mediaObject: mediaObject,))
-  ];
+late  List<Widget> bodyWidgets ;
 
   @override
   void initState() {
     Future.microtask(() {
       mediaObject =  ModalRoute.of(context)!.settings.arguments as MediaObject;
+      bodyWidgets = [
+        Expanded(child: ImagesTabBody(mediaObject: mediaObject,)),
+        Expanded(child: VideosTabBody(mediaObject: mediaObject,))
+      ];
       setState(() {});
     });
     super.initState();

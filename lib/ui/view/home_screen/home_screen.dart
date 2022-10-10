@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CustomAppBar(
           bannerText: homeProvider.getSelectedHomeIndex == 4
               ? "Profile"
-              : "Admin Pannel",
+              : "Admin Panel",
           showBothIcon: true,
           automaticallyImplyLeading: false,
         ),

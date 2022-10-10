@@ -32,35 +32,43 @@ class AssetProvider extends ChangeNotifier {
 
   imageCameraPicker(BuildContext context,
       {bool multiplePick = false, required ImageSource imageSource}) async {
-    final ImagePicker _picker = ImagePicker();
+   try {
+      final ImagePicker _picker = ImagePicker();
 
-    if (multiplePick == false) {
-      print("SINGLE PICKER");
-      XFile? xfile =
-          await _picker.pickImage(source: imageSource, imageQuality: 40);
-      if (xfile != null) {
-        File compressedFile = await FlutterNativeImage.compressImage(xfile.path,
-            quality: 40, percentage: 40);
-
-        _compressedImage.add(compressedFile);
-        notifyListeners();
-      }
-    } else {
-      print("MULTIPICKER PICKER");
-      final List<XFile>? images =
-          await _picker.pickMultiImage(imageQuality: 60);
-      setStateLoading();
-      if (images != null && images.isNotEmpty) {
-        images.forEach((image) async {
+      if (multiplePick == false) {
+        print("SINGLE PICKER");
+        XFile? xfile =
+            await _picker.pickImage(source: imageSource, imageQuality: 40);
+        if (xfile != null) {
           File compressedFile = await FlutterNativeImage.compressImage(
-              image.path,
+              xfile.path,
               quality: 40,
               percentage: 40);
+
           _compressedImage.add(compressedFile);
-        });
+        }
+      } else {
+        print("MULTIPICKER PICKER");
+        final List<XFile>? images =
+            await _picker.pickMultiImage(imageQuality: 60);
         setStateLoading();
+        if (images != null && images.isNotEmpty) {
+          images.forEach((image) async {
+            File compressedFile = await FlutterNativeImage.compressImage(
+                image.path,
+                quality: 40,
+                percentage: 40);
+
+            _compressedImage.add(compressedFile);
+            notifyListeners();
+
+          });
+
+        }
       }
-    }
+    }finally{
+    setStateLoaded();
+   }
   }
 
   singleImageCameraPicker(BuildContext context, ImageSource imageSource) async {
@@ -71,7 +79,7 @@ class AssetProvider extends ChangeNotifier {
         await _picker.pickImage(source: imageSource, imageQuality: 40);
     if (xfile != null) {
       File compressedFile = await FlutterNativeImage.compressImage(xfile.path,
-          quality: 60, percentage: 60);
+          quality: 60, percentage: 60,  );
       _singlePickedImage = compressedFile;
       notifyListeners();
     }

@@ -21,14 +21,15 @@ class CustomCachedImage extends StatelessWidget {
       imageUrl: imageUrl,
       width: width,
       fit: fit,
+      height: height,
 
       progressIndicatorBuilder: (context, url, downloadProgress) =>SizedBox(
-        width: 200.0,
-        height: 100.0,
+        width: width,
+        height: height,
         child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
-            child:Image.asset(AppConstant.defaultProjectImage)
+            child:Image.asset(AppConstant.defaultProjectImage,height: height,width: width,)
         ),
       ),
       errorWidget: (context, url, error) => const Icon(Icons.error,color: AppColors.mainThemeBlue,),

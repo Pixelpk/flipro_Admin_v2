@@ -99,7 +99,7 @@ class PaymentService {
         'Accept': 'application/json',
         'Authorization': 'Bearer $accessToken'
       };
-      String url = '${ENV.baseURL}/api/payment-requests?id=$paymentReqId';
+      String url = '${ENV.baseURL}/api/payment-requests?id=$paymentReqId&reason=$rejectionReason';
       if (isRejected) {
         url = "$url&status=rejected";
       }
@@ -109,7 +109,6 @@ class PaymentService {
       print("REQ URL $url");
       var request = http.Request('PATCH', Uri.parse(url));
       request.headers.addAll(headers);
-
       http.StreamedResponse response =
           await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();

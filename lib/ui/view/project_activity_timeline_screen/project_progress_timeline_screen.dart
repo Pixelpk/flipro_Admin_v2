@@ -18,23 +18,25 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class ProjectProgressTimeLineScreen extends StatefulWidget {
-  const ProjectProgressTimeLineScreen({Key? key}) : super(key: key);
-  static const routeName = '/projectProgressTimeLineScreen';
+import '../../../core/model/project_activity/project_activity_response.dart';
+
+class ProjectActivityTimeLineScreen extends StatefulWidget {
+  const ProjectActivityTimeLineScreen({Key? key}) : super(key: key);
+  static const routeName = '/ProjectActivityTimeLineScreen';
 
   @override
-  State<ProjectProgressTimeLineScreen> createState() =>
-      _ProjectProgressTimeLineScreenState();
+  State<ProjectActivityTimeLineScreen> createState() =>
+      _ProjectActivityTimeLineScreenState();
 }
 
-class _ProjectProgressTimeLineScreenState
-    extends State<ProjectProgressTimeLineScreen> {
+class _ProjectActivityTimeLineScreenState
+    extends State<ProjectActivityTimeLineScreen> {
   final _pageSize = 20;
-  final PagingController<int, ProgressModel> _pagingController =
+  final PagingController<int, ProjectActivityModel> _pagingController =
       PagingController(firstPageKey: 1);
   Future<void> _fetchPage(int pageKey) async {
     try {
-      GenericModel genericModel = await ProgressService.getProjectProgress(
+      GenericModel genericModel = await ProgressService.getProjectActivity(
           accessToken:
               Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
@@ -42,11 +44,11 @@ class _ProjectProgressTimeLineScreenState
               .getLoadedProject!
               .id!);
       if (genericModel.statusCode == 200) {
-        ProgressResponse progressResponse = genericModel.returnedModel;
-        if (progressResponse != null &&
-            progressResponse.data != null &&
-            progressResponse.data!.progressess != null) {
-          final newItems = progressResponse.data!.progressess ?? [];
+        ActivityTimeLineResponse activityResponse = genericModel.returnedModel;
+        if (activityResponse != null &&
+            activityResponse.data != null &&
+            activityResponse.data!.activities != null) {
+          final newItems = activityResponse.data!.activities?? [];
           final isLastPage = newItems.length < _pageSize;
           if (isLastPage) {
             _pagingController.appendLastPage(newItems);
@@ -88,7 +90,7 @@ class _ProjectProgressTimeLineScreenState
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
         child: const CustomAppBar(
           automaticallyImplyLeading: true,
-          bannerText: "Progress Timeline",
+          bannerText: "Activity Timeline",
           showBothIcon: false,
         ),
       ),
@@ -96,10 +98,10 @@ class _ProjectProgressTimeLineScreenState
         onRefresh: () => Future.sync(
           () => _pagingController.refresh(),
         ),
-        child: PagedListView<int, ProgressModel>(
+        child: PagedListView<int, ProjectActivityModel>(
           pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<ProgressModel>(
-              itemBuilder: (context, progress, index) => TimelineTile(
+          builderDelegate: PagedChildBuilderDelegate<ProjectActivityModel>(
+              itemBuilder: (context, activity, index) => TimelineTile(
                     alignment: TimelineAlign.manual,
                     lineXY: 0.08,
                     isFirst: index == 0,
@@ -114,43 +116,18 @@ class _ProjectProgressTimeLineScreenState
                         thickness: 3, color: AppColors.mainThemeBlue),
                     endChild: GestureDetector(
                       child: _RowExample(
-                        progressModel: progress,
+                        activityModel: activity,
                       ),
                       onTap: () {
-                       Navigator.of(context).push(MaterialPageRoute(builder: (_)=>SingleProgressScreen(progressModel: progress,)));
+
+
+                       // Navigator.of(context).push(MaterialPageRoute(builder: (_)=>SingleProgressScreen(progressModel: progress,)));
                       },
                     ),
                   )),
         ),
       ),
 
-      // ListView.builder(
-      //   itemCount: examples.length,
-      //   itemBuilder: (BuildContext context, int index) {
-      //     final example = examples[index];
-      //
-      //     return TimelineTile(
-      //       alignment: TimelineAlign.manual,
-      //       lineXY: 0.08,
-      //       isFirst: index == 0,
-      //       isLast: index == examples.length - 1,
-      //       indicatorStyle: IndicatorStyle(
-      //         width: 40,
-      //         height: 40,
-      //         indicator: _IndicatorExample(number: '${index + 1}'),
-      //         drawGap: false,
-      //       ),
-      //       beforeLineStyle:
-      //           const LineStyle(thickness: 3, color: AppColors.mainThemeBlue),
-      //       endChild: GestureDetector(
-      //         child: _RowExample(example: example),
-      //         onTap: () {
-      //           Navigator.of(context).pushNamed(SingleProgressScreen.routeName);
-      //         },
-      //       ),
-      //     );
-      //   },
-      // ),
     );
   }
 }
@@ -164,7 +141,6 @@ class _IndicatorExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: AppColors.mainThemeBlue,
-      radius: 20,
       child: Text(
         number,
         style: Theme.of(context)
@@ -177,35 +153,38 @@ class _IndicatorExample extends StatelessWidget {
 }
 
 class _RowExample extends StatelessWidget {
-  const _RowExample({Key? key, required this.progressModel}) : super(key: key);
+  const _RowExample({Key? key, required this.activityModel}) : super(key: key);
 
-  final ProgressModel progressModel;
+  final ProjectActivityModel activityModel;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
       height: 70,
+
       margin: const EdgeInsets.only(right: 10),
+
       decoration: BoxDecoration(
+
           color: AppColors.mainThemeBlue, borderRadius: BorderRadius.circular(15)),
       child: Row(
         children: <Widget>[
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("${progressModel.formattedDate}",
+                Text("${activityModel.dateTime}",
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1!
                         .copyWith(color: Colors.white)),
-
                 Row(
                   children: [
                     Flexible(
                       child: Text(
-                        "${progressModel.title}",
+                       "${activityModel.description}",
                         style: Theme.of(context)
                             .textTheme
                             .headline5!
@@ -216,23 +195,8 @@ class _RowExample extends StatelessWidget {
                     ),
                   ],
                 ),
-                // SizedBox(height: 2,),
-                Text(
-                  "${progressModel.description}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(color: Colors.white),
-                  maxLines: 1,
-                  overflow: TextOverflow.fade,
-                )
               ],
             ),
-          ),
-          const Icon(
-            Icons.navigate_next,
-            color: AppColors.mainThemeBlue,
-            size: 26,
           ),
         ],
       ),
@@ -269,7 +233,7 @@ class Example1Horizontal extends StatelessWidget {
           Row(
             children: [
               Container(
-                constraints: const BoxConstraints(maxHeight: 100),
+                constraints: const BoxConstraints(maxHeight: 80),
                 color: Colors.white,
                 child: TimelineTile(
                   axis: TimelineAxis.horizontal,

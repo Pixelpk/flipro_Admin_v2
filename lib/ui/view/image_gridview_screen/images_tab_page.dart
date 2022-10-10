@@ -44,12 +44,13 @@ class ImagesTabBody extends StatelessWidget {
                           images: mediaObject.images!,
                           index: index,
                         )));
+                print("Total number of images are" + mediaObject.images!.length.toString());
               },
               child:
               CustomCachedImage(
                 imageUrl:  mediaObject.images![index],
                 fit: BoxFit.cover,
-                width: 100.w,
+                width: 50.w,
 
 
 

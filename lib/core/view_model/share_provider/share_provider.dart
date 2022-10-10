@@ -6,7 +6,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
-class ShareProvider extends ChangeNotifier {
+class ShareProvider with ChangeNotifier {
   late ProjectInfoShareModel _infoShareModel;
 
   List<MediaCompressionModel> _selectedMedia = [];
@@ -34,7 +34,7 @@ class ShareProvider extends ChangeNotifier {
   }
 
   getCachedImages() async {
-    showLoadingDialog(title: "Downlading...");
+    showLoadingDialog(title: "Downloading...");
     DefaultCacheManager defaultCacheManager = DefaultCacheManager();
     print("sdsdf${_selectedMedia.length}");
     List<Future<String?>> futureRestulsList = _selectedMedia.map((e) async {

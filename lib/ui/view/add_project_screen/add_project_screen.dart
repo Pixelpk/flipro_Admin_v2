@@ -171,6 +171,36 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     label: "",
                     maxlines: 1,
                     hintText: 'Current Property Value',
+                    readonly: false,
+                    textEditingController: currentPropertyValue,
+                    keyboardType: TextInputType.name,
+                    validation: (e) {
+                      if (e == null || e.isEmpty) {
+                        return "Please add current property value";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  LabeledTextField(
+                    label: "",
+                    maxlines: 1,
+                    hintText: 'Current Property Debt.',
+                    readonly: false,
+                    textEditingController: currentPropertyDebt,
+                    keyboardType: TextInputType.name,
+                    validation: (e) {
+                      if (e == null || e.isEmpty) {
+                        return "Please add current property value";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  /*LabeledTextField(
+                    label: "",
+                    maxlines: 1,
+                    hintText: 'Current Property Value',
                     textEditingController: currentPropertyValue,
                     keyboardType: TextInputType.number,
                     inputFormatter: FilteringTextInputFormatter.digitsOnly,
@@ -198,7 +228,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                         return null;
                       }
                     },
-                  ),
+                  ),*/
                   Container(
                     margin: const EdgeInsets.all(8),
                     width: 90.w,

@@ -16,6 +16,7 @@ import 'package:fliproadmin/ui/view/middleware_loading/middleware_loading.dart';
 import 'package:fliproadmin/ui/view/notes_screen/note_view_screen.dart';
 import 'package:fliproadmin/ui/view/notes_screen/notes_screen.dart';
 import 'package:fliproadmin/ui/view/profile_screen/update_password.dart';
+import 'package:fliproadmin/ui/view/project_activity_timeline_screen/project_progress_timeline_screen.dart';
 import 'package:fliproadmin/ui/view/project_overview_screen/project_overview_Screen.dart';
 import 'package:fliproadmin/ui/view/project_progress_timeline_screen/project_progress_timeline_screen.dart';
 import 'package:fliproadmin/ui/view/single_progress_screen/single_progress_screen.dart';
@@ -38,9 +39,11 @@ class Routes {
     NotesScreen.routeName: (_) =>  NotesScreen(),
     NoteViewScreen.routeName: (_) => NoteViewScreen(),
     ViewProjectScreen.routeName: (_) => const ViewProjectScreen(),
-    ProjectOverviewScreen.routeName: (_) => const ProjectOverviewScreen(),
+    ProjectOverviewScreen.routeName: (_) =>  ProjectOverviewScreen(),
     ProjectProgressTimeLineScreen.routeName: (_) =>
         const ProjectProgressTimeLineScreen(),
+    ProjectActivityTimeLineScreen.routeName: (_) =>
+        const ProjectActivityTimeLineScreen(),
     SingleProgressScreen.routeName: (_) => const SingleProgressScreen(),
     AddTradeManScreen.routeName: (_) => const AddTradeManScreen(),
     BuilderAccessControlScreen.routeName: (_) =>

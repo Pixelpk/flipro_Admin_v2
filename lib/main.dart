@@ -47,38 +47,30 @@ class FliproAdminApp extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (_) => AuthProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => UserProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => HomeProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => ShareProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => AssetProvider(),
-          ),
+          ChangeNotifierProvider(create: (_)=>AuthProvider(),),
+          ChangeNotifierProvider(create: (_)=>UserProvider(),),
+          ChangeNotifierProvider(create: (_)=>HomeProvider(),),
+          ChangeNotifierProvider(create: (_)=>ShareProvider(),),
+          ChangeNotifierProvider(create: (_)=>AssetProvider(),),
           ChangeNotifierProxyProvider<UserProvider, UsersProvider>(
-            create: (context) => UsersProvider(null),
-            update: (context, userProvider, usersProvider) => UsersProvider(userProvider.getAuthToken),
+              create: (context) => UsersProvider(null),
+              update: (context, userProvider, usersProvider) =>UsersProvider(userProvider.getAuthToken),
           ),
           ChangeNotifierProxyProvider<UserProvider, ProjectsProvider>(
-            create: (context) => ProjectsProvider(null),
-            update: (context, userProvider, projectsProvider) => ProjectsProvider(userProvider.getAuthToken),
+              create: (context) => ProjectsProvider(null),
+              update: (context, userProvider, projectsProvider) => ProjectsProvider(userProvider.getAuthToken),
           ),
           ChangeNotifierProxyProvider<UserProvider, LoadedProjectProvider>(
             create: (context) => LoadedProjectProvider(null),
             update: (context, loadedProvider, projectsProvider) => LoadedProjectProvider(loadedProvider.getAuthToken),
           ),
+
+
         ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,
           title: 'Flipro Admin',
-          onInit: () {
+          onInit: (){
             FirebaseMessagingService.setupBackgroundInteractedMessage();
           },
           theme: ThemeData(

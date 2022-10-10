@@ -71,7 +71,7 @@ class _ClosedProjectScreenState extends State<ClosedProjectScreen> {
           accessToken:
           Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
-          status: "completed"
+          status: "closed"
       );
       if (genericModel.statusCode == 200) {
         ProjectResponse projectResponse = genericModel.returnedModel;

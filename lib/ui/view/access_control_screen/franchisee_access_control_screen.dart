@@ -105,6 +105,16 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                   height: 3.h,
                 ),
                 SwitchTile(
+                  private: accessControlProvider.getSelectedRoles.addValue,
+                  width: 90.w,
+                  heigth: 7.5.h,
+                  callback: accessControlProvider.setAddValueAccess,
+                  tileTitle: "Can Add value",
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                SwitchTile(
                   width: 90.w,
                   heigth: 7.5.h,
                   tileTitle: "Request Draw Down payment",
@@ -123,6 +133,8 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                 SizedBox(
                   height: 4.h,
                 ),
+
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

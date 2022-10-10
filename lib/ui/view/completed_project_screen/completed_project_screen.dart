@@ -43,7 +43,7 @@ class _CompletedProjectScreenState extends State<CompletedProjectScreen> {
           accessToken:
           Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
-          status: "completed"
+          status: "complete"
       );
       if (genericModel.statusCode == 200) {
         ProjectResponse projectResponse = genericModel.returnedModel;

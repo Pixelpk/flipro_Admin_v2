@@ -5,6 +5,7 @@ class ProjectRoles {
   bool? uploadProgress;
   bool? addPhotos;
   bool? requestPayment;
+  bool? notify = true ;
 
   ProjectRoles(
       {this.view =true,

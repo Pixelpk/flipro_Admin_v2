@@ -49,16 +49,16 @@ class PaymentReqListItem extends StatelessWidget {
                 Provider.of<LoadedProjectProvider>(context, listen: false)
                     .fetchLoadedProject(paymentRequest!.projectId!);
                 var refresh;
-                if (rejected) {
+                // if (rejected) {
                   refresh = await Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) =>
                           RejectedPaymentScreen(payment: paymentRequest!)));
-                }
-                if (!rejected) {
-                  refresh = await Navigator.pushNamed(
-                      context, ViewProjectScreen.routeName,
-                      arguments: rejected);
-                }
+                // }
+                // if (!rejected) {
+                //   refresh = await Navigator.pushNamed(
+                //       context, ViewProjectScreen.routeName,
+                //       arguments: rejected);
+                // }
                 if (refresh != null && refresh == true) {
                   pagingController!.refresh();
                 }

@@ -361,6 +361,8 @@ class PickedImagesGrid extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     assetProvider.removedImage(e);
+                  /*  print("the total images are" +  assetProvider.getPickedImages.length.toString());*/
+
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),

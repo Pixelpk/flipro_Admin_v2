@@ -45,9 +45,12 @@ class MediaSection extends StatelessWidget {
                     callback: () {
                       Navigator.of(context)
                           .pushNamed(MediaViewAll.routeName, arguments: media);
+                      print(media.images!.length);
                     },
                     color: AppColors.mainThemeBlue,
-                    text: 'View all')
+                    text: 'View all',
+
+                )
               ],
             ),
           ),

@@ -37,10 +37,12 @@ class ValuerAccessControlScreen extends StatelessWidget {
           AccessControlProvider>(
         create: (context) =>
             AccessControlProvider(projectRoles: ProjectRoles()),
-        update: (context, loadedProvider, projectsProvider) =>
-            AccessControlProvider(
-                projectRoles: loadedProvider
-                    .getValuerRoleById(receivedObject.userRoleModel.id)),
+        update: (context, loadedProvider, projectsProvider) {
+          return AccessControlProvider(
+              projectRoles: loadedProvider
+                  .getValuerRoleById(receivedObject.userRoleModel.id));
+        }
+            ,
         child: Consumer2<LoadedProjectProvider, AccessControlProvider>(
             builder: (ctx, loadedProject, accessControlProvider, c) {
           return Container(

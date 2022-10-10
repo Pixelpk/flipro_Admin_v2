@@ -84,7 +84,8 @@ class Project {
   String? phone;
   String? applicantAddress;
   String? registeredOwners;
-  int? currentPropertyValue;  String? projectLatestMarkedValue ;
+  int? currentPropertyValue;
+  String? projectLatestMarkedValue;
 
   int? propertyDebt;
   int? crossCollaterized;
@@ -94,6 +95,9 @@ class Project {
   String? area;
   String? description;
   bool? progressSatisfied;
+  bool? valuationSatisfied;
+  bool? valuationReviewed;
+  bool? progressReviewed;
   int? userId;
   int? leadUserId;
   bool? assigned;
@@ -111,6 +115,7 @@ class Project {
   DrawDownPayment? latestPaymentReq;
   MediaObject? projectMedia;
   String? final_progress_reviews;
+  String? valuationReviews;
   Project(
       {this.id,
       this.title,
@@ -121,15 +126,19 @@ class Project {
       this.latestNote,
       this.latestProgress,
       this.final_progress_reviews,
+      this.valuationReviews,
+      this.valuationSatisfied,
       this.contractorSupplierDetails,
       this.applicantName,
       this.area,
       this.description,
       this.progressSatisfied,
+      this.progressReviewed,
+      this.valuationReviewed,
       this.email,
-      this.phone,        this.projectLatestMarkedValue,
-
-        this.applicantAddress,
+      this.phone,
+      this.projectLatestMarkedValue,
+      this.applicantAddress,
       this.registeredOwners,
       this.currentPropertyValue,
       this.valuers,
@@ -211,6 +220,11 @@ class Project {
         : null;
     coverPhoto = json['cover_photo'];
 
+    valuationSatisfied = json['evaluation_satisfied'];
+    valuationReviews = json['evaluation_reviews'];
+    valuationReviewed = json['evaluation_reviewed'];
+    progressReviewed = json['progress_reviewed'];
+
     ///TODO:
     if (json['builders'] != null) {
       builder = <UserRoleModel>[];
@@ -231,10 +245,9 @@ class Project {
   }
 
   Map<String, String> toJson() {
-
     final Map<String, String> data = <String, String>{};
 
-    if(  id!=null) {
+    if (id != null) {
       data['id'] = id.toString();
     }
     data['title'] = title!;
@@ -253,7 +266,7 @@ class Project {
     if (status != null) {
       data['status'] = status!;
     }
-    data['latest_value'] = projectLatestMarkedValue ?? '0' ;
+    data['latest_value'] = projectLatestMarkedValue ?? '0';
     if (createdAt != null) {
       data['created_at'] = createdAt!;
     }
@@ -404,7 +417,7 @@ class ProgressModel {
   List<MediaCompressionModel>? videos;
   int? userId;
   UserRoleModel? user;
-  String? formattedDate ;
+  String? formattedDate;
 
   ProgressModel(
       {this.id,
@@ -425,10 +438,9 @@ class ProgressModel {
     description = json['description'];
     finalProgress = json['final_progress'];
     createdAt = json['created_at'];
-    if(createdAt!=null)
-      {
-        formattedDate = LogicHelper.getFormattedDate(createdAt!);
-      }
+    if (createdAt != null) {
+      formattedDate = LogicHelper.getFormattedDate(createdAt!);
+    }
     updatedAt = json['updated_at'];
     projectId = json['project_id'];
     photos = json['photos'].cast<String>();

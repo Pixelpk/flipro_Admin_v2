@@ -55,8 +55,8 @@ class ActivityListItem extends StatelessWidget {
                   child: CustomCachedImage(
                     imageUrl: project!.getProject.coverPhoto ?? '',
                     width: 100.w,
+                    height: 15.h,
                     fit: BoxFit.cover,
-                    height: double.infinity,
                   ),
                   borderRadius: BorderRadius.circular(15),
                 )),

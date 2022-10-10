@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class HomeProvider extends ChangeNotifier {
+class HomeProvider with ChangeNotifier {
   int _selectedHomeIndex = 0;
   int _activityPageViewCurrentPage = 0;
   int _projectViewCurrentPage = 0;
@@ -17,8 +17,9 @@ class HomeProvider extends ChangeNotifier {
         Provider.of<UserProvider>(Get.context!, listen: false).logout();
       }, Get.context!, title: "Logout");
     } else {
-      if (index == 1) {
-        _activityPageViewCurrentPage = 0;
+      if(index == 1)
+      {
+        _activityPageViewCurrentPage = 0 ;
       }
       _selectedHomeIndex = index;
       notifyListeners();
