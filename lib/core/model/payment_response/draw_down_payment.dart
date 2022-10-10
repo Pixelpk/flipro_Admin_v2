@@ -37,7 +37,10 @@ class DrawDownPayment {
     project =
         json['project'] != null ? Project.fromJson(json['project']) : null;
     description = json['description'];
-    images = json['images'].cast<String>();
+    if(json['images'] != null){
+      images = json['images'].cast<String>();
+    }
+
     if (json['videos'] != null) {
       videos = <MediaCompressionModel>[];
       json['videos'].forEach((v) {

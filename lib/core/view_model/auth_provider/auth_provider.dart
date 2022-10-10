@@ -16,7 +16,7 @@ import 'package:get/get.dart';
 
 enum loadingState { loaded, loading }
 
-class AuthProvider with ChangeNotifier {
+class AuthProvider extends ChangeNotifier {
   DbService? dbService;
   AuthProvider() {
     dbService = DbService();

@@ -2,6 +2,7 @@ import 'package:fliproadmin/core/model/access_control_object.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
+import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/franchisee_access_control_screen.dart';
 import 'package:fliproadmin/ui/view/project_overview_screen/project_overview_Screen.dart';
 import 'package:fliproadmin/ui/view/single_progress_screen/single_progress_screen.dart';
@@ -13,6 +14,7 @@ import 'package:fliproadmin/ui/widget/media_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+
 class FranchiseeTabScreen extends StatelessWidget {
   const FranchiseeTabScreen({Key? key}) : super(key: key);
 
@@ -20,9 +22,7 @@ class FranchiseeTabScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () => Future.sync(() =>
-            Provider.of<LoadedProjectProvider>(context, listen: false)
-                .refresh()),
+        onRefresh: () => Future.sync(() => Provider.of<LoadedProjectProvider>(context, listen: false).refresh()),
         child: Container(
           width: 100.w,
           padding: EdgeInsets.symmetric(horizontal: 3.w),
@@ -37,31 +37,44 @@ class FranchiseeTabScreen extends StatelessWidget {
                     height: 1.h,
                   );
                 }
-                if (loadedProject.getLoadedProject != null &&
-                    loadedProject.getLoadedProject!.franchisee != null ) {
+                if (loadedProject.getLoadedProject!.franchisee!.id == context.read<UserProvider>().getCurrentUser.id) {
                   return Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                     child: LabeledTextField(
-                      label: "Franchisee",
+                      label: "Current UserName",
                       maxlines: null,
-                      readonly: false,
-                      hintText: loadedProject.getLoadedProject!.franchisee!.name!,
+                      readonly: true,
+                      hintText: context.read<UserProvider>().getCurrentUser.name,
                       labelWidget: ColoredLabel(
                         color: AppColors.lightRed,
                         text: 'Edit Access',
                         callback: () {
-                          Navigator.pushNamed(
-                              context, FranchiseeAccessControlScreen.routeName,
+                          Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
                               arguments: AccessControlObject(
-                                  userRoleModel:
-                                  loadedProject.getLoadedProject!.franchisee!,
-                                  routeName: ViewProjectScreen.routeName));
+                                  userRoleModel: loadedProject.getLoadedProject!.franchisee!, routeName: ViewProjectScreen.routeName));
                         },
                       ),
                     ),
                   );
                 } else {
-                  return Container();
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                    child: LabeledTextField(
+                      label: "Franchisee",
+                      maxlines: null,
+                      readonly: true,
+                      hintText: loadedProject.getLoadedProject!.franchisee!.name!,
+                      labelWidget: ColoredLabel(
+                        color: AppColors.lightRed,
+                        text: 'Edit Access',
+                        callback: () {
+                          Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
+                              arguments: AccessControlObject(
+                                  userRoleModel: loadedProject.getLoadedProject!.franchisee!, routeName: ViewProjectScreen.routeName));
+                        },
+                      ),
+                    ),
+                  );
                 }
               }),
               const DrawDownPaymentScetion(),
@@ -70,8 +83,7 @@ class FranchiseeTabScreen extends StatelessWidget {
               ),
               SizedBox(
                   height: 55.h,
-                  child: Consumer<LoadedProjectProvider>(
-                      builder: (ctx, loadedProject, c) {
+                  child: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
                     if (loadedProject.getLoadingState == loadingState.loading) {
                       return SizedBox(
                         height: 1.h,
@@ -79,13 +91,10 @@ class FranchiseeTabScreen extends StatelessWidget {
                     }
                     if (loadedProject.getLoadedProject != null &&
                         loadedProject.getLoadedProject!.latestProgress != null &&
-                        loadedProject.getLoadedProject!.latestProgress!.user!
-                                .userType ==
-                            'franchise') {
+                        loadedProject.getLoadedProject!.latestProgress!.user!.userType == 'franchise') {
                       return SingleProgressScreen(
                         showAppBar: false,
-                        progressModel:
-                            loadedProject.getLoadedProject!.latestProgress!,
+                        progressModel: loadedProject.getLoadedProject!.latestProgress!,
                       );
                     } else {
                       return Container();
@@ -99,8 +108,7 @@ class FranchiseeTabScreen extends StatelessWidget {
                 }
                 if (loadedProject.getLoadedProject != null &&
                     loadedProject.getLoadedProject!.latestNote != null &&
-                    loadedProject.getLoadedProject!.latestNote!.user!.userType ==
-                        'franchise') {
+                    loadedProject.getLoadedProject!.latestNote!.user!.userType == 'franchise') {
                   return LabeledTextField(
                     label: "Note",
                     maxlines: 10,
@@ -113,7 +121,7 @@ class FranchiseeTabScreen extends StatelessWidget {
               }),
               SizedBox(
                 height: 5.h,
-              )
+              ),
             ],
           ),
         ),

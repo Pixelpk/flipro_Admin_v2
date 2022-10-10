@@ -42,7 +42,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 
-class UserProvider with ChangeNotifier {
+class UserProvider extends ChangeNotifier {
   User? _user;
   String? _authToken;
   String? _userId;
@@ -89,8 +89,7 @@ class UserProvider with ChangeNotifier {
       _user = null;
       _authToken = null;
       _userId = null;
-      Navigator.of(Get.context!)
-          .pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
+      Navigator.of(Get.context!).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
     });
   }
 
@@ -98,15 +97,12 @@ class UserProvider with ChangeNotifier {
     try {
       if (_authToken != null) {
         setStateLoading();
-        GenericModel genericModel = await UsersService.updateProfile(
-            token: _authToken!, user: user, pickedAvatar: pickedImage);
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+        GenericModel genericModel = await UsersService.updateProfile(token: _authToken!, user: user, pickedAvatar: pickedImage);
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
         if (genericModel.statusCode == 200) {
           final user = genericModel.returnedModel as User;
           if (user != null) {
-            _dbService!.writeAsJson(
-                key: AppConstant.getCurrentUser, data: user.toJson());
+            _dbService!.writeAsJson(key: AppConstant.getCurrentUser, data: user.toJson());
             _user = user;
           }
         }
@@ -118,8 +114,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  updatePassword(
-      {required String newPassword, required String currentPassword}) async {
+  updatePassword({required String newPassword, required String currentPassword}) async {
     try {
       if (_authToken != null) {
         setStateLoading();
@@ -128,12 +123,10 @@ class UserProvider with ChangeNotifier {
           currentPass: currentPassword,
           newPass: newPassword,
         );
-        if(genericModel.success)
-          {
-            Navigator.pop(Get.context!);
-          }
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+        if (genericModel.success) {
+          Navigator.pop(Get.context!);
+        }
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
       } else {
         LogicHelper.unauthorizedHandler(showMessage: true);
       }

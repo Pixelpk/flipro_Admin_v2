@@ -33,11 +33,10 @@ void main() async {
   print("TOKEN${await FirebaseMessaging.instance.getToken()}");
   await initServices();
   runApp(DevicePreview(
-      enabled :false,
-    builder: (context) {
-      return const FliproAdminApp();
-    }
-  ));
+      enabled: false,
+      builder: (context) {
+        return const FliproAdminApp();
+      }));
 }
 
 class FliproAdminApp extends StatelessWidget {
@@ -48,30 +47,38 @@ class FliproAdminApp extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_)=>AuthProvider(),),
-          ChangeNotifierProvider(create: (_)=>UserProvider(),),
-          ChangeNotifierProvider(create: (_)=>HomeProvider(),),
-          ChangeNotifierProvider(create: (_)=>ShareProvider(),),
-          ChangeNotifierProvider(create: (_)=>AssetProvider(),),
+          ChangeNotifierProvider(
+            create: (_) => AuthProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => HomeProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => ShareProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => AssetProvider(),
+          ),
           ChangeNotifierProxyProvider<UserProvider, UsersProvider>(
-              create: (context) => UsersProvider(null),
-              update: (context, userProvider, usersProvider) =>UsersProvider(userProvider.getAuthToken),
+            create: (context) => UsersProvider(null),
+            update: (context, userProvider, usersProvider) => UsersProvider(userProvider.getAuthToken),
           ),
           ChangeNotifierProxyProvider<UserProvider, ProjectsProvider>(
-              create: (context) => ProjectsProvider(null),
-              update: (context, userProvider, projectsProvider) => ProjectsProvider(userProvider.getAuthToken),
+            create: (context) => ProjectsProvider(null),
+            update: (context, userProvider, projectsProvider) => ProjectsProvider(userProvider.getAuthToken),
           ),
           ChangeNotifierProxyProvider<UserProvider, LoadedProjectProvider>(
             create: (context) => LoadedProjectProvider(null),
             update: (context, loadedProvider, projectsProvider) => LoadedProjectProvider(loadedProvider.getAuthToken),
           ),
-
-
         ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,
           title: 'Flipro Admin',
-          onInit: (){
+          onInit: () {
             FirebaseMessagingService.setupBackgroundInteractedMessage();
           },
           theme: ThemeData(
@@ -86,36 +93,36 @@ class FliproAdminApp extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     fontSize: 16),
                 headline5: TextStyle(
-                     fontFamily: "SF-Pro-Display-Semibold",
+                    fontFamily: "SF-Pro-Display-Semibold",
                     fontSize: 18,
-                    color:  Colors.white,
+                    color: Colors.white,
                     overflow: TextOverflow.ellipsis,
                     fontWeight: FontWeight.w600),
                 bodyText1: TextStyle(
-                  color: AppColors.mainThemeBlue,
-                  fontSize: 14,
-                  fontFamily: "SF-Pro-Display-Bold",
+                    color: AppColors.mainThemeBlue,
+                    fontSize: 14,
+                    fontFamily: "SF-Pro-Display-Bold",
                     overflow: TextOverflow.ellipsis,
-                  fontWeight: FontWeight.w800
-
-                ),
+                    fontWeight: FontWeight.w800),
                 caption: TextStyle(
-                    fontSize: 12, fontFamily: "SF-Pro-Display-Regular",color: Colors.white,
+                  fontSize: 12,
+                  fontFamily: "SF-Pro-Display-Regular",
+                  color: Colors.white,
                   overflow: TextOverflow.ellipsis,
                 ),
-                button: TextStyle(
-                    fontFamily: "SF-Pro-Display-Semibold",
-                    fontSize: 18,
-                    color: Colors.white
-                    ,
-                  overflow: TextOverflow.ellipsis
-                ),
-
+                button: TextStyle(fontFamily: "SF-Pro-Display-Semibold", fontSize: 18, color: Colors.white, overflow: TextOverflow.ellipsis),
                 subtitle1: TextStyle(
-                    fontSize: 12, fontFamily: "SF-Pro-Display-Regular",color: Colors.black, overflow: TextOverflow.ellipsis,),
+                  fontSize: 12,
+                  fontFamily: "SF-Pro-Display-Regular",
+                  color: Colors.black,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 subtitle2: TextStyle(
-                fontSize: 10, fontFamily: "SF-Pro-Display-Regular",color: AppColors.mainThemeBlue, overflow: TextOverflow.ellipsis, )
-            ),
+                  fontSize: 10,
+                  fontFamily: "SF-Pro-Display-Regular",
+                  color: AppColors.mainThemeBlue,
+                  overflow: TextOverflow.ellipsis,
+                )),
           ),
           routes: Routes.appRoutes,
           home: const SplashScreen(),

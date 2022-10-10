@@ -15,7 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 
-class LoadedProjectProvider with ChangeNotifier {
+class LoadedProjectProvider extends ChangeNotifier {
   Project? _loadedProject;
   Project? get getLoadedProject => _loadedProject;
   loadingState _isLoading = loadingState.loaded;

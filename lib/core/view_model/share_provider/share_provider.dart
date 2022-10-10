@@ -6,7 +6,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
-class ShareProvider with ChangeNotifier {
+class ShareProvider extends ChangeNotifier {
   late ProjectInfoShareModel _infoShareModel;
 
   List<MediaCompressionModel> _selectedMedia = [];

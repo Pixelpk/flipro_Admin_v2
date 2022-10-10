@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_compress/video_compress.dart';
 
-class AssetProvider with ChangeNotifier {
+class AssetProvider extends ChangeNotifier {
   File? _singlePickedImage;
   final List<File> _compressedImage = [];
   final List<MediaCompressionModel> _compressedVidoesWithThumbnail = [];

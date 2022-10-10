@@ -20,12 +20,12 @@ class TradeManSection extends StatelessWidget {
       this.builder,
       this.homeOwner,
       this.projectId,
-        this.showHomeOwnerRevokeAccess = false ,
+      this.showHomeOwnerRevokeAccess = false,
       this.valuer,
-       required this.currentrouteName,
+      required this.currentrouteName,
       this.showValuerRevokeAccess = false})
       : super(key: key);
-  final String currentrouteName ;
+  final String currentrouteName;
   final bool showBuilderRevokeAccess;
   final bool showHomeOwnerRevokeAccess;
   final bool showValuerRevokeAccess;
@@ -44,29 +44,25 @@ class TradeManSection extends StatelessWidget {
             label: "Home Owner",
             maxlines: 1,
             readonly: true,
-            labelWidget: showHomeOwnerRevokeAccess
-                 && homeOwner !=null ? ColoredLabel(
-              color: AppColors.lightRed,
-              text: 'Revoke Access',
-              callback: () {
-                Navigator.pushNamed(
-                    context, HomeOwnerAccessControlScreen.routeName,
-                    arguments: AccessControlObject(userRoleModel: homeOwner!, routeName: currentrouteName));
-              },
-            )
+            labelWidget: showHomeOwnerRevokeAccess && homeOwner != null
+                ? ColoredLabel(
+                    color: AppColors.lightRed,
+                    text: 'Edit Access',
+                    callback: () {
+                      Navigator.pushNamed(context, HomeOwnerAccessControlScreen.routeName,
+                          arguments: AccessControlObject(userRoleModel: homeOwner!, routeName: currentrouteName));
+                    },
+                  )
                 : null,
-            hintText: homeOwner != null && homeOwner!.name != null
-                ? homeOwner!.name
-                : "Home Owner Name",
+            hintText: homeOwner != null && homeOwner!.name != null ? homeOwner!.name : "Home Owner Name",
             suffixIcon: homeOwner != null && homeOwner!.name != null
                 ? null
                 : IconButton(
                     onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(AddTradeManScreen.routeName, arguments: {
+                      Navigator.of(context).pushNamed(AddTradeManScreen.routeName, arguments: {
                         "appUser": appUsers.homeowner,
                         "projectId": projectId,
-                        "currentRoute":currentrouteName,
+                        "currentRoute": currentrouteName,
                       });
                     },
                     icon: const Icon(
@@ -86,7 +82,7 @@ class TradeManSection extends StatelessWidget {
           //       ? showBuilderRevokeAccess
           //           ? ColoredLabel(
           //               color: AppColors.lightRed,
-          //               text: 'Revoke Access',
+          //               text: 'Edit Access',
           //               callback: () {
           //                 Navigator.pushNamed(
           //                     context, BuilderAccessControlScreen.routeName,
@@ -121,35 +117,34 @@ class TradeManSection extends StatelessWidget {
             label: "Add Builder",
             maxlines: 1,
             readonly: true,
-            hintText: builder != null && builder!.isNotEmpty
-                ? "${builder!.length} Builders Assigned"
-                : "Builder Name",
-            labelWidget: builder != null ? showValuerRevokeAccess ? builder!.isNotEmpty && builder!.length > 1 ?ColoredLabel(
-              color: AppColors.lightRed,
-              text: 'view all',
-              callback: () {
-                ///ALL ASSIGNED Builder
-                Navigator.pushNamed(context, AssignedTrademan.routeName,
-                    arguments: appUsers.builder);
-              },
-            ): builder!.isNotEmpty && builder!.length  == 1 ? ColoredLabel(
-              color: AppColors.lightRed,
-              text: 'Revoke Access',
-              callback: () {
-                Navigator.pushNamed(
-                    context, BuilderAccessControlScreen.routeName,
-                    arguments: AccessControlObject(userRoleModel: builder![0], routeName: currentrouteName));
-              },
-            ):  null:null:null ,
-
+            hintText: builder != null && builder!.isNotEmpty ? "${builder!.length} Builders Assigned" : "Builder Name",
+            labelWidget: builder != null
+                ? showValuerRevokeAccess
+                    ? builder!.isNotEmpty && builder!.length > 1
+                        ? ColoredLabel(
+                            color: AppColors.lightRed,
+                            text: 'view all',
+                            callback: () {
+                              ///ALL ASSIGNED Builder
+                              Navigator.pushNamed(context, AssignedTrademan.routeName, arguments: appUsers.builder);
+                            },
+                          )
+                        : builder!.isNotEmpty && builder!.length == 1
+                            ? ColoredLabel(
+                                color: AppColors.lightRed,
+                                text: 'Edit Access',
+                                callback: () {
+                                  Navigator.pushNamed(context, BuilderAccessControlScreen.routeName,
+                                      arguments: AccessControlObject(userRoleModel: builder![0], routeName: currentrouteName));
+                                },
+                              )
+                            : null
+                    : null
+                : null,
             suffixIcon: IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(AddTradeManScreen.routeName,
-                    arguments: {
-                      "appUser": appUsers.builder,
-                      "projectId": projectId,
-                      "currentRoute":currentrouteName
-                    });
+                    arguments: {"appUser": appUsers.builder, "projectId": projectId, "currentRoute": currentrouteName});
               },
               icon: const Icon(
                 Icons.add_circle_outline,
@@ -161,35 +156,34 @@ class TradeManSection extends StatelessWidget {
             label: "Add Valuer",
             maxlines: 1,
             readonly: true,
-            hintText: valuer != null && valuer!.isNotEmpty
-                ? "${valuer!.length} Valuers Assigned"
-                : "Valuer Name",
-            labelWidget: valuer != null ? showValuerRevokeAccess ? valuer!.isNotEmpty && valuer!.length > 1 ?ColoredLabel(
-              color: AppColors.lightRed,
-              text: 'view all',
-              callback: () {
-                ///ALL ASSIGNED VALUERS
-                Navigator.pushNamed(context, AssignedTrademan.routeName,
-                    arguments: appUsers.evaluator);
-              },
-            ): valuer!.isNotEmpty && valuer!.length  == 1 ? ColoredLabel(
-              color: AppColors.lightRed,
-              text: 'Revoke Access',
-              callback: () {
-                Navigator.pushNamed(
-                    context, ValuerAccessControlScreen.routeName,
-                    arguments: AccessControlObject(userRoleModel: valuer![0], routeName: currentrouteName));
-              },
-            ):  null:null:null ,
-
+            hintText: valuer != null && valuer!.isNotEmpty ? "${valuer!.length} Valuers Assigned" : "Valuer Name",
+            labelWidget: valuer != null
+                ? showValuerRevokeAccess
+                    ? valuer!.isNotEmpty && valuer!.length > 1
+                        ? ColoredLabel(
+                            color: AppColors.lightRed,
+                            text: 'view all',
+                            callback: () {
+                              ///ALL ASSIGNED VALUERS
+                              Navigator.pushNamed(context, AssignedTrademan.routeName, arguments: appUsers.evaluator);
+                            },
+                          )
+                        : valuer!.isNotEmpty && valuer!.length == 1
+                            ? ColoredLabel(
+                                color: AppColors.lightRed,
+                                text: 'Edit Access',
+                                callback: () {
+                                  Navigator.pushNamed(context, ValuerAccessControlScreen.routeName,
+                                      arguments: AccessControlObject(userRoleModel: valuer![0], routeName: currentrouteName));
+                                },
+                              )
+                            : null
+                    : null
+                : null,
             suffixIcon: IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(AddTradeManScreen.routeName,
-                    arguments: {
-                      "appUser": appUsers.evaluator,
-                      "projectId": projectId,
-                      "currentRoute":currentrouteName
-                    });
+                    arguments: {"appUser": appUsers.evaluator, "projectId": projectId, "currentRoute": currentrouteName});
               },
               icon: const Icon(
                 Icons.add_circle_outline,

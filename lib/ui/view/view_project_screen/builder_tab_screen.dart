@@ -45,7 +45,9 @@ class BuilderTabScreen extends StatelessWidget {
                             loadedProject.getLoadedProject!.latestProgress!,
                           );
                         } else {
-                          return Container();
+                          return const Center(
+                            child: Text("No Progress Submitted"),
+                          );
                         }
                       })),
               Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
