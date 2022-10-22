@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../search_projects/search_projects.dart';
 import 'activity_list_item.dart';
 import 'activity_tabbar.dart';
 
@@ -42,22 +43,49 @@ class _ActivityScreenState extends State<ActivityScreen> {
     print("REBUILT");
 
     final homeProvider = Provider.of<HomeProvider>(context);
-    return Column(
+    return Stack(
+      alignment: Alignment.topCenter,
       children: [
-        ActivityTabBar(pageController: pageController),
-        Expanded(
-          child: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-            onPageChanged: homeProvider.onActivityProjectsPageChange,
-            controller: pageController,
-            children: const <Widget>[
-              NewProjectScreen(),
-              InProgressProjectScreen(),
-              CompletedProjectScreen(),
-              ClosedProjectScreen()
-            ],
+        Positioned(
+          top: 65,
+          left: 0,
+          right: 0,
+          child: SizedBox(
+            height: 100.h - 80,
+            child: Column(
+              children: [
+                ActivityTabBar(pageController: pageController),
+                Expanded(
+                  child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    onPageChanged: homeProvider.onActivityProjectsPageChange,
+                    controller: pageController,
+                    children: const <Widget>[
+                      NewProjectScreen(),
+                      InProgressProjectScreen(),
+                      CompletedProjectScreen(),
+                      ClosedProjectScreen()
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+         const Positioned(
+          right: 0,
+          left: 0,
+          top: 5,
+          child: SearchProjectsScreen(
+            // topMargin: 1.h,
+            // width: 85.w,
+            // height: 7.5.h,
+            // elevation: 0,
+            // border: true,
+            // key: _searchFieldKey,
+          ),
+        ),
+
       ],
     );
   }

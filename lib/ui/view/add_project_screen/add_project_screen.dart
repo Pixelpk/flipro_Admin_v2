@@ -9,6 +9,7 @@ import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:sizer/sizer.dart';
 
 import 'add_project_media_screen.dart';
@@ -168,6 +169,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     ),
                   ),
                   LabeledTextField(
+
                     label: "",
                     maxlines: 1,
                     hintText: 'Current Property Value',
@@ -183,6 +185,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     },
                   ),
                   LabeledTextField(
+
                     label: "",
                     maxlines: 1,
                     hintText: 'Current Property Debt.',
@@ -340,7 +343,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
     } else {
       project = Project();
       applicantNameController = TextEditingController();
-      applicantPhoneController = TextEditingController();
+      applicantPhoneController = TextEditingController(text: "+61");
       applicantAddressController = TextEditingController();
       registeredOwnerController = TextEditingController();
       applicantEmailController = TextEditingController();

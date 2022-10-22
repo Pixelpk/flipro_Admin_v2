@@ -16,6 +16,7 @@ import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:fliproadmin/ui/widget/media_picker_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -29,7 +30,7 @@ class AddProjectMediaScreen extends StatefulWidget {
 
 class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   late Project project;
-  bool isNewProject = true ;
+  bool isNewProject = true;
   TextEditingController? areaController;
   TextEditingController? titleController;
   TextEditingController? anticipatedBudgetController;
@@ -37,6 +38,9 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   TextEditingController? substateController;
   TextEditingController? supplierDetailsController;
   TextEditingController? description;
+  bool existingQuriesYes = true;
+  bool existingQueriesNo = false;
+  String existingQueries = "";
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -67,8 +71,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+                    margin: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
                     child: Row(
                       children: [
                         Text(
@@ -79,24 +82,25 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     ),
                   ),
                   LabeledTextField(
-                    label: "Project Title",
+                    label: "",
                     maxlines: null,
-                    hintText: "Villa Renovation",
+                    hintText: "Project Address ",
                     readonly: false,
                     keyboardType: TextInputType.text,
                     textEditingController: titleController,
                     validation: (e) {
                       if (e == null || e.isEmpty) {
-                        return "Please add project title";
+                        return "Please add project Address";
                       } else {
                         return null;
                       }
                     },
                   ),
                   LabeledTextField(
-                    label: "Square (sq ft)",
+
+                    label: "",
                     maxlines: null,
-                    hintText: "Area",
+                    hintText: "Area (Square Meter)",
                     readonly: false,
                     textEditingController: areaController,
                     keyboardType: TextInputType.number,
@@ -109,6 +113,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     },
                   ),
                   LabeledTextField(
+
                     label: "",
                     maxlines: 1,
                     hintText: 'Anticipated Budget',
@@ -126,13 +131,13 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                   LabeledTextField(
                     label: "",
                     maxlines: 1,
-                    hintText: 'Project Address',
+                    hintText: 'Project title',
                     readonly: false,
                     textEditingController: projectAddressController,
                     keyboardType: TextInputType.streetAddress,
                     validation: (e) {
                       if (e == null || e.isEmpty) {
-                        return "Please add project Address";
+                        return "Please add project title";
                       } else {
                         return null;
                       }
@@ -152,19 +157,64 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                       }
                     },
                   ),
-                  LabeledTextField(
-                    label: "",
-                    maxlines: 1,
-                    hintText: 'Contactor, Supplier Details',
-                    textEditingController: supplierDetailsController,
-                    readonly: false,
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please add Contractor/Supplier details";
-                      } else {
-                        return null;
-                      }
-                    },
+                  Container(
+                    margin: const EdgeInsets.all(8),
+                    width: 90.w,
+                    height: 8.h,
+                    padding: EdgeInsets.symmetric(horizontal: 3.w),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Existing Queries",
+                          style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            Checkbox(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
+                                value: existingQuriesYes,
+                                onChanged: (c) {
+                                  setState(() {
+                                    existingQuriesYes = c!;
+                                    existingQueriesNo = false;
+                                    if (c == true) {
+                                      existingQueries = "Yes";
+                                    }
+                                  });
+                                }),
+                            Text(
+                              "YES",
+                              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Checkbox(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
+                                value: existingQueriesNo,
+                                onChanged: (c) {
+                                  setState(() {
+                                    existingQuriesYes = false;
+                                    existingQueriesNo = c!;
+                                    if (c == true) {
+                                      existingQueries = "No";
+                                    }
+                                  });
+                                }),
+                            Text(
+                              "NO",
+                              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   LabeledTextField(
                     label: "",
@@ -193,17 +243,14 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                   Consumer<ProjectsProvider>(builder: (ctx, pProvider, c) {
                     return MainButton(
                       height: 7.h,
-                      isloading:
-                          pProvider.getLoadingState == loadingState.loading,
-                      callback: (){
-                        if(isNewProject)
-                          {
-                            createProject();
-                          }
-                        if(!isNewProject)
-                          {
-                            updateProjectProject();
-                          }
+                      isloading: pProvider.getLoadingState == loadingState.loading,
+                      callback: () {
+                        if (isNewProject) {
+                          createProject();
+                        }
+                        if (!isNewProject) {
+                          updateProjectProject();
+                        }
                       },
                       buttonText: "Submit Project",
                       width: 60.w,
@@ -222,8 +269,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   }
 
   initControllers() {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map;
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
     final _passedProject = args['project'];
     project = _passedProject;
 
@@ -233,25 +279,30 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
         _passedProject.contractorSupplierDetails != null &&
         _passedProject.projectState != null &&
         _passedProject.description != null) {
+      if (project.contractorSupplierDetails == "yes") {
+        existingQuriesYes = true;
+        existingQueriesNo = false;
+      }
+      if (project.contractorSupplierDetails == "no") {
+        existingQuriesYes = false;
+        existingQueriesNo = true;
+      }
       areaController = TextEditingController(text: project.applicantName);
       anticipatedBudgetController = TextEditingController(text: project.email);
       titleController = TextEditingController(text: _passedProject.title);
       projectAddressController = TextEditingController(text: project.phone!);
-      substateController =
-          TextEditingController(text: project.applicantAddress!);
-      supplierDetailsController =
-          TextEditingController(text: project.registeredOwners!);
-      description =
-          TextEditingController(text: project.propertyDebt.toString());
+      substateController = TextEditingController(text: project.applicantAddress!);
+      supplierDetailsController = TextEditingController(text: project.registeredOwners!);
+      description = TextEditingController(text: project.propertyDebt.toString());
     } else {
-      print("initi ESLSE CONTR");
+      print("init ELSE CONTRA");
       titleController = TextEditingController();
       areaController = TextEditingController();
 
       anticipatedBudgetController = TextEditingController();
       projectAddressController = TextEditingController();
       substateController = TextEditingController();
-      supplierDetailsController = TextEditingController();
+      existingQuriesYes ? 1 : 0;
       description = TextEditingController();
       // Provider.of<AssetProvider>(context,listen: ).clearAllMedia();
     }
@@ -260,66 +311,47 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   }
 
   createProject() async {
-    if (Provider.of<AssetProvider>(context, listen: false)
-        .getPickedImages
-        .isEmpty) {
-      GetXDialog.showDialog(
-          title: "Project Images", message: "Please add project images");
+    if (Provider.of<AssetProvider>(context, listen: false).getPickedImages.isEmpty) {
+      GetXDialog.showDialog(title: "Project Images", message: "Please add project images");
     }
-    if (_formKey.currentState!.validate() &&
-        Provider.of<AssetProvider>(context, listen: false)
-            .getPickedImages
-            .isNotEmpty) {
+    if (_formKey.currentState!.validate() && Provider.of<AssetProvider>(context, listen: false).getPickedImages.isNotEmpty) {
       project.title = titleController!.text.trim();
       project.area = areaController!.text.trim();
-      project.anticipatedBudget =
-          int.tryParse(anticipatedBudgetController!.text.trim());
+      project.anticipatedBudget = int.tryParse(anticipatedBudgetController!.text.trim());
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = substateController!.text.trim();
-      project.contractorSupplierDetails =
-          supplierDetailsController!.text.trim();
+      project.contractorSupplierDetails = existingQueries;
       project.description = description!.text.trim();
 
       print(project.toJson());
 
-      bool isSuccess =
-          await Provider.of<ProjectsProvider>(context, listen: false)
-              .addProject(
-                  project: project,
-                  images: Provider.of<AssetProvider>(context, listen: false)
-                      .getPickedImages,
-                  media: Provider.of<AssetProvider>(context, listen: false)
-                      .getCompressedVidoesWithThumbnail);
+      bool isSuccess = await Provider.of<ProjectsProvider>(context, listen: false).addProject(
+          project: project,
+          images: Provider.of<AssetProvider>(context, listen: false).getPickedImages,
+          media: Provider.of<AssetProvider>(context, listen: false).getCompressedVidoesWithThumbnail);
 
       if (isSuccess) {
         Provider.of<AssetProvider>(context, listen: false).clearAllMedia();
       }
     }
-
   }
 
   updateProjectProject() async {
-    if (_formKey.currentState!.validate() ) {
+    if (_formKey.currentState!.validate()) {
       project.title = titleController!.text.trim();
       project.area = areaController!.text.trim();
-      project.anticipatedBudget =
-          int.tryParse(anticipatedBudgetController!.text.trim());
+      project.anticipatedBudget = int.tryParse(anticipatedBudgetController!.text.trim());
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = substateController!.text.trim();
-      project.contractorSupplierDetails =
-          supplierDetailsController!.text.trim();
+      project.contractorSupplierDetails = existingQueries;
       project.description = description!.text.trim();
 
       print(project.toJson());
 
-      bool isSuccess =
-      await Provider.of<ProjectsProvider>(context, listen: false)
-          .updateProject(
+      bool isSuccess = await Provider.of<ProjectsProvider>(context, listen: false).updateProject(
           project: project,
-          images: Provider.of<AssetProvider>(context, listen: false)
-              .getPickedImages,
-          media: Provider.of<AssetProvider>(context, listen: false)
-              .getCompressedVidoesWithThumbnail);
+          images: Provider.of<AssetProvider>(context, listen: false).getPickedImages,
+          media: Provider.of<AssetProvider>(context, listen: false).getCompressedVidoesWithThumbnail);
 
       if (isSuccess) {
         Provider.of<AssetProvider>(context, listen: false).clearAllMedia();
@@ -344,11 +376,7 @@ class PickedImagesGrid extends StatelessWidget {
             assetProvider.getPickedImages.isNotEmpty
                 ? Padding(
                     padding: EdgeInsets.only(left: 5.w, top: 5.w),
-                    child: Text("Picked Images",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(color: AppColors.mainThemeBlue)),
+                    child: Text("Picked Images", style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppColors.mainThemeBlue)),
                   )
                 : Container()
           ],
@@ -361,8 +389,7 @@ class PickedImagesGrid extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     assetProvider.removedImage(e);
-                  /*  print("the total images are" +  assetProvider.getPickedImages.length.toString());*/
-
+                    /*  print("the total images are" +  assetProvider.getPickedImages.length.toString());*/
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
@@ -415,15 +442,12 @@ class VideoGridView extends StatelessWidget {
           children: [
             assetProvider.getCompressedVidoesWithThumbnail.isNotEmpty
                 ? Padding(
-              padding: EdgeInsets.only(left: 5.w, top: 5.w),
-                  child: Text(
+                    padding: EdgeInsets.only(left: 5.w, top: 5.w),
+                    child: Text(
                       "Picked Videos",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(color: AppColors.mainThemeBlue),
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppColors.mainThemeBlue),
                     ),
-                )
+                  )
                 : Container()
           ],
         ),
@@ -434,9 +458,7 @@ class VideoGridView extends StatelessWidget {
                 padding: const EdgeInsets.all(4.0),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) =>
-                            FileMediaPlayer(video: File(e.compressedVideoPath))));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => FileMediaPlayer(video: File(e.compressedVideoPath))));
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),

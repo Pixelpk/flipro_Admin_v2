@@ -12,6 +12,7 @@ import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:http/http.dart' as http;
 
 import '../../model/project_activity/project_activity_response.dart';
+import '../../model/search_project/search_project_response.dart';
 
 class ProgressService {
 
@@ -149,6 +150,7 @@ class ProgressService {
           title: AppConstant.timeoutErrorDescription);
     }
   }
+
 
   static Future<GenericModel> approveRejectPaymentReq(
       {required String accessToken,

@@ -13,6 +13,8 @@ import 'package:fliproadmin/core/utilities/env.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:http/http.dart' as http;
 
+import '../../model/search_project/search_project_response.dart';
+
 class ProjectService {
   Future<GenericModel> addProjectValue(
       {required String accessToken,
@@ -407,6 +409,68 @@ class ProjectService {
       } else if (response.statusCode == 422) {
         ExceptionModel exceptionModel =
             ExceptionModel.fromJson(jsonDecode(res));
+        return GenericModel(
+            returnedModel: exceptionModel,
+            success: false,
+            statusCode: 422,
+            message: AppConstant.genericErrorDescription);
+      } else if (response.statusCode == 401) {
+        LogicHelper.unauthorizedHandler();
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: "Invalid Credentials");
+      } else {
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            message: AppConstant.genericError,
+            title: AppConstant.genericErrorDescription);
+      }
+    } on SocketException {
+      return GenericModel(
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
+    } on TimeoutException catch (_) {
+      return GenericModel(
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
+    }
+  }
+  Future<GenericModel> searchProject(
+      {required String accessToken,
+        required String query}) async {
+    try {
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $accessToken'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              '${ENV.baseURL}/api/projects/search'));
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response =
+      await request.send().timeout(const Duration(seconds: 30));
+      var res = await response.stream.bytesToString();
+      print(res);
+      if (response.statusCode == 200) {
+        return GenericModel(
+            returnedModel: SearchProjectResponse.fromJson(jsonDecode(res)),
+            success: true,
+            statusCode: 200);
+      } else if (response.statusCode == 422) {
+        ExceptionModel exceptionModel =
+        ExceptionModel.fromJson(jsonDecode(res));
         return GenericModel(
             returnedModel: exceptionModel,
             success: false,

@@ -15,7 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-class ProjectsProvider with ChangeNotifier {
+class ProjectsProvider extends ChangeNotifier {
   String? _authToken;
   int _currentPage = 1;
   int? _totalPages;

@@ -56,6 +56,7 @@ class DrawDownPayment {
     status = json['status'];
     createdAt = json['created_at'] ?? '';
     updatedAt = json['updated_at'] ?? '';
+    reason = json['reason'];
     paymentReqMedia = MediaObject(videos: videos,images: images);
   }
 
@@ -66,7 +67,7 @@ class DrawDownPayment {
     data['user_id'] = userId;
     data['amount'] = amount;
     data['description'] = description;
-    data['images'] = images;
+    data['images'] = images;    data['images'] = images;
     if (videos != null) {
       data['videos'] = videos!.map((v) => v.toJson()).toList();
     }

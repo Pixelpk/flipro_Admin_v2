@@ -2,6 +2,7 @@ import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -39,37 +40,35 @@ class ProjectInfoSection extends StatelessWidget {
             LabeledTextField(
               label: "Project Address:",
               maxlines: null,
-              readonly: true,
-              hintText: "${project.getLoadedProject!.projectAddress}",
-            ),
-            SizedBox(
-              height: 1.h,
-            ),
-            LabeledTextField(
-              inputFormatter: ThousandsFormatter(),
-              label: "Area:",
-              maxlines: null,
-              readonly: true,
-
-              hintText: "${project.getLoadedProject!.area}",
-            ),
-            SizedBox(
-              height: 1.h,
-            ),
-            LabeledTextField(
-              label: "Project title:",
-              maxlines: 1,
-              readonly: true,
+              readonly: readOnly,
               hintText: "${project.getLoadedProject!.title}",
             ),
             SizedBox(
               height: 1.h,
             ),
             LabeledTextField(
-              label: "Description:",
+              label: "Area(Square Meter):",
+              maxlines: null,
+              readonly: readOnly,
+              hintText: project.getLoadedProject!.area,
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            LabeledTextField(
+              label: "Description",
               maxlines: 6,
-              readonly: true,
+              readonly: readOnly,
               hintText: "${project.getLoadedProject!.description}",
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            LabeledTextField(
+              label: "Project Title",
+              maxlines: 1,
+              readonly: readOnly,
+              hintText: "${project.getLoadedProject!.projectAddress}",
             ),
             SizedBox(
               height: 1.h,
@@ -88,7 +87,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Anticipated Budget:",
               maxlines: 1,
               readonly: true,
-              hintText: "${project.getLoadedProject!.anticipatedBudget}",
+              hintText: compactNumberText(project.getLoadedProject!.anticipatedBudget),
             ),
             SizedBox(
               height: 1.h,
@@ -112,11 +111,58 @@ class ProjectInfoSection extends StatelessWidget {
               height: 1.h,
             ),
             LabeledTextField(
+              label: "Registered Owner:",
+              maxlines: 1,
+              readonly: true,
+              hintText: '${project.getLoadedProject!.registeredOwners}',
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            LabeledTextField(
+              label: "Cross Collaterized:",
+              maxlines: 1,
+              readonly: true,
+              hintText: project.getLoadedProject!.crossCollaterized == 1 ? "Yes" : "No",
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            LabeledTextField(
+              label: "Applicant email:",
+              maxlines: 1,
+              readonly: true,
+              hintText: '${project.getLoadedProject!.email}',
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            LabeledTextField(
               inputFormatter: ThousandsFormatter(),
               label: "Property Debt:",
               maxlines: 1,
               readonly: true,
-              hintText: '${project.getLoadedProject!.propertyDebt}',
+              hintText: compactNumberText(project.getLoadedProject!.propertyDebt),
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            LabeledTextField(
+              inputFormatter: ThousandsFormatter(),
+              label: "Existing Queries:",
+              maxlines: 1,
+              readonly: true,
+              hintText: '${project.getLoadedProject!.contractorSupplierDetails}',
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            LabeledTextField(
+              inputFormatter: ThousandsFormatter(),
+              label: "Postcode:",
+              maxlines: 1,
+              readonly: true,
+              hintText: '${project.getLoadedProject!.projectState}',
             ),
             SizedBox(
               height: 1.h,
@@ -125,5 +171,15 @@ class ProjectInfoSection extends StatelessWidget {
         ),
       );
     });
+  }
+
+  String compactNumberText(dynamic text) {
+    final NumberFormat com;
+
+    com = NumberFormat.decimalPattern()
+      ..maximumFractionDigits = 0
+      ..significantDigitsInUse = false;
+
+    return com.format(text);
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class HomeProvider with ChangeNotifier {
+class HomeProvider extends ChangeNotifier {
   int _selectedHomeIndex = 0;
   int _activityPageViewCurrentPage = 0;
   int _projectViewCurrentPage = 0;

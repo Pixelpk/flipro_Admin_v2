@@ -12,7 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class UsersProvider with ChangeNotifier {
+class UsersProvider extends ChangeNotifier {
   String? _authToken;
 
   UsersProvider(String? authToken) {
@@ -43,6 +43,7 @@ class UsersProvider with ChangeNotifier {
         setStateLoading();
         GenericModel genericModel = await UsersService.addUser(
             token: _authToken!, registratingData: registratingData ,);
+
         if (genericModel.success) {
           GetXDialog.showDialog(
             message: genericModel.message,

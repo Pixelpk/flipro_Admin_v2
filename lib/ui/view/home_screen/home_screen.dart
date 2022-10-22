@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           bannerText: homeProvider.getSelectedHomeIndex == 4
               ? "Profile"
               : "Admin Panel",
+
           showBothIcon: true,
           automaticallyImplyLeading: false,
         ),

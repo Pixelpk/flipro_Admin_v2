@@ -31,10 +31,11 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
   final TextEditingController notesController = TextEditingController();
   late FocusNode notesFocusNode;
   final _formKey = GlobalKey<FormState>();
-   bool isLoading = false  ;
+  bool isLoading = false;
   Note? note;
   bool private = false;
   bool readOnly = true;
+  bool isNewNote = true;
   @override
   void initState() {
     notesFocusNode = FocusNode();
@@ -47,6 +48,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
         }
         if (note!.notes != null) {
           notesController.text = note!.notes!;
+          isNewNote = false;
         }
         print(note!.toJson());
       });
@@ -69,8 +71,8 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
           automaticallyImplyLeading: true,
           bannerText: "View Note",
           showBothIcon: true,
-          showNoteIcon: note == null ? false : note!.isEditAble!,
-
+          showNoteIcon:
+              note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!,
           customWidget: InkWell(
             onTap: () {
               setState(() {
@@ -104,10 +106,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                     return null;
                   }
                 },
-                labelStyle: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(color: Colors.black),
+                labelStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.black),
                 maxlines: 10,
                 hintText: notesController.text,
                 focusNode: notesFocusNode,
@@ -120,72 +119,113 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
             ),
 
             ///TODO: PENDING
-            Text(
+            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!)Text(
               "Note Status",
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1!
-                  .copyWith(color: Colors.black),
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.black),
             ),
-            SwitchTile(
-              private: note == null ? false : note!.private!,
-              callback: (c) {
-                setState(() {
-                  note!.private = c;
-                });
-              },
-              tileTitle: 'Private',
-            ),
+            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!)
+              SwitchTile(
+                private: note == null ? false : note!.private!,
+                callback: (c) {
+                  setState(() {
+                    note!.private = c;
+                  });
+                },
+                tileTitle: 'Private',
+              ),
+            if (isNewNote)
+              SwitchTile(
+                private: note == null ? false : note!.private!,
+                callback: (c) {
+                  setState(() {
+                    note!.private = c;
+                  });
+                },
+                tileTitle: 'Private',
+              ),
             SizedBox(
               height: 20.h,
             ),
-            Container(
-                margin: EdgeInsets.symmetric(horizontal: 12.w),
-                child: MainButton(
-                  height: 7.h,
-                  isloading: isLoading,
-                  buttonText: note == null
-                      ? ''
-                      : note!.isEditAble!
-                          ? "Update"
-                          : "Add Note",
-                  radius: 8,
-                  width: 59.w,
-                  callback: () async {
-                    if (_formKey.currentState!.validate()) {
-                      GenericModel genericModel;
-                      note!.notes = notesController.text.trim();
-                      setState(() {
-                        isLoading = true ;
-                      });
-                      if (note!.isEditAble!) {
-                        genericModel = await NotesService.updateNote(
-                            accessToken: Provider.of<UserProvider>(context,
-                                    listen: false)
-                                .getAuthToken,
-                            note: note);
-                      } else {
-                        ///CALL CREATE NOTE API
+            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!)
+              Container(
+                  margin: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: MainButton(
+                    height: 7.h,
+                    isloading: isLoading,
+                    buttonText: note == null
+                        ? ''
+                        : note!.isEditAble!
+                            ? "Update"
+                            : "Add Note",
+                    radius: 8,
+                    width: 59.w,
+                    callback: () async {
+                      if (_formKey.currentState!.validate()) {
+                        GenericModel genericModel;
+                        note!.notes = notesController.text.trim();
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (note!.isEditAble!) {
+                          genericModel =
+                              await NotesService.updateNote(accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
+                        } else {
+                          ///CALL CREATE NOTE API
 
-                        genericModel = await NotesService.createNote(
-                            accessToken: Provider.of<UserProvider>(context,
-                                    listen: false)
-                                .getAuthToken,
-                            note: note);
+                          genericModel =
+                              await NotesService.createNote(accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
+                        }
+                        GetXDialog.showDialog(message: genericModel.message, title: genericModel.title);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if (genericModel.success) {
+                          print("adjcsc d");
+                          Navigator.pop(context, true);
+                        }
                       }
-                      GetXDialog.showDialog(
-                          message: genericModel.message,
-                          title: genericModel.title);
-                      setState(() {
-                        isLoading = false ;
-                      });
-                      if (genericModel.success) {
-                        print("adjcsc d");
-                        Navigator.pop(context, true);
+                    },
+                  )),
+            if (isNewNote)
+              Container(
+                  margin: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: MainButton(
+                    height: 7.h,
+                    isloading: isLoading,
+                    buttonText: note == null
+                        ? ''
+                        : note!.isEditAble!
+                            ? "Update"
+                            : "Add Note",
+                    radius: 8,
+                    width: 59.w,
+                    callback: () async {
+                      if (_formKey.currentState!.validate()) {
+                        GenericModel genericModel;
+                        note!.notes = notesController.text.trim();
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (note!.isEditAble!) {
+                          genericModel =
+                              await NotesService.updateNote(accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
+                        } else {
+                          ///CALL CREATE NOTE API
+
+                          genericModel =
+                              await NotesService.createNote(accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
+                        }
+                        GetXDialog.showDialog(message: genericModel.message, title: genericModel.title);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if (genericModel.success) {
+                          print("adjcsc d");
+                          Navigator.pop(context, true);
+                        }
                       }
-                    }
-                  },
-                ))
+                    },
+                  )),
           ],
         ),
       ),

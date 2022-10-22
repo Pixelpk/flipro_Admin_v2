@@ -10,10 +10,11 @@ import 'package:sizer/sizer.dart';
 
 class SingleProgressScreen extends StatelessWidget {
   const SingleProgressScreen(
-      {Key? key, this.showAppBar = true, this.progressModel})
+      {Key? key, this.showAppBar = true, this.progressModel, this.readOnly = false})
       : super(key: key);
   static const routeName = '/SingleProgressScreen';
   final bool showAppBar;
+  final bool readOnly;
   final ProgressModel? progressModel;
   @override
   Widget build(BuildContext context) {
@@ -44,13 +45,13 @@ class SingleProgressScreen extends StatelessWidget {
                   label: "Title",
                   hintText:  "${progressModel!.title!}",
                   maxlines: null,
-                  readonly: false,
+                  readonly: readOnly,
                 ),
                 LabeledTextField(
                   label: "Description",
                   maxlines: 6,
                   hintText: "${progressModel!.description!}",
-                  readonly: false,
+                  readonly: readOnly,
                 ),
               ],
             ),

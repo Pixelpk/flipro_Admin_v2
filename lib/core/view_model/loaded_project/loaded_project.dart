@@ -17,7 +17,7 @@ import 'package:get/get.dart';
 
 import '../../../ui/view/project_overview_screen/project_overview_Screen.dart';
 
-class LoadedProjectProvider with ChangeNotifier {
+class LoadedProjectProvider extends ChangeNotifier {
   Project? _loadedProject;
   Project? get getLoadedProject => _loadedProject;
   loadingState _isLoading = loadingState.loaded;

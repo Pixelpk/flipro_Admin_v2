@@ -18,89 +18,95 @@ class HomeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     print("HOME ITEM REBUIKTS");
     final projectProvider = Provider.of<ProjectProvider>(context).getProject;
-    return InkWell(
-      onTap: () {
-        Provider.of<LoadedProjectProvider>(context, listen: false)
-            .fetchLoadedProject(projectProvider.id!);
-        Navigator.of(context).pushNamed(ViewUnassignedProject.routeName);
-        if (!projectProvider.assigned!) {
-        } else {}
-      },
-      child: Container(
-        padding: EdgeInsets.all(1.5.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.white,
-        ),
-        // padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Expanded(
-                flex: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: CustomCachedImage(
-                    imageUrl: projectProvider.coverPhoto ?? '',
-                    width: 100.w,
-                    fit: BoxFit.cover,
-                  ),
-                )),
-            Expanded(
-                flex: 13,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              projectProvider.title!,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.room,
-                                size: 12,
-                                color: AppColors.mainThemeBlue,
-                              ),
-                              Flexible(
+    if(projectProvider == null){
+      return Text("shkgfb", style: TextStyle(color: Colors.black),);
+    }
+    else{
+      return InkWell(
+        onTap: () {
+          Provider.of<LoadedProjectProvider>(context, listen: false)
+              .fetchLoadedProject(projectProvider.id!);
+          Navigator.of(context).pushNamed(ViewUnassignedProject.routeName);
+          if (!projectProvider.assigned!) {
+          } else {}
+        },
+        child: Container(
+          padding: EdgeInsets.all(1.5.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+          ),
+          // padding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Expanded(
+                  flex: 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: CustomCachedImage(
+                      imageUrl: projectProvider.coverPhoto ?? '',
+                      width: 100.w,
+                      fit: BoxFit.cover,
+                    ),
+                  )),
+              Expanded(
+                  flex: 13,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
                                   child: Text(
-                                projectProvider.projectAddress!,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ))
-                            ],
-                          )
-                        ],
-                      )),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            projectProvider.assigned!
-                                ? AppConstant.approved
-                                : AppConstant.rejected,
-                            height: 5.w,
-                          ),    Text("Unassigned",style: Theme.of(context).textTheme.subtitle2,)
-                        ],
-                      ),
+                                    projectProvider.projectAddress!,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.room,
+                                      size: 12,
+                                      color: AppColors.mainThemeBlue,
+                                    ),
+                                    Flexible(
+                                        child: Text(
+                                          projectProvider.title!,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: Theme.of(context).textTheme.subtitle2,
+                                        ))
+                                  ],
+                                )
+                              ],
+                            )),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              projectProvider.assigned!
+                                  ? AppConstant.approved
+                                  : AppConstant.rejected,
+                              height: 5.w,
+                            ),    Text("Unassigned",style: Theme.of(context).textTheme.subtitle2,)
+                          ],
+                        ),
 
-                    ],
-                  ),
-                ))
-          ],
+                      ],
+                    ),
+                  ))
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
+
   }
 }

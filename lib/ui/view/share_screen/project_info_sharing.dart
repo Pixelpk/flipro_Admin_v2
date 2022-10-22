@@ -80,6 +80,19 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                   LabeledTextField(
                     onTab: () {
                       shareProvider
+                          .updateApplicantNameStatus(project.getLoadedProject!.applicantName!);
+                    },
+                    fillColor: shareProvider.projectInfo.applicantName!
+                        ? AppColors.mainThemeBlue
+                        : null,
+                    label: "Applicant Name:",
+                    maxlines: null,
+                    readonly: widget.readOnly,
+                    hintText: "${project.getLoadedProject!.applicantName}",
+                  ),
+                  LabeledTextField(
+                    onTab: () {
+                      shareProvider
                           .updateEmailStatus(project.getLoadedProject!.email!);
                     },
                     fillColor: shareProvider.projectInfo.email!
@@ -89,6 +102,32 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                     maxlines: null,
                     readonly: widget.readOnly,
                     hintText: "${project.getLoadedProject!.email}",
+                  ),
+                  LabeledTextField(
+                    onTab: () {
+                      shareProvider
+                          .updateRegisteredOwnerStatus(project.getLoadedProject!.registeredOwners!);
+                    },
+                    fillColor: shareProvider.projectInfo.registeredOwner!
+                        ? AppColors.mainThemeBlue
+                        : null,
+                    label: "Registered Owner:",
+                    maxlines: null,
+                    readonly: widget.readOnly,
+                    hintText: "${project.getLoadedProject!.registeredOwners}",
+                  ),
+                  LabeledTextField(
+                    onTab: () {
+                      shareProvider
+                          .updateApplicantAddressStatus(project.getLoadedProject!.applicantAddress!);
+                    },
+                    fillColor: shareProvider.projectInfo.applicantAddress!
+                        ? AppColors.mainThemeBlue
+                        : null,
+                    label: "Applicant Address:",
+                    maxlines: null,
+                    readonly: widget.readOnly,
+                    hintText: "${project.getLoadedProject!.applicantAddress}",
                   ),
                   LabeledTextField(
                     onTab: () {
@@ -143,6 +182,64 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                     readonly: widget.readOnly,
                     hintText: "${project.getLoadedProject!.currentPropertyValue}",
                   ),
+
+                  LabeledTextField(
+                    onTab: () {
+                      shareProvider.updateProjectAddressStatus(project
+                          .getLoadedProject!.projectAddress
+                          .toString());
+                    },
+                    fillColor: shareProvider.projectInfo.projectAddress!
+                        ? AppColors.mainThemeBlue
+                        : null,
+                    label: "Project Address",
+                    maxlines: null,
+                    readonly: widget.readOnly,
+                    hintText: "${project.getLoadedProject!.projectAddress}",
+                  ),
+                  LabeledTextField(
+                    onTab: () {
+                      shareProvider.updatePostCodeStatus(project
+                          .getLoadedProject!.projectState
+                          .toString());
+                    },
+                    fillColor: shareProvider.projectInfo.postCode!
+                        ? AppColors.mainThemeBlue
+                        : null,
+                    label: "Postcode",
+                    maxlines: null,
+                    readonly: widget.readOnly,
+                    hintText: "${project.getLoadedProject!.projectState}",
+                  ),
+                  LabeledTextField(
+                    onTab: () {
+                      shareProvider.updateCrossCollStatus(project
+                          .getLoadedProject!.crossCollaterized
+                          .toString());
+                    },
+                    fillColor: shareProvider.projectInfo.crossColl!
+                        ? AppColors.mainThemeBlue
+                        : null,
+                    label: "Cross Collaterized",
+                    maxlines: null,
+                    readonly: widget.readOnly,
+                    hintText: project.getLoadedProject!.crossCollaterized == 1?"Yes" :"No",
+                  ),
+                  LabeledTextField(
+                    onTab: () {
+                      shareProvider.updateExistingQStatus(project
+                          .getLoadedProject!.contractorSupplierDetails
+                          .toString());
+                    },
+                    fillColor: shareProvider.projectInfo.existingQ!
+                        ? AppColors.mainThemeBlue
+                        : null,
+                    label: "Existing Queries",
+                    maxlines: null,
+                    readonly: widget.readOnly,
+                    hintText: "${project.getLoadedProject!.contractorSupplierDetails}",
+                  ),
+                  SizedBox(height: 10.h,)
                 ],
               ),
             ),
