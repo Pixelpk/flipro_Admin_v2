@@ -7,6 +7,8 @@ import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../core/utilities/app_colors.dart';
+import '../../core/utilities/app_constant.dart';
 import 'labeledTextField.dart';
 
 class ProjectInfoSection extends StatelessWidget {
@@ -50,7 +52,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Area(Square Meter):",
               maxlines: null,
               readonly: readOnly,
-              hintText: project.getLoadedProject!.area,
+              hintText: compactNumberText((double.parse(project.getLoadedProject!.area.toString())).toInt()),
             ),
             SizedBox(
               height: 1.h,
@@ -87,7 +89,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Anticipated Budget:",
               maxlines: 1,
               readonly: true,
-              hintText: compactNumberText(project.getLoadedProject!.anticipatedBudget),
+              hintText: "\$" + compactNumberText(project.getLoadedProject!.anticipatedBudget),
             ),
             SizedBox(
               height: 1.h,
@@ -142,7 +144,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Property Debt:",
               maxlines: 1,
               readonly: true,
-              hintText: compactNumberText(project.getLoadedProject!.propertyDebt),
+              hintText: "\$" + compactNumberText(project.getLoadedProject!.propertyDebt),
             ),
             SizedBox(
               height: 1.h,

@@ -231,7 +231,7 @@ class UsersService {
   }
 
   static Future<GenericModel> getUsers(
-      {required String token, required int page, required String type}) async {
+      {required String token, required int page,  String? type}) async {
     try {
       print("AUTH TOKEN $token $type");
       var headers = {

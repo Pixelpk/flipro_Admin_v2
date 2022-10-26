@@ -312,6 +312,7 @@ class UserRoleModel {
   String? phoneCode;
   String? phone;
   String? address;
+  String? companyName;
   String? emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
@@ -328,6 +329,7 @@ class UserRoleModel {
     this.phone,
     this.address,
     this.avatar,
+    this.companyName,
     this.emailVerifiedAt,
     this.createdAt,
     this.updatedAt,
@@ -350,6 +352,7 @@ class UserRoleModel {
     updatedAt = json['updated_at'];
     userType = json['user_type'];
     createdBy = json['created_by'];
+    companyName = json['company_name'];
 
     try {
       if (json.containsKey("roles")) {
@@ -377,7 +380,8 @@ class UserRoleModel {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['user_type'] = userType;
-    data['created_by'] = createdBy;
+    data['user_type'] = userType;
+    data['company_name'] = companyName;
     data['roles'] = userRole;
     return data;
   }

@@ -5,6 +5,8 @@ import 'package:fliproadmin/core/view_model/share_provider/share_provider.dart';
 import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -75,7 +77,7 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                     label: "Area:",
                     maxlines: null,
                     readonly: widget.readOnly,
-                    hintText: "${project.getLoadedProject!.area}",
+                    hintText: compactNumberText((double.parse(project.getLoadedProject!.area.toString())).toInt()),
                   ),
                   LabeledTextField(
                     onTab: () {
@@ -130,6 +132,7 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                     hintText: "${project.getLoadedProject!.applicantAddress}",
                   ),
                   LabeledTextField(
+
                     onTab: () {
                       shareProvider.updateDebtStatus(
                           project.getLoadedProject!.propertyDebt.toString());
@@ -140,9 +143,10 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                     label: "Property debt",
                     maxlines: null,
                     readonly: widget.readOnly,
-                    hintText: "${project.getLoadedProject!.propertyDebt}",
+                   hintText:  "\$" + compactNumberText(project.getLoadedProject!.propertyDebt),
                   ),
                   LabeledTextField(
+
                     onTab: () {
                       shareProvider.updateBudgetStatus(
                           project.getLoadedProject!.anticipatedBudget.toString());
@@ -153,7 +157,7 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                     label: "Anticipated Budget",
                     maxlines: null,
                     readonly: widget.readOnly,
-                    hintText: "${project.getLoadedProject!.anticipatedBudget}",
+                    hintText:  "\$" + compactNumberText(project.getLoadedProject!.anticipatedBudget),
                   ),
                   LabeledTextField(
                     onTab: () {
@@ -169,6 +173,7 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                     hintText: "${project.getLoadedProject!.description}",
                   ),
                   LabeledTextField(
+
                     onTab: () {
                       shareProvider.updateValueStatus(project
                           .getLoadedProject!.currentPropertyValue
@@ -180,7 +185,7 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                     label: "Current Value",
                     maxlines: null,
                     readonly: widget.readOnly,
-                    hintText: "${project.getLoadedProject!.currentPropertyValue}",
+                    hintText:  "\$" + compactNumberText(project.getLoadedProject!.currentPropertyValue),
                   ),
 
                   LabeledTextField(
@@ -245,5 +250,14 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
             ),
           );
         });
+  }
+  String compactNumberText(dynamic text) {
+    final NumberFormat com;
+
+    com = NumberFormat.decimalPattern()
+      ..maximumFractionDigits = 0
+      ..significantDigitsInUse = false;
+
+    return com.format(text);
   }
 }

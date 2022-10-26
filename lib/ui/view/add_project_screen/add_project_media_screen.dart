@@ -20,6 +20,8 @@ import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/utilities/app_constant.dart';
+
 class AddProjectMediaScreen extends StatefulWidget {
   const AddProjectMediaScreen({Key? key}) : super(key: key);
   static const routeName = '/AddProjectMediaScreen';
@@ -40,7 +42,10 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   TextEditingController? description;
   bool existingQuriesYes = true;
   bool existingQueriesNo = false;
-  String existingQueries = "";
+  bool crossCollaterizedYes = false;
+  bool crossCollaterizedNo = false;
+  String crossCollaterized = "";
+
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -113,7 +118,10 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     },
                   ),
                   LabeledTextField(
-
+                    preffixIcon: AppConstant.dollarIcon,
+                    height: 18,
+                    width: 18,
+                    prefixColor: AppColors.primaryBlueSwatch,
                     label: "",
                     maxlines: 1,
                     hintText: 'Anticipated Budget',
@@ -177,13 +185,13 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                           children: [
                             Checkbox(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
-                                value: existingQuriesYes,
+                                value: crossCollaterizedYes,
                                 onChanged: (c) {
                                   setState(() {
-                                    existingQuriesYes = c!;
-                                    existingQueriesNo = false;
+                                    crossCollaterizedYes = c!;
+                                    crossCollaterizedNo = false;
                                     if (c == true) {
-                                      existingQueries = "Yes";
+                                      crossCollaterized = "Yes";
                                     }
                                   });
                                 }),
@@ -197,13 +205,13 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                           children: [
                             Checkbox(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
-                                value: existingQueriesNo,
+                                value: crossCollaterizedNo,
                                 onChanged: (c) {
                                   setState(() {
-                                    existingQuriesYes = false;
-                                    existingQueriesNo = c!;
+                                    crossCollaterizedYes = false;
+                                    crossCollaterizedNo = c!;
                                     if (c == true) {
-                                      existingQueries = "No";
+                                      crossCollaterized = "No";
                                     }
                                   });
                                 }),
@@ -320,7 +328,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
       project.anticipatedBudget = int.tryParse(anticipatedBudgetController!.text.trim());
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = substateController!.text.trim();
-      project.contractorSupplierDetails = existingQueries;
+      project.contractorSupplierDetails = crossCollaterized;
       project.description = description!.text.trim();
 
       print(project.toJson());
@@ -343,7 +351,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
       project.anticipatedBudget = int.tryParse(anticipatedBudgetController!.text.trim());
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = substateController!.text.trim();
-      project.contractorSupplierDetails = existingQueries;
+      project.contractorSupplierDetails = crossCollaterized;
       project.description = description!.text.trim();
 
       print(project.toJson());

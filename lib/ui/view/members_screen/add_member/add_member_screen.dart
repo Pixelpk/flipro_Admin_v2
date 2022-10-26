@@ -41,6 +41,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   TextEditingController phoneController = TextEditingController();
 
   TextEditingController addressController = TextEditingController();
+  TextEditingController companyController = TextEditingController();
   bool obsuredPassword = true;
   TextEditingController confirmPasswordController = TextEditingController();
   bool isBuilder = true;
@@ -125,15 +126,31 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                   },
                   preffixIcon: AppConstant.homeIcon,
                 ),
-                SizedBox(
-                  height: 3.5.h,
+               SizedBox(
+                  height: 3.h,
                 ),
+                isValuer ==true || isBuilder == true?LabeledTextField(
+                  label: 'Company Name',
+                  readonly: false,
+                  maxlines: 1,
+                  textEditingController: companyController,
+                  hintText: "Company Name",
+                  validation: (e) {
+                    if (e != null) {
+                      if (e.isEmpty) {
+                        return "Company Name should not be empty";
+                      }
+                      return null;
+                    }
+                  },
+
+                ):Container(),
+                isValuer ==true || isBuilder == true? SizedBox(
+                  height: 3.5.h,
+                ):Container(),
                 Text(
                   "Phone",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(color: AppColors.greyFontColor),
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
                 ),
                 SizedBox(
                   height: 8.h,
@@ -145,32 +162,22 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           height: 7.5.h,
                           margin: const EdgeInsets.only(right: 4),
                           // constraints: BoxConstraints(minWidth: 10.w),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)),
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
                           child: CountryCodePicker(
                             onChanged: (value) {
                               setState(() {
                                 countryCode = value.dialCode.toString();
                               });
                             },
-                            textStyle: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(color: Colors.black),
+                            textStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black),
                             backgroundColor: Colors.transparent,
 
                             dialogBackgroundColor: AppColors.mainThemeBlue,
-                            dialogTextStyle:
-                                const TextStyle(color: Colors.white),
+                            dialogTextStyle: const TextStyle(color: Colors.white),
                             showFlagDialog: true,
                             textOverflow: TextOverflow.visible,
 
-                            searchDecoration: customInputDecoration(
-                                context: context,
-                                hintText: 'Search',
-                                usePrefixIcon: true,
-                                prefixicon: 'default'),
+                            searchDecoration: customInputDecoration(context: context, hintText: 'Search', usePrefixIcon: true, prefixicon: 'default'),
                             // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                             initialSelection: 'US',
                             onInit: (code) {
@@ -207,8 +214,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                                 }
                               },
                               keyboardType: TextInputType.phone,
-                              decoration: customInputDecoration(
-                                  context: context, hintText: "Phone no."),
+                              decoration: customInputDecoration(context: context, hintText: "Phone no."),
                             ),
                           )),
                     ],
@@ -229,16 +235,11 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                       }
                     },
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
                       fillColor: Colors.white,
                       filled: true,
                       hintText: "Password*",
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .copyWith(color: AppColors.greyFontColor),
+                      hintStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
                       suffixIcon: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -246,16 +247,14 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           InkWell(
                               onTap: () {
                                 setState(() {
-                                  passwordController.text =
-                                      LogicHelper.generateRandomString(8);
+                                  passwordController.text = LogicHelper.generateRandomString(8);
                                 });
                               },
                               child: const Padding(
                                 padding: EdgeInsets.only(right: 12),
                                 child: Text(
                                   "Generate Auto",
-                                  style:
-                                      TextStyle(color: AppColors.mainThemeBlue),
+                                  style: TextStyle(color: AppColors.mainThemeBlue),
                                 ),
                               )),
                         ],
@@ -272,10 +271,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 ),
                 Text(
                   "Please User Role",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(color: AppColors.greyFontColor),
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
                 ),
                 const SizedBox(
                   height: 6,
@@ -287,8 +283,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: CheckboxListTile(
                           tileColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                           title: const Text("Fanchisee"),
                           value: isFranchisee,
                           onChanged: (bool? value) {
@@ -308,8 +303,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         child: CheckboxListTile(
                           selectedTileColor: AppColors.blueUnselectedTabColor,
                           tileColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                           title: const Text("Builder"),
                           value: isBuilder,
                           onChanged: (bool? value) {
@@ -335,8 +329,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: CheckboxListTile(
                           tileColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                           title: const Text("Valuer"),
                           value: isValuer,
                           onChanged: (bool? value) {
@@ -356,8 +349,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         child: CheckboxListTile(
                           selectedTileColor: AppColors.blueUnselectedTabColor,
                           tileColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                           title: const Text("Home Owner"),
                           value: isHomeOwner,
                           onChanged: (bool? value) {
@@ -383,23 +375,20 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         height: 7.h,
                         width: 60.w,
                         buttonText: "Add Member",
-                        isloading: usersProvider.getLoadingState ==
-                            loadingState.loading,
+                        isloading: usersProvider.getLoadingState == loadingState.loading,
                         callback: () async {
                           if (_formKey.currentState!.validate()) {
-                            RegistratingData registratingData =
-                                RegistratingData(
-                                    password: passwordController.text.trim(),
-                                    name: nameController.text,
-                                    address: addressController.text,
-                                    email: emailController.text.trim(),
-                                    phone: phoneController.text,
-                                    phoneCode: countryCode,
-                                    userType: LogicHelper.getUserTypefromBool(
-                                        isBuilder: isBuilder,
-                                        isFranchisee: isFranchisee,
-                                        isHomeOwner: isHomeOwner,
-                                        isvaluer: isValuer));
+                            RegistratingData registratingData = RegistratingData(
+                                password: passwordController.text.trim(),
+                                name: nameController.text,
+                                address: addressController.text,
+                                email: emailController.text.trim(),
+                                phone: phoneController.text,
+                                phoneCode: countryCode,
+                                companyName: companyController.text,
+                                userType: LogicHelper.getUserTypefromBool(
+                                    isBuilder: isBuilder, isFranchisee: isFranchisee, isHomeOwner: isHomeOwner, isvaluer: isValuer));
+
                             ///Create users and clear controller if success
                             bool isSuccess = await usersProvider.addMember(
                                 appuser: args['appUsers'],
@@ -412,6 +401,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                               addressController.clear();
                               emailController.clear();
                               phoneController.clear();
+                              companyController.clear();
                             }
                           }
                         },

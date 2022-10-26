@@ -9,7 +9,7 @@ import 'package:fliproadmin/ui/widget/trade_man_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
-
+enum TypeAdmin{builder, valuer, franchise,owner}
 class FranchiseePage extends StatefulWidget {
   const FranchiseePage({Key? key}) : super(key: key);
 
@@ -19,7 +19,6 @@ class FranchiseePage extends StatefulWidget {
 
 class _FranchiseePageState extends State<FranchiseePage> {
   static const _pageSize = 20;
-
   final PagingController<int, UserRoleModel> _pagingController =
   PagingController(firstPageKey: 0);
 
@@ -76,6 +75,7 @@ class _FranchiseePageState extends State<FranchiseePage> {
               },
               child:  TrademanListItem(
              userRoleModel: user,
+
               ),
             )
         ),

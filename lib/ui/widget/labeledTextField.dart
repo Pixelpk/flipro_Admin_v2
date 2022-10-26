@@ -21,6 +21,9 @@ class LabeledTextField extends StatelessWidget {
         this.inputFormatter,
         this.focusNode,
         this.onTab,
+        this.prefixColor,
+        this.width,
+        this.height,
         this.labelWidget,
         this.hintText,
         this.validation})
@@ -36,6 +39,10 @@ class LabeledTextField extends StatelessWidget {
   final String? preffixIcon;
   final String? hintText;
   final Color? fillColor ;
+  final double? height;
+  final double? width;
+  final Color? prefixColor;
+
   final VoidCallback? onTab ;
   final TextInputFormatter? inputFormatter ;
   final TextEditingController? textEditingController;
@@ -78,6 +85,9 @@ class LabeledTextField extends StatelessWidget {
            inputFormatters: inputFormatter !=null ? [inputFormatter!]: null,
             style: Theme.of(context).textTheme.bodyText1,
             decoration: customInputDecoration(
+              prefixColor: prefixColor,
+              width: width,
+                height: height,
                 usePrefixIcon: preffixIcon !=null ? true:false,
                 suffixIcon: suffixIcon,
                 context: context,
