@@ -451,14 +451,18 @@ class ProjectService {
     try {
       var headers = {
         'Accept': 'application/json',
-        'Authorization': 'Bearer $accessToken'
+        'Authorization': 'Bearer $accessToken',
+        "content-type" :"application/x-www-form-urlencoded"
       };
-      var request = http.Request(
+      var request = http.MultipartRequest(
           'POST',
           Uri.parse(
               '${ENV.baseURL}/api/projects/search'));
       request.headers.addAll(headers);
-
+      request.fields.addAll({
+        'search': query,
+        'filters[approved]': 'approved'
+      });
       http.StreamedResponse response =
       await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();

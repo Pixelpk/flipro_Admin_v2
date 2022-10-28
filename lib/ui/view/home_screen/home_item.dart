@@ -61,14 +61,6 @@ class HomeItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Flexible(
-                                  child: Text(
-                                    projectProvider.projectAddress!,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                ),
                                 Row(
                                   children: [
                                     const Icon(
@@ -81,10 +73,20 @@ class HomeItem extends StatelessWidget {
                                           projectProvider.title!,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                          style: Theme.of(context).textTheme.subtitle2,
+
+                                          style: Theme.of(context).textTheme.bodyText1,
                                         ))
                                   ],
-                                )
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    projectProvider.projectAddress!,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: Theme.of(context).textTheme.subtitle2,
+                                  ),
+                                ),
+
                               ],
                             )),
                         Column(

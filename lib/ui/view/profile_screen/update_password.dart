@@ -90,14 +90,14 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 controller: confirmPasswordController,
                 validator: (e) {
                   if (e == null || e.trim().isEmpty) {
-                    return "Password should not be empty";
+                    return "Confirm Password should not be empty";
                   }
                   if (e.length < 6) {
-                    return "Password should be at-least 6 digit long";
+                    return "Confirm Password should be at-least 6 digit long";
                   }
                   if (newPasswordController.text !=
                       confirmPasswordController.text) {
-                    return "Password does n't match";
+                    return "Confirm Password does n't match";
                   }
                   return null;
                 },

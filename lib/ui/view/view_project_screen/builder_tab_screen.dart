@@ -44,14 +44,15 @@ class BuilderTabScreen extends StatelessWidget {
                       readonly: true,
                       hintText: loadedProject.getLoadedProject?.builder != null && loadedProject.getLoadedProject!.builder!.isNotEmpty
                           ? loadedProject.getLoadedProject?.builder![0].name
-                          : loadedProject.getLoadedProject?.latestProgress != null
-                              ? loadedProject.getLoadedProject?.latestProgress?.user?.name!
+                          // : loadedProject.getLoadedProject?.latestProgress != null
+                          //     ? loadedProject.getLoadedProject?.latestProgress?.user?.name!
                               : "No Builder Assigned",
                       labelWidget: loadedProject.getLoadedProject?.latestProgress != null
                           ? ColoredLabel(
                               color: AppColors.lightRed,
                               text: 'Edit Access',
                               callback: () {
+                                print(loadedProject.getLoadedProject?.latestProgress?.user?.name!);
                                 Navigator.pushNamed(context, BuilderAccessControlScreen.routeName,
                                     arguments: AccessControlObject(
                                         userRoleModel: loadedProject.getBuilderById(loadedProject.getLoadedProject!.latestProgress != null
@@ -65,6 +66,7 @@ class BuilderTabScreen extends StatelessWidget {
                                   color: AppColors.lightRed,
                                   text: 'Edit Access',
                                   callback: () {
+
                                     Navigator.pushNamed(context, BuilderAccessControlScreen.routeName,
                                         arguments: AccessControlObject(
                                             userRoleModel: loadedProject.getBuilderById(loadedProject.getLoadedProject!.latestProgress != null

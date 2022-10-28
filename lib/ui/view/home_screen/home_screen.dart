@@ -56,6 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     Future.microtask(() => FirebaseMessagingService.setupTerminatedInteractedMessage(context));
     super.initState();
+    print("The token is" + Provider.of<UserProvider>(context, listen: false).getAuthToken);
+
   }
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -25,7 +24,6 @@ class SearchProjectsScreen extends StatefulWidget {
 }
 
 class _SearchProjectsScreenState extends State<SearchProjectsScreen> {
-
   @override
   void initState() {
     Provider.of<SearchProjectProvider>(context, listen: false).clear();
@@ -34,71 +32,89 @@ class _SearchProjectsScreenState extends State<SearchProjectsScreen> {
 
   @override
   void dispose() {
-     controller.dispose();
+    controller.dispose();
     super.dispose();
   }
+
   FloatingSearchBarController controller = FloatingSearchBarController();
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       height: 100.h,
       child: FloatingSearchBar(
-            hint: "Search Project",
-            controller: controller,
-            automaticallyImplyBackButton: false,
-            automaticallyImplyDrawerHamburger: false,
-            scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionCurve: Curves.easeInOut,
-            iconColor: AppColors.mainThemeBlue,
-            physics: const BouncingScrollPhysics(),
-            axisAlignment: 0.0,
-            openAxisAlignment: 0.0,
-            borderRadius: BorderRadius.circular(10),
-            width: 100.w,
-            leadingActions: [
-              IconButton(onPressed: (){
+        hint: "Search Project",
+        controller: controller,
+        automaticallyImplyBackButton: false,
+        automaticallyImplyDrawerHamburger: false,
+        scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+        transitionDuration: const Duration(milliseconds: 800),
+        transitionCurve: Curves.easeInOut,
+        iconColor: AppColors.mainThemeBlue,
+        physics: const BouncingScrollPhysics(),
+        axisAlignment: 0.0,
+        openAxisAlignment: 0.0,
+        borderRadius: BorderRadius.circular(10),
+        width: 100.w,
+        leadingActions: [
+          IconButton(
+              onPressed: () {
                 controller.close();
                 Provider.of<SearchProjectProvider>(context, listen: false).clear();
-              }, icon: const Icon(Icons.arrow_back))
-            ],
-            backdropColor: AppColors.blueScaffoldBackground,
-            openWidth: 100.w,
-            isScrollControlled: true,
-            debounceDelay: const Duration(milliseconds: 800),
-            onQueryChanged: (query) {
-              Provider.of<SearchProjectProvider>(context, listen: false).searchProjects(
-                authToken: context.read<UserProvider>().getAuthToken,
-                searchQuery: query,
-              );
-            },
-            transition: CircularFloatingSearchBarTransition(),
-            actions: [
-              FloatingSearchBarAction.searchToClear(
-                showIfClosed: false,
-
-              ),
-            ],
-            builder: (context, transition) {
-              return Consumer<SearchProjectProvider>(builder: (ctx, projectProvider, c) {
-                print(projectProvider.getLoadingState);
-                if (projectProvider.getLoadingState == loadingState.loading) {
-                  return HelperWidget.progressIndicator();
-                }
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    ProjectProvider project = projectProvider.getSearchedProjects[index];
-                    return ActivityListItem(
-                      project: project,
-                      timeStampLabel: '',
-                    );
-                  },
-                  itemCount: projectProvider.getSearchedProjects.length,
-                );
-              });
-            },
+              },
+              icon: const Icon(Icons.arrow_back))
+        ],
+        backdropColor: AppColors.blueScaffoldBackground,
+        openWidth: 100.w,
+        isScrollControlled: true,
+        debounceDelay: const Duration(milliseconds: 800),
+        onQueryChanged: (query) {
+          Provider.of<SearchProjectProvider>(context, listen: false).searchProjects(
+            authToken: context.read<UserProvider>().getAuthToken,
+            searchQuery: query,
+          );
+        },
+        transition: CircularFloatingSearchBarTransition(),
+        actions: [
+          FloatingSearchBarAction.searchToClear(
+            showIfClosed: false,
           ),
+        ],
+        builder: (context, transition) {
+          return Consumer<SearchProjectProvider>(builder: (ctx, projectProvider, c) {
+            print(projectProvider.getLoadingState);
+            if (projectProvider.getLoadingState == loadingState.loading) {
+              return HelperWidget.progressIndicator();
+            }
+            if (projectProvider.getSearchedProjects.isEmpty && projectProvider.getLoadingState == loadingState.loaded) {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 150.0),
+                  child: Center(child: Text("No Result found")),
+                ),
+              );
+            }
+            if (projectProvider.getSearchedProjects.isEmpty) {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 150.0),
+                  child: Center(child: Text("Search Project")),
+                ),
+              );
+            }
+            return ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                ProjectProvider project = projectProvider.getSearchedProjects[index];
+                return ActivityListItem(
+                  project: project,
+                  timeStampLabel: '',
+                );
+              },
+              itemCount: projectProvider.getSearchedProjects.length,
+            );
+          });
+        },
+      ),
     );
   }
 }

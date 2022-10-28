@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fliproadmin/core/model/project_response/project_response.dart';
 import 'package:fliproadmin/core/model/users_model/users_model.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
@@ -33,8 +34,12 @@ class TrademanListItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const CircleAvatar(
+          userRoleModel!.avatar!.isEmpty || userRoleModel!.avatar == null
+              ? const CircleAvatar(
             backgroundImage: AssetImage(AppConstant.defaultProjectImage),
+          )
+              : CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(userRoleModel!.avatar!),
           ),
           Container(
             width: 1,
