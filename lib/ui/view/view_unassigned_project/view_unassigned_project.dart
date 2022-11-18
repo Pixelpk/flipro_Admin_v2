@@ -48,7 +48,7 @@ class ViewUnassignedProject extends StatelessWidget {
 
           return ListView(
             children: [
-              const ProjectInfoSection(
+               ProjectInfoSection(
                 readOnly: true,
                 // projectTitle: projectProvider.getLoadedProject!.title!,
                 // area: projectProvider.getLoadedProject!.area,

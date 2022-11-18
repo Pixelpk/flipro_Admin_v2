@@ -62,6 +62,7 @@ dependencies:
   cached_network_image: ^3.2.0
   flutter_cache_manager: ^3.3.0
   pattern_formatter: ^2.0.0
+  decimal: ^2.3.0
 
   #IOS SIDE IMAGE_DOWNLOADED CONFIGURATIONS
 

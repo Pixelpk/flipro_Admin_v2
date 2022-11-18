@@ -18,14 +18,15 @@ class HomeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     print("HOME ITEM REBUIKTS");
     final projectProvider = Provider.of<ProjectProvider>(context).getProject;
-    if(projectProvider == null){
-      return Text("shkgfb", style: TextStyle(color: Colors.black),);
-    }
-    else{
+    if (projectProvider == null) {
+      return Text(
+        "shkgfb",
+        style: TextStyle(color: Colors.black),
+      );
+    } else {
       return InkWell(
         onTap: () {
-          Provider.of<LoadedProjectProvider>(context, listen: false)
-              .fetchLoadedProject(projectProvider.id!);
+          Provider.of<LoadedProjectProvider>(context, listen: false).fetchLoadedProject(projectProvider.id!);
           Navigator.of(context).pushNamed(ViewUnassignedProject.routeName);
           if (!projectProvider.assigned!) {
           } else {}
@@ -58,49 +59,48 @@ class HomeItem extends StatelessWidget {
                       children: [
                         Expanded(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.room,
-                                      size: 12,
-                                      color: AppColors.mainThemeBlue,
-                                    ),
-                                    Flexible(
-                                        child: Text(
-                                          projectProvider.title!,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-
-                                          style: Theme.of(context).textTheme.bodyText1,
-                                        ))
-                                  ],
+                                const Icon(
+                                  Icons.room,
+                                  size: 12,
+                                  color: AppColors.mainThemeBlue,
                                 ),
                                 Flexible(
-                                  child: Text(
-                                    projectProvider.projectAddress!,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: Theme.of(context).textTheme.subtitle2,
-                                  ),
-                                ),
-
+                                    child: Text(
+                                  projectProvider.title!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ))
                               ],
-                            )),
+                            ),
+                            Flexible(
+                              child: Text(
+                                projectProvider.projectAddress!,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
+                            ),
+                          ],
+                        )),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              projectProvider.assigned!
-                                  ? AppConstant.approved
-                                  : AppConstant.rejected,
+                              projectProvider.assigned! ? AppConstant.approved : AppConstant.rejected,
                               height: 5.w,
-                            ),    Text("Unassigned",style: Theme.of(context).textTheme.subtitle2,)
+                            ),
+                            Text(
+                              "Unassigned",
+                              style: Theme.of(context).textTheme.subtitle2,
+                            )
                           ],
                         ),
-
                       ],
                     ),
                   ))
@@ -109,6 +109,5 @@ class HomeItem extends StatelessWidget {
         ),
       );
     }
-
   }
 }

@@ -1,7 +1,10 @@
+import 'package:decimal/decimal.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:intl/intl.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:provider/provider.dart';
@@ -12,11 +15,13 @@ import '../../core/utilities/app_constant.dart';
 import 'labeledTextField.dart';
 
 class ProjectInfoSection extends StatelessWidget {
-  const ProjectInfoSection({
+  ProjectInfoSection({
     Key? key,
     this.readOnly = false,
   }) : super(key: key);
   final bool readOnly;
+
+  var formatter = NumberFormat('#,##0.' + "#" * 5);
   @override
   Widget build(BuildContext context) {
     return Consumer<LoadedProjectProvider>(builder: (ctx, project, c) {
@@ -52,7 +57,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Area(Square Meter):",
               maxlines: null,
               readonly: readOnly,
-              hintText: compactNumberText((double.parse(project.getLoadedProject!.area.toString())).toInt()),
+              hintText: "${formatter.format(double.parse(project.getLoadedProject!.area!.replaceAll(",", "")))}",
             ),
             SizedBox(
               height: 1.h,
@@ -85,11 +90,11 @@ class ProjectInfoSection extends StatelessWidget {
               height: 1.h,
             ),
             LabeledTextField(
-              inputFormatter: ThousandsFormatter(),
+              inputFormatter: [ThousandsFormatter()],
               label: "Anticipated Budget:",
               maxlines: 1,
               readonly: true,
-              hintText: "\$" + compactNumberText(project.getLoadedProject!.anticipatedBudget),
+              hintText:  '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget!.toString().replaceAll(",", "")))}',
             ),
             SizedBox(
               height: 1.h,
@@ -140,17 +145,16 @@ class ProjectInfoSection extends StatelessWidget {
               height: 1.h,
             ),
             LabeledTextField(
-              inputFormatter: ThousandsFormatter(),
               label: "Property Debt:",
               maxlines: 1,
               readonly: true,
-              hintText: "\$" + compactNumberText(project.getLoadedProject!.propertyDebt),
+              hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.propertyDebt!.toString().replaceAll(",", "")))}',/*NumberFormat.currency(symbol: '\$').format((int.parse(project.getLoadedProject!.propertyDebt.toString())))*/
             ),
             SizedBox(
               height: 1.h,
             ),
             LabeledTextField(
-              inputFormatter: ThousandsFormatter(),
+              inputFormatter: [ThousandsFormatter()],
               label: "Existing Queries:",
               maxlines: 1,
               readonly: true,
@@ -160,7 +164,7 @@ class ProjectInfoSection extends StatelessWidget {
               height: 1.h,
             ),
             LabeledTextField(
-              inputFormatter: ThousandsFormatter(),
+              inputFormatter: [ThousandsFormatter()],
               label: "Postcode:",
               maxlines: 1,
               readonly: true,
@@ -177,11 +181,26 @@ class ProjectInfoSection extends StatelessWidget {
 
   String compactNumberText(dynamic text) {
     final NumberFormat com;
-
     com = NumberFormat.decimalPattern()
       ..maximumFractionDigits = 0
       ..significantDigitsInUse = false;
-
     return com.format(text);
+  }
+}
+
+class CurrencyInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    double value = double.parse(newValue.text);
+
+    final formatter = NumberFormat.simpleCurrency(locale: "en_us");
+
+    String newText = formatter.format(value / 100);
+
+    return newValue.copyWith(text: newText, selection: TextSelection.collapsed(offset: newText.length));
   }
 }

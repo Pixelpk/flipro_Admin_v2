@@ -187,10 +187,10 @@ class _RowExample extends StatelessWidget {
                        "${activityModel.description}",
                         style: Theme.of(context)
                             .textTheme
-                            .headline5!
-                            .copyWith(color: Colors.white),
+                          .bodySmall!
+                            .copyWith(color: Colors.white, fontSize: 14),
                         maxLines: 1,
-                        overflow: TextOverflow.fade,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

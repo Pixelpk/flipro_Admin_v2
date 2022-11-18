@@ -35,6 +35,7 @@ class ProjectOverviewScreen extends StatelessWidget {
 
   bool clientSatisfied = true;
   bool clientNotSatisfied = false;
+  var formatter = NumberFormat('#,##0.' + "#" * 5);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,7 @@ class ProjectOverviewScreen extends StatelessWidget {
             height: 100.h,
             child: ListView(
               children: [
-                const ProjectInfoSection(
+                ProjectInfoSection(
                   readOnly: true,
                 ),
                 MediaSection(
@@ -118,7 +119,8 @@ class ProjectOverviewScreen extends StatelessWidget {
                       ),
                       MainButton(
                         userArrow: false,
-                        buttonText: "\$${compactNumberText((double.parse(loadedProject.getLoadedProject!.currentPropertyValue.toString())).toInt())}",
+                        buttonText:
+                            "\$${formatter.format(double.parse(loadedProject.getLoadedProject!.currentPropertyValue!.toString().replaceAll(",", "")))}",
                         callback: () {},
                         radius: 15,
                         width: 100.w,
@@ -162,7 +164,8 @@ class ProjectOverviewScreen extends StatelessWidget {
                         MainButton(
                           userArrow: false,
                           buttonText:
-                              "\$${compactNumberText((double.parse(loadedProject.getLoadedProject!.projectLatestMarkedValue.toString())).toInt())}",
+                              "\$${formatter.format(double.parse(loadedProject.getLoadedProject!.projectLatestMarkedValue!.replaceAll(",", "")))}",
+                          // "\$${double.parse(loadedProject.getLoadedProject!.projectLatestMarkedValue!).toStringAsFixed(2)}",
                           callback: () {},
                           radius: 15,
                           width: 100.w,

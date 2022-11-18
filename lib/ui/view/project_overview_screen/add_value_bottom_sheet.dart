@@ -39,11 +39,10 @@ addValueBottomSheet({
                           children: [
                             Center(
                                 child: LabeledTextField(
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               label: value ?? 'Add Value',
                               maxlines: 1,
-                              inputFormatter:
-                                  FilteringTextInputFormatter.digitsOnly,
+
                               textEditingController: controller,
                               validation: (e) {
                                 if (e == null || e.trim().isEmpty) {
@@ -67,7 +66,7 @@ addValueBottomSheet({
                                 if (_formKey.currentState!.validate()) {
                                   Provider.of<LoadedProjectProvider>(context,
                                           listen: false)
-                                      .addProjectValue(controller.text.trim());
+                                      .addProjectValue(controller.text.trim().toString());
                                 }
                               },
                               isloading:

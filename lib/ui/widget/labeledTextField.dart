@@ -20,9 +20,11 @@ class LabeledTextField extends StatelessWidget {
         this.preffixIcon,
         this.inputFormatter,
         this.focusNode,
+        this.prefixText,
         this.onTab,
         this.prefixColor,
         this.width,
+        this.onChange,
         this.height,
         this.labelWidget,
         this.hintText,
@@ -37,14 +39,16 @@ class LabeledTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final Widget? suffixIcon;
   final String? preffixIcon;
+  final String? prefixText;
   final String? hintText;
   final Color? fillColor ;
   final double? height;
   final double? width;
   final Color? prefixColor;
+  final ValueChanged<String>? onChange;
 
   final VoidCallback? onTab ;
-  final TextInputFormatter? inputFormatter ;
+  final List<TextInputFormatter>? inputFormatter ;
   final TextEditingController? textEditingController;
   final FormFieldValidator<String>? validation;
   @override
@@ -75,6 +79,8 @@ class LabeledTextField extends StatelessWidget {
           const SizedBox(height: 8,),
           TextFormField(
 
+            onChanged: onChange,
+
             controller: textEditingController,
             maxLines: maxlines,
             focusNode: focusNode,
@@ -82,10 +88,11 @@ class LabeledTextField extends StatelessWidget {
             validator: validation,
             readOnly: readonly,
            onTap: onTab,
-           inputFormatters: inputFormatter !=null ? [inputFormatter!]: null,
+           inputFormatters: inputFormatter ,
             style: Theme.of(context).textTheme.bodyText1,
             decoration: customInputDecoration(
               prefixColor: prefixColor,
+              prefixText: prefixText,
               width: width,
                 height: height,
                 usePrefixIcon: preffixIcon !=null ? true:false,

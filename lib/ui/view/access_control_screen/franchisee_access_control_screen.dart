@@ -156,7 +156,10 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                       },
                     ),
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
               ],
             ),
           );

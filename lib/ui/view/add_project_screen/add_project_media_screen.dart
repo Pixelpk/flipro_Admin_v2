@@ -102,13 +102,12 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     },
                   ),
                   LabeledTextField(
-
                     label: "",
                     maxlines: null,
                     hintText: "Area (Square Meter)",
                     readonly: false,
                     textEditingController: areaController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     validation: (e) {
                       if (e == null || e.isEmpty) {
                         return "Please location area";
@@ -118,16 +117,15 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     },
                   ),
                   LabeledTextField(
-                    preffixIcon: AppConstant.dollarIcon,
+                    prefixText: "\$",
                     height: 18,
                     width: 18,
-                    prefixColor: AppColors.primaryBlueSwatch,
                     label: "",
                     maxlines: 1,
                     hintText: 'Anticipated Budget',
                     readonly: false,
                     textEditingController: anticipatedBudgetController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     validation: (e) {
                       if (e == null || e.isEmpty) {
                         return "Please add project anticipated budget";
@@ -287,21 +285,21 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
         _passedProject.contractorSupplierDetails != null &&
         _passedProject.projectState != null &&
         _passedProject.description != null) {
-      if (project.contractorSupplierDetails == "yes") {
-        existingQuriesYes = true;
-        existingQueriesNo = false;
+      if (project.crossCollaterized == 0) {
+        crossCollaterizedYes = false;
+        crossCollaterizedNo = true;
       }
-      if (project.contractorSupplierDetails == "no") {
-        existingQuriesYes = false;
-        existingQueriesNo = true;
+      if (project.crossCollaterized == 1) {
+        crossCollaterizedYes = true;
+        crossCollaterizedNo = false;
       }
-      areaController = TextEditingController(text: project.applicantName);
-      anticipatedBudgetController = TextEditingController(text: project.email);
-      titleController = TextEditingController(text: _passedProject.title);
-      projectAddressController = TextEditingController(text: project.phone!);
-      substateController = TextEditingController(text: project.applicantAddress!);
-      supplierDetailsController = TextEditingController(text: project.registeredOwners!);
-      description = TextEditingController(text: project.propertyDebt.toString());
+      areaController = TextEditingController(text: project.area);
+      anticipatedBudgetController = TextEditingController(text: project.anticipatedBudget.toString());
+      titleController = TextEditingController(text: project.projectAddress!);
+      projectAddressController = TextEditingController(text: project.title!);
+      substateController = TextEditingController(text: project.projectState!);
+      supplierDetailsController = TextEditingController(text: project.contractorSupplierDetails!);
+      description = TextEditingController(text: project.description.toString());
     } else {
       print("init ELSE CONTRA");
       titleController = TextEditingController();

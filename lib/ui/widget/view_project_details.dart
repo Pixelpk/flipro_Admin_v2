@@ -47,7 +47,7 @@ class ViewProjectDetails extends StatelessWidget {
           }
             return ListView(
               children: [
-                const ProjectInfoSection(),
+                 ProjectInfoSection(),
                  MediaSection(
                    media: project.getLoadedProject!.projectMedia!,
                  ),

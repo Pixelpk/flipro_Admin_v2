@@ -40,6 +40,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
   @override
   void initState() {
     initControllers();
+
     super.initState();
   }
 
@@ -169,16 +170,16 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     ),
                   ),
                   LabeledTextField(
-                    preffixIcon: AppConstant.dollarIcon,
+                    prefixText: "\$",
+
                     height: 18,
                     width: 18,
-                    prefixColor: AppColors.primaryBlueSwatch,
                     label: "",
                     maxlines: 1,
                     hintText: 'Current Property Value',
                     readonly: false,
                     textEditingController: currentPropertyValue,
-                    keyboardType: TextInputType.number,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     validation: (e) {
                       if (e == null || e.isEmpty) {
                         return "Please add current property value";
@@ -188,16 +189,15 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     },
                   ),
                   LabeledTextField(
-                    preffixIcon: AppConstant.dollarIcon,
+                    prefixText: "\$",
                     height: 18,
                     width: 18,
-                    prefixColor: AppColors.primaryBlueSwatch,
                     label: "",
                     maxlines: 1,
                     hintText: 'Current Property Debt.',
                     readonly: false,
                     textEditingController: currentPropertyDebt,
-                    keyboardType: TextInputType.number,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     validation: (e) {
                       if (e == null || e.isEmpty) {
                         return "Please add current property value";
