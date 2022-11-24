@@ -127,7 +127,7 @@ class FirebaseMessagingService {
   Future iOSNotificationHandler() async {
     if (Platform.isIOS) {
       FirebaseMessaging.instance.requestPermission(
-        alert: true,
+        alert: false,
         sound: true,
       );
     }

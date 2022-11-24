@@ -22,8 +22,6 @@ import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
 import 'ui/view/splash_screen/splash_screen.dart';
 
-///FIREBASE INTEGRATED USING FLUTTER FIRE CLI SO ,
-///GOOGLE-SERVICES,JSON FILES IS NOT REQUIRED
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
