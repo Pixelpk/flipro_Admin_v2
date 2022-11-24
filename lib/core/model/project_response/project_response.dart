@@ -75,7 +75,7 @@ class ProjectResponse {
 class Project {
   int? id;
   String? title;
-  int? anticipatedBudget;
+  num? anticipatedBudget;
   String? projectAddress;
   String? projectState;
   String? contractorSupplierDetails;
@@ -84,10 +84,10 @@ class Project {
   String? phone;
   String? applicantAddress;
   String? registeredOwners;
-  int? currentPropertyValue;
+  num? currentPropertyValue;
   String? projectLatestMarkedValue;
 
-  int? propertyDebt;
+  num? propertyDebt;
   int? crossCollaterized;
   String? status;
   String? createdAt;

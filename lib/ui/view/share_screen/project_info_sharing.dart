@@ -56,7 +56,7 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                 onTab: () {
                   shareProvider.updateTitleStatus(project.getLoadedProject!.title!);
                 },
-                label: "Project Address:",
+                label: "Project title:",
                 maxlines: null,
                 readonly: widget.readOnly,
                 fillColor: shareProvider.projectInfo.title! ? AppColors.mainThemeBlue : null,

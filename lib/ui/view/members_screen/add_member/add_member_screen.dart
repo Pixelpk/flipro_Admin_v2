@@ -284,7 +284,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         child: CheckboxListTile(
                           tileColor: Colors.white,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                          title: const Text("Fanchisee"),
+                          title: const Text("Partners"),
                           value: isFranchisee,
                           onChanged: (bool? value) {
                             setState(() {

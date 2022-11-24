@@ -40,7 +40,7 @@ class FranchiseeTabScreen extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                     child: LabeledTextField(
-                      label: "Franchisee Info",
+                      label: "Partners Info",
                       maxlines: null,
                       readonly: false,
                       hintText: loadedProject.getLoadedProject!.franchisee!.name!,

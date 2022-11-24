@@ -15,8 +15,7 @@ class AssetProvider extends ChangeNotifier {
   final List<File> _compressedImage = [];
   final List<MediaCompressionModel> _compressedVidoesWithThumbnail = [];
   List<File> get getPickedImages => _compressedImage;
-  List<MediaCompressionModel> get getCompressedVidoesWithThumbnail =>
-      _compressedVidoesWithThumbnail;
+  List<MediaCompressionModel> get getCompressedVidoesWithThumbnail => _compressedVidoesWithThumbnail;
   File? get getSinglePickedImage => _singlePickedImage;
   loadingState compressionProgress = loadingState.loaded;
   loadingState get getCompressionProgress => compressionProgress;
@@ -30,56 +29,47 @@ class AssetProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  imageCameraPicker(BuildContext context,
-      {bool multiplePick = false, required ImageSource imageSource}) async {
-   try {
+  imageCameraPicker(BuildContext context, {bool multiplePick = false, required ImageSource imageSource}) async {
+    try {
       final ImagePicker _picker = ImagePicker();
 
       if (multiplePick == false) {
         print("SINGLE PICKER");
-        XFile? xfile =
-            await _picker.pickImage(source: imageSource, imageQuality: 40);
+        XFile? xfile = await _picker.pickImage(source: imageSource, imageQuality: 40);
         if (xfile != null) {
-          File compressedFile = await FlutterNativeImage.compressImage(
-              xfile.path,
-              quality: 40,
-              percentage: 40);
+          File compressedFile = await FlutterNativeImage.compressImage(xfile.path, quality: 40, percentage: 40);
 
           _compressedImage.add(compressedFile);
         }
       } else {
         print("MULTIPICKER PICKER");
-        final List<XFile>? images =
-            await _picker.pickMultiImage(imageQuality: 60);
+        final List<XFile>? images = await _picker.pickMultiImage(imageQuality: 60);
         setStateLoading();
         if (images != null && images.isNotEmpty) {
           images.forEach((image) async {
-            File compressedFile = await FlutterNativeImage.compressImage(
-                image.path,
-                quality: 40,
-                percentage: 40);
+            File compressedFile = await FlutterNativeImage.compressImage(image.path, quality: 40, percentage: 40);
 
             _compressedImage.add(compressedFile);
             notifyListeners();
-
           });
-
         }
       }
-    }finally{
-    setStateLoaded();
-   }
+    } finally {
+      setStateLoaded();
+    }
   }
 
   singleImageCameraPicker(BuildContext context, ImageSource imageSource) async {
     final ImagePicker _picker = ImagePicker();
 
     print("SINGLE PICKER");
-    XFile? xfile =
-        await _picker.pickImage(source: imageSource, imageQuality: 40);
+    XFile? xfile = await _picker.pickImage(source: imageSource, imageQuality: 40);
     if (xfile != null) {
-      File compressedFile = await FlutterNativeImage.compressImage(xfile.path,
-          quality: 60, percentage: 60,  );
+      File compressedFile = await FlutterNativeImage.compressImage(
+        xfile.path,
+        quality: 60,
+        percentage: 60,
+      );
       _singlePickedImage = compressedFile;
       notifyListeners();
     }
@@ -96,8 +86,7 @@ class AssetProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  videoCameraPicker(BuildContext context,
-      {bool multiplePick = true, required ImageSource imageSource}) async {
+  videoCameraPicker(BuildContext context, {bool multiplePick = true, required ImageSource imageSource}) async {
     try {
       final ImagePicker _picker = ImagePicker();
       XFile? xfile = await _picker.pickVideo(
@@ -120,17 +109,14 @@ class AssetProvider extends ChangeNotifier {
           File compressedVideo = File(mediaInfo.path!);
           if (multiplePick) {
             print(_compressedVidoesWithThumbnail.length);
-            final thumbnailFile =
-                await VideoCompress.getFileThumbnail(compressedVideo.path,
-                    quality: 30,
+            final thumbnailFile = await VideoCompress.getFileThumbnail(compressedVideo.path,
+                quality: 30,
 
-                    // default(100)
-                    position: -1 // default(-1)
-                    );
+                // default(100)
+                position: -1 // default(-1)
+                );
             print("THUMBNAIL ${thumbnailFile.path}");
-            _compressedVidoesWithThumbnail.add(MediaCompressionModel(
-                compressedVideoPath: compressedVideo.path,
-                thumbnailPath: thumbnailFile.path));
+            _compressedVidoesWithThumbnail.add(MediaCompressionModel(compressedVideoPath: compressedVideo.path, thumbnailPath: thumbnailFile.path));
             print(_compressedVidoesWithThumbnail.length);
             Navigator.pop(Get.context!);
             setStateLoaded();

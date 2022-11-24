@@ -375,6 +375,12 @@ class ProjectService {
       return GenericModel(
           returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
     }
+    catch(e, t){
+      print(t);
+      throw e;
+
+    }
+
   }
 
   Future<GenericModel> getAllStatusPending(

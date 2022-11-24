@@ -48,7 +48,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Project Address:",
               maxlines: null,
               readonly: readOnly,
-              hintText: "${project.getLoadedProject!.title}",
+              hintText: "${project.getLoadedProject!.projectAddress}",
             ),
             SizedBox(
               height: 1.h,
@@ -57,7 +57,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Area(Square Meter):",
               maxlines: null,
               readonly: readOnly,
-              hintText: "${formatter.format(double.parse(project.getLoadedProject!.area!.replaceAll(",", "")))}",
+              hintText: formatter.format(double.parse(project.getLoadedProject!.area!.replaceAll(",", ""))),
             ),
             SizedBox(
               height: 1.h,
@@ -75,7 +75,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Project Title",
               maxlines: 1,
               readonly: readOnly,
-              hintText: "${project.getLoadedProject!.projectAddress}",
+              hintText: "${project.getLoadedProject!.title}",
             ),
             SizedBox(
               height: 1.h,
@@ -94,7 +94,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Anticipated Budget:",
               maxlines: 1,
               readonly: true,
-              hintText:  '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget!.toString().replaceAll(",", "")))}',
+              hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget!.toString().replaceAll(",", "")))}',
             ),
             SizedBox(
               height: 1.h,
@@ -148,7 +148,8 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Property Debt:",
               maxlines: 1,
               readonly: true,
-              hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.propertyDebt!.toString().replaceAll(",", "")))}',/*NumberFormat.currency(symbol: '\$').format((int.parse(project.getLoadedProject!.propertyDebt.toString())))*/
+              hintText:
+                  '\$${formatter.format(double.parse(project.getLoadedProject!.propertyDebt!.toString().replaceAll(",", "")))}', /*NumberFormat.currency(symbol: '\$').format((int.parse(project.getLoadedProject!.propertyDebt.toString())))*/
             ),
             SizedBox(
               height: 1.h,
@@ -158,7 +159,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Existing Queries:",
               maxlines: 1,
               readonly: true,
-              hintText: '${project.getLoadedProject!.contractorSupplierDetails}',
+              hintText: project.getLoadedProject!.contractorSupplierDetails == 1 ? 'Yes' : 'No',
             ),
             SizedBox(
               height: 1.h,

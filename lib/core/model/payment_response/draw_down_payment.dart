@@ -5,7 +5,7 @@ class DrawDownPayment {
   int? id;
   int? projectId;
   int? userId;
-  int? amount;
+  num? amount;
 
   String? description;
   String? reason;
@@ -16,7 +16,7 @@ class DrawDownPayment {
   String? updatedAt;
   Project? project;
   UserRoleModel? user;
-  MediaObject? paymentReqMedia ;
+  MediaObject? paymentReqMedia;
   DrawDownPayment(
       {this.id,
       this.projectId,
@@ -26,7 +26,7 @@ class DrawDownPayment {
       this.description,
       this.images,
       this.videos,
-        this.reason,
+      this.reason,
       this.project,
       this.status,
       this.createdAt,
@@ -37,10 +37,9 @@ class DrawDownPayment {
     projectId = json['project_id'];
     userId = json['user_id'];
     amount = json['amount'];
-    project =
-        json['project'] != null ? Project.fromJson(json['project']) : null;
+    project = json['project'] != null ? Project.fromJson(json['project']) : null;
     description = json['description'];
-    if(json['images'] != null){
+    if (json['images'] != null) {
       images = json['images'].cast<String>();
     }
 
@@ -57,7 +56,7 @@ class DrawDownPayment {
     createdAt = json['created_at'] ?? '';
     updatedAt = json['updated_at'] ?? '';
     reason = json['reason'];
-    paymentReqMedia = MediaObject(videos: videos,images: images);
+    paymentReqMedia = MediaObject(videos: videos, images: images);
   }
 
   Map<String, dynamic> toJson() {
@@ -67,7 +66,8 @@ class DrawDownPayment {
     data['user_id'] = userId;
     data['amount'] = amount;
     data['description'] = description;
-    data['images'] = images;    data['images'] = images;
+    data['images'] = images;
+    data['images'] = images;
     if (videos != null) {
       data['videos'] = videos!.map((v) => v.toJson()).toList();
     }
@@ -85,12 +85,7 @@ class Project {
   String? coverPhoto;
   String? projectAddress;
 
-  Project(
-      {this.id,
-      this.title,
-      this.description,
-      this.coverPhoto,
-      this.projectAddress});
+  Project({this.id, this.title, this.description, this.coverPhoto, this.projectAddress});
 
   Project.fromJson(Map<String, dynamic> json) {
     id = json['id'];

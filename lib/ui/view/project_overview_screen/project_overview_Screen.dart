@@ -374,7 +374,7 @@ class ProjectOverviewScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                   child: LabeledTextField(
-                    label: "Franchisee",
+                    label: "Partners",
                     maxlines: null,
                     readonly: true,
                     hintText: loadedProject.getLoadedProject!.franchisee!.name!,

@@ -293,7 +293,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
         crossCollaterizedYes = true;
         crossCollaterizedNo = false;
       }
-      areaController = TextEditingController(text: project.area);
+      areaController = TextEditingController(text: project.area!.trim());
       anticipatedBudgetController = TextEditingController(text: project.anticipatedBudget.toString());
       titleController = TextEditingController(text: project.projectAddress!);
       projectAddressController = TextEditingController(text: project.title!);
@@ -323,7 +323,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
     if (_formKey.currentState!.validate() && Provider.of<AssetProvider>(context, listen: false).getPickedImages.isNotEmpty) {
       project.title = titleController!.text.trim();
       project.area = areaController!.text.trim();
-      project.anticipatedBudget = int.tryParse(anticipatedBudgetController!.text.trim());
+      project.anticipatedBudget = double.tryParse(anticipatedBudgetController!.text.trim());
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = substateController!.text.trim();
       project.contractorSupplierDetails = crossCollaterized;
@@ -345,12 +345,12 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   updateProjectProject() async {
     if (_formKey.currentState!.validate()) {
       project.title = titleController!.text.trim();
-      project.area = areaController!.text.trim();
-      project.anticipatedBudget = int.tryParse(anticipatedBudgetController!.text.trim());
+      project.area = areaController!.text;
+      project.anticipatedBudget = double.tryParse(anticipatedBudgetController!.text.trim());
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = substateController!.text.trim();
       project.contractorSupplierDetails = crossCollaterized;
-      project.description = description!.text.trim();
+      project.description = description!.text;
 
       print(project.toJson());
 

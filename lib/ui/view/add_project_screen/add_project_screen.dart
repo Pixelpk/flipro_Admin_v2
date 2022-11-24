@@ -344,13 +344,13 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
 
   save() {
     if (_formKey.currentState!.validate() && (crossCollaterizedYes == true || crossCollaterizedNo == true)) {
-      project.currentPropertyValue = int.tryParse(currentPropertyValue.text);
+      project.currentPropertyValue = double.tryParse(currentPropertyValue.text);
       project.applicantName = applicantNameController.text.trim();
       project.email = applicantEmailController.text.trim();
       project.phone = applicantPhoneController.text.trim();
       project.applicantAddress = applicantAddressController.text;
       project.registeredOwners = registeredOwnerController.text;
-      project.propertyDebt = int.tryParse(currentPropertyDebt.text);
+      project.propertyDebt = double.tryParse(currentPropertyDebt.text);
       project.crossCollaterized = crossCollaterizedYes ? 1 : 0;
 
       Navigator.of(context).pushNamed(AddProjectMediaScreen.routeName, arguments: {"project": project, "newProject": widget.isNewProject});
