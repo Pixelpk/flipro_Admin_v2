@@ -163,7 +163,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                     child: Row(
                       children: [
                         Text(
-                          "Property Financial value",
+                          "Financial",
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ],
