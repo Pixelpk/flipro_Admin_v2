@@ -23,29 +23,21 @@ class ProjectProgressTimeLineScreen extends StatefulWidget {
   static const routeName = '/projectProgressTimeLineScreen';
 
   @override
-  State<ProjectProgressTimeLineScreen> createState() =>
-      _ProjectProgressTimeLineScreenState();
+  State<ProjectProgressTimeLineScreen> createState() => _ProjectProgressTimeLineScreenState();
 }
 
-class _ProjectProgressTimeLineScreenState
-    extends State<ProjectProgressTimeLineScreen> {
+class _ProjectProgressTimeLineScreenState extends State<ProjectProgressTimeLineScreen> {
   final _pageSize = 20;
-  final PagingController<int, ProgressModel> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, ProgressModel> _pagingController = PagingController(firstPageKey: 1);
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await ProgressService.getProjectProgress(
-          accessToken:
-              Provider.of<UserProvider>(context, listen: false).getAuthToken,
+          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
-          projectId: Provider.of<LoadedProjectProvider>(context, listen: false)
-              .getLoadedProject!
-              .id!);
+          projectId: Provider.of<LoadedProjectProvider>(context, listen: false).getLoadedProject!.id!);
       if (genericModel.statusCode == 200) {
         ProgressResponse progressResponse = genericModel.returnedModel;
-        if (progressResponse != null &&
-            progressResponse.data != null &&
-            progressResponse.data!.progressess != null) {
+        if (progressResponse != null && progressResponse.data != null && progressResponse.data!.progressess != null) {
           final newItems = progressResponse.data!.progressess ?? [];
           final isLastPage = newItems.length < _pageSize;
           if (isLastPage) {
@@ -55,11 +47,8 @@ class _ProjectProgressTimeLineScreenState
             _pagingController.appendPage(newItems, nextPageKey);
           }
         }
-      } else if (genericModel.statusCode == 400 ||
-          genericModel.statusCode == 422 ||
-          genericModel.statusCode == 401) {
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+      } else if (genericModel.statusCode == 400 || genericModel.statusCode == 422 || genericModel.statusCode == 401) {
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
       }
     } catch (error) {
       print(error);
@@ -110,14 +99,16 @@ class _ProjectProgressTimeLineScreenState
                       indicator: _IndicatorExample(number: '${index + 1}'),
                       drawGap: false,
                     ),
-                    beforeLineStyle: const LineStyle(
-                        thickness: 3, color: AppColors.mainThemeBlue),
+                    beforeLineStyle: const LineStyle(thickness: 3, color: AppColors.mainThemeBlue),
                     endChild: GestureDetector(
                       child: _RowExample(
                         progressModel: progress,
                       ),
                       onTap: () {
-                       Navigator.of(context).push(MaterialPageRoute(builder: (_)=>SingleProgressScreen(progressModel: progress,)));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => SingleProgressScreen(
+                                  progressModel: progress,
+                                )));
                       },
                     ),
                   )),
@@ -167,10 +158,7 @@ class _IndicatorExample extends StatelessWidget {
       radius: 20,
       child: Text(
         number,
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1!
-            .copyWith(color: Colors.white),
+        style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
       ),
     );
   }
@@ -185,33 +173,25 @@ class _RowExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 70,
-      margin: const EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-          color: AppColors.mainThemeBlue, borderRadius: BorderRadius.circular(15)),
+
+      margin: const EdgeInsets.only(right: 10,top: 10,bottom: 10),
+      decoration: BoxDecoration(color: AppColors.mainThemeBlue, borderRadius: BorderRadius.circular(15)),
       child: Row(
         children: <Widget>[
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${progressModel.formattedDate}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1!
-                        .copyWith(color: Colors.white)),
+                Text("${progressModel.formattedDate}", style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white)),
 
                 Row(
                   children: [
                     Flexible(
                       child: Text(
                         "${progressModel.title}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline5!
-                            .copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white,fontSize: 16),
                         maxLines: 1,
-                        overflow: TextOverflow.fade,
+
                       ),
                     ),
                   ],
@@ -219,12 +199,9 @@ class _RowExample extends StatelessWidget {
                 // SizedBox(height: 2,),
                 Text(
                   "${progressModel.description}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(color: Colors.white),
-                  maxLines: 1,
-                  overflow: TextOverflow.fade,
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                  overflow: TextOverflow.clip,
+
                 )
               ],
             ),

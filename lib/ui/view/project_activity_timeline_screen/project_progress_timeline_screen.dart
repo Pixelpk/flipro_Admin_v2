@@ -161,9 +161,9 @@ class _RowExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 70,
 
-      margin: const EdgeInsets.only(right: 10),
+
+      margin: const EdgeInsets.only(right: 10, bottom: 10, top: 10),
 
       decoration: BoxDecoration(
 
@@ -189,8 +189,8 @@ class _RowExample extends StatelessWidget {
                             .textTheme
                           .bodySmall!
                             .copyWith(color: Colors.white, fontSize: 14),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+
+                        overflow: TextOverflow.clip,
                       ),
                     ),
                   ],

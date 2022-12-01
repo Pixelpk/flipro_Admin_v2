@@ -84,21 +84,35 @@ class PaymentReqListItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "${paymentRequest!.project!.title}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(color: AppColors.mainThemeBlue),
-                              maxLines: 1,
+                            Flexible(
+                              child: Text(
+                                "Title: ${paymentRequest!.project!.title}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(color: AppColors.mainThemeBlue),
+                                maxLines: 1,
+                              ),
                             ),
-                            Text(
-                              "${paymentRequest!.project!.projectAddress}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1!
-                                  .copyWith(color: AppColors.greyDark),
-                              maxLines: 3,
+                            Flexible(
+                              child: Text(
+                                "Amount: \$${paymentRequest!.amount}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(color: AppColors.mainThemeBlue),
+                                maxLines: 1,
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(
+                                paymentRequest!.description!=null ?   "Reason: ${paymentRequest!.description}" : "Reason: NA",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .copyWith(color: AppColors.greyDark),
+                                maxLines: 3,
+                              ),
                             ),
                           ],
                         ),

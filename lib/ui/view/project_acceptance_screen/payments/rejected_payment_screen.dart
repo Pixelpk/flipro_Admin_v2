@@ -109,7 +109,7 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
                     label: "Reason",
                     maxlines: 2,
                     readonly: false,
-                    textEditingController: reasonController,
+                      textEditingController: TextEditingController(text: widget.payment.description ?? "NA")
                   ),
                   SizedBox(
                     height: 20,

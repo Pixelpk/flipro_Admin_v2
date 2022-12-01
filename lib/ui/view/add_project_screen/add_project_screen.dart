@@ -171,7 +171,6 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                   ),
                   LabeledTextField(
                     prefixText: "\$",
-
                     height: 18,
                     width: 18,
                     label: "",

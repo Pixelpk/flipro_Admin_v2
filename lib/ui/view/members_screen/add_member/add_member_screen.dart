@@ -126,28 +126,31 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                   },
                   preffixIcon: AppConstant.homeIcon,
                 ),
-               SizedBox(
+                SizedBox(
                   height: 3.h,
                 ),
-                isValuer ==true || isBuilder == true?LabeledTextField(
-                  label: 'Company Name',
-                  readonly: false,
-                  maxlines: 1,
-                  textEditingController: companyController,
-                  hintText: "Company Name",
-                  validation: (e) {
-                    if (e != null) {
-                      if (e.isEmpty) {
-                        return "Company Name should not be empty";
-                      }
-                      return null;
-                    }
-                  },
-
-                ):Container(),
-                isValuer ==true || isBuilder == true? SizedBox(
-                  height: 3.5.h,
-                ):Container(),
+                isValuer == true || isBuilder == true
+                    ? LabeledTextField(
+                        label: 'Company Name',
+                        readonly: false,
+                        maxlines: 1,
+                        textEditingController: companyController,
+                        hintText: "Company Name",
+                        validation: (e) {
+                          if (e != null) {
+                            if (e.isEmpty) {
+                              return "Company Name should not be empty";
+                            }
+                            return null;
+                          }
+                        },
+                      )
+                    : Container(),
+                isValuer == true || isBuilder == true
+                    ? SizedBox(
+                        height: 3.5.h,
+                      )
+                    : Container(),
                 Text(
                   "Phone",
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
@@ -179,14 +182,14 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
 
                             searchDecoration: customInputDecoration(context: context, hintText: 'Search', usePrefixIcon: true, prefixicon: 'default'),
                             // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                            initialSelection: 'US',
+                            initialSelection: 'AU',
                             onInit: (code) {
                               countryCode = code!.dialCode.toString();
                               print('country code init: ');
                             },
                             dialogSize: Size(90.w, 80.h),
 
-                            favorite: const ['+1', 'US'],
+                            favorite: const ['+61', 'AU'],
                             // optional. Shows only country name and flag
                             showCountryOnly: false,
                             // optional. Shows only country name and flag when popup is closed.
