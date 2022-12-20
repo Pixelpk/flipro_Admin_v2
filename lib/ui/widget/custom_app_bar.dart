@@ -40,7 +40,7 @@ class CustomAppBar extends StatelessWidget {
           },):null,
           automaticallyImplyLeading: automaticallyImplyLeading!,
           backgroundColor: AppColors.blueScaffoldBackground,
-          title: SvgPicture.asset(AppConstant.logoBlack),
+          title: SvgPicture.asset(AppConstant.logoBlack,height: 40),
         ),
         Container(
           width: 100.w,

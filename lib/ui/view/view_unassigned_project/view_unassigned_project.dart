@@ -48,7 +48,7 @@ class ViewUnassignedProject extends StatelessWidget {
 
           return ListView(
             children: [
-              const ProjectInfoSection(
+               ProjectInfoSection(
                 readOnly: true,
                 // projectTitle: projectProvider.getLoadedProject!.title!,
                 // area: projectProvider.getLoadedProject!.area,
@@ -60,12 +60,12 @@ class ViewUnassignedProject extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                 child: LabeledTextField(
-                  label: "Franchisee",
+                  label: "Partners",
                   maxlines: null,
                   readonly: true,
                   hintText: projectProvider.getLoadedProject!.franchisee != null
                       ? projectProvider.getLoadedProject!.franchisee!.name
-                      : "Franchisee Name",
+                      : "Partners Name",
                   labelWidget: ColoredLabel(
                     color: AppColors.lightRed,
                     text: 'Edit Access',

@@ -95,7 +95,6 @@ class PaymentService {
       required String? rejectionReason,
       required bool isRejected}) async {
     try {
-
       var headers = {
         'Accept': 'application/json',
         'Authorization': 'Bearer $accessToken'

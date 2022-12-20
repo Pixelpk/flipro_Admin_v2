@@ -35,7 +35,7 @@ class _ActivityTabBarState extends State<ProjectTabBar> {
               ),
               tabBar(
                 context: context,
-                title: "Franchisee",
+                title: "Partners",
                 index: 1,
               ),
               tabBar(

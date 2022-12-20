@@ -36,9 +36,14 @@ class _SwitchTileState extends State<SwitchTile> {
           borderRadius: BorderRadius.circular(8)),
       child: Row(
         children: [
-          Text(
-            widget.tileTitle ?? "Private",
-            style: Theme.of(context).textTheme.headline5,
+          Container(
+            width: 200,
+            child: Text(
+
+              widget.tileTitle ?? "Private",
+              style: Theme.of(context).textTheme.headline5,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           const Spacer(),
           FlutterSwitch(

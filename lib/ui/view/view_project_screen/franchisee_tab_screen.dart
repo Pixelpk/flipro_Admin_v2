@@ -13,6 +13,7 @@ import 'package:fliproadmin/ui/widget/media_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+
 class FranchiseeTabScreen extends StatelessWidget {
   const FranchiseeTabScreen({Key? key}) : super(key: key);
 
@@ -20,9 +21,7 @@ class FranchiseeTabScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () => Future.sync(() =>
-            Provider.of<LoadedProjectProvider>(context, listen: false)
-                .refresh()),
+        onRefresh: () => Future.sync(() => Provider.of<LoadedProjectProvider>(context, listen: false).refresh()),
         child: Container(
           width: 100.w,
           padding: EdgeInsets.symmetric(horizontal: 3.w),
@@ -37,12 +36,11 @@ class FranchiseeTabScreen extends StatelessWidget {
                     height: 1.h,
                   );
                 }
-                if (loadedProject.getLoadedProject != null &&
-                    loadedProject.getLoadedProject!.franchisee != null ) {
+                if (loadedProject.getLoadedProject != null && loadedProject.getLoadedProject!.franchisee != null) {
                   return Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                     child: LabeledTextField(
-                      label: "Franchisee Info",
+                      label: "Partners Info",
                       maxlines: null,
                       readonly: false,
                       hintText: loadedProject.getLoadedProject!.franchisee!.name!,
@@ -50,12 +48,9 @@ class FranchiseeTabScreen extends StatelessWidget {
                         color: AppColors.lightRed,
                         text: 'Edit Access',
                         callback: () {
-                          Navigator.pushNamed(
-                              context, FranchiseeAccessControlScreen.routeName,
+                          Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
                               arguments: AccessControlObject(
-                                  userRoleModel:
-                                  loadedProject.getLoadedProject!.franchisee!,
-                                  routeName: ViewProjectScreen.routeName));
+                                  userRoleModel: loadedProject.getLoadedProject!.franchisee!, routeName: ViewProjectScreen.routeName));
                         },
                       ),
                     ),
@@ -70,8 +65,7 @@ class FranchiseeTabScreen extends StatelessWidget {
               ),
               SizedBox(
                   height: 55.h,
-                  child: Consumer<LoadedProjectProvider>(
-                      builder: (ctx, loadedProject, c) {
+                  child: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
                     if (loadedProject.getLoadingState == loadingState.loading) {
                       return SizedBox(
                         height: 1.h,
@@ -79,13 +73,11 @@ class FranchiseeTabScreen extends StatelessWidget {
                     }
                     if (loadedProject.getLoadedProject != null &&
                         loadedProject.getLoadedProject!.latestProgress != null &&
-                        loadedProject.getLoadedProject!.latestProgress!.user!
-                                .userType ==
-                            'franchise') {
+                        loadedProject.getLoadedProject!.latestProgress!.user!.userType == 'franchise') {
                       return SingleProgressScreen(
+                        readOnly: true,
                         showAppBar: false,
-                        progressModel:
-                            loadedProject.getLoadedProject!.latestProgress!,
+                        progressModel: loadedProject.getLoadedProject!.latestProgress!,
                       );
                     } else {
                       return Container();
@@ -99,8 +91,7 @@ class FranchiseeTabScreen extends StatelessWidget {
                 }
                 if (loadedProject.getLoadedProject != null &&
                     loadedProject.getLoadedProject!.latestNote != null &&
-                    loadedProject.getLoadedProject!.latestNote!.user!.userType ==
-                        'franchise') {
+                    loadedProject.getLoadedProject!.latestNote!.user!.userType == 'franchise') {
                   return LabeledTextField(
                     label: "Note",
                     maxlines: 10,

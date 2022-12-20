@@ -15,8 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class NoteItem extends StatelessWidget {
-  const NoteItem({Key? key, this.note, required this.pagingController})
-      : super(key: key);
+  const NoteItem({Key? key, this.note, required this.pagingController}) : super(key: key);
   final Note? note;
   final PagingController pagingController;
   @override
@@ -32,8 +31,7 @@ class NoteItem extends StatelessWidget {
           ///SETTING EDITABLE TRUE SO WE CAN EDIT THIS NOTE
           note!.isEditAble = true;
           print(note!.toJson());
-          final isSucess = await Navigator.of(context)
-              .pushNamed(NoteViewScreen.routeName, arguments: note);
+          final isSucess = await Navigator.of(context).pushNamed(NoteViewScreen.routeName, arguments: note);
           print("is CISSS ${isSucess}");
           if (isSucess != null && isSucess == true) {
             print("sdsf$isSucess");
@@ -68,36 +66,27 @@ class NoteItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Text("${note!.timeago}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2!
-                        .copyWith(color: AppColors.greyFontColor)),
+                Text("${note!.timeago}", style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor)),
               ],
             ),
             const Spacer(),
-            IconButton(
-                onPressed: () {
-                  UIHelper.deleteDialog("Are you sure to delete this note?",
-                      () async {
-                    GenericModel genericModel = await NotesService.deleteNote(
-                        accessToken:
-                            Provider.of<UserProvider>(context, listen: false)
-                                .getAuthToken,
-                        nodeId: note!.id);
-                    if (genericModel.success) {
-                      GetXDialog.showDialog(
-                          message: genericModel.message,
-                          title: genericModel.title);
-                      pagingController.refresh();
-                      Navigator.of(context).pop();
-                    }
-                  }, context);
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  color: AppColors.mainThemeBlue,
-                ))
+            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!)
+              IconButton(
+                  onPressed: () {
+                    UIHelper.deleteDialog("Are you sure to delete this note?", () async {
+                      GenericModel genericModel = await NotesService.deleteNote(
+                          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, nodeId: note!.id);
+                      if (genericModel.success) {
+                        GetXDialog.showDialog(message: genericModel.message, title: genericModel.title);
+                        pagingController.refresh();
+                        Navigator.of(context).pop();
+                      }
+                    }, context);
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: AppColors.mainThemeBlue,
+                  ))
           ],
         ),
       ),

@@ -53,28 +53,38 @@ class _HomePageBodyState extends State<HomePageBody> {
             projectProvider.getProjects == null) {
           return const Center(child: Text("Encounter an error please try again later"));
         }
-        return LazyLoadScrollView(
-            isLoading: projectProvider.getLoadingState == loadingState.loading,
-            onEndOfPage: () =>
-                Provider.of<ProjectsProvider>(context, listen: false)
-                    .fetchProjects(initialLoading: false),
-            child: GridView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  // mainAxisExtent: 52.w,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: projectProvider.getProjects.length,
-                itemBuilder: (BuildContext ctx, index) {
-                  var project = projectProvider.getProjects[index];
-                  return ChangeNotifierProvider<ProjectProvider>.value(
-                    value: project,
-                    child: const HomeItem(),
-                  );
-                }));
+        if(projectProvider.getProjects.isEmpty){
+          return const Center(child: Text("No Project Found", style: TextStyle(color: Colors.black),),);
+        }
+        else{
+          return LazyLoadScrollView(
+              isLoading: projectProvider.getLoadingState == loadingState.loading,
+              onEndOfPage: () =>
+                  Provider.of<ProjectsProvider>(context, listen: false)
+                      .fetchProjects(initialLoading: false),
+              child: GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                    // mainAxisExtent: 52.w,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemCount: projectProvider.getProjects.length,
+                  itemBuilder: (BuildContext ctx, index) {
+                    var project = projectProvider.getProjects[index];
+
+
+                    return ChangeNotifierProvider<ProjectProvider>.value(
+                      value: project,
+                      child: const HomeItem(),
+                    );
+
+
+                  }));
+        }
+
       }),
     );
   }

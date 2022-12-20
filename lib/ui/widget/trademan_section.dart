@@ -47,7 +47,7 @@ class TradeManSection extends StatelessWidget {
             labelWidget: showHomeOwnerRevokeAccess
                  && homeOwner !=null ? ColoredLabel(
               color: AppColors.lightRed,
-              text: 'Revoke Access',
+              text: 'Edit Access',
               callback: () {
                 Navigator.pushNamed(
                     context, HomeOwnerAccessControlScreen.routeName,
@@ -86,7 +86,7 @@ class TradeManSection extends StatelessWidget {
           //       ? showBuilderRevokeAccess
           //           ? ColoredLabel(
           //               color: AppColors.lightRed,
-          //               text: 'Revoke Access',
+          //               text: 'Edit Access',
           //               callback: () {
           //                 Navigator.pushNamed(
           //                     context, BuilderAccessControlScreen.routeName,
@@ -141,7 +141,7 @@ class TradeManSection extends StatelessWidget {
               },
             ): builder!.isNotEmpty && builder!.length  == 1 ? ColoredLabel(
               color: AppColors.lightRed,
-              text: 'Revoke Access',
+              text: 'Edit Access',
               callback: () {
                 Navigator.pushNamed(
                     context, BuilderAccessControlScreen.routeName,
@@ -188,7 +188,7 @@ class TradeManSection extends StatelessWidget {
               },
             ): valuer!.isNotEmpty && valuer!.length  == 1 ? ColoredLabel(
               color: AppColors.lightRed,
-              text: 'Revoke Access',
+              text: 'Edit Access',
               callback: () {
                 Navigator.pushNamed(
                     context, ValuerAccessControlScreen.routeName,

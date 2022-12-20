@@ -11,6 +11,8 @@ import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:fliproadmin/ui/widget/media_section.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -24,6 +26,7 @@ class RejectedPaymentScreen extends StatefulWidget {
 
 class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
   late TextEditingController reasonController;
+  var formatter = NumberFormat('#,##0.' + "#" * 5);
   @override
   void initState() {
     reasonController = TextEditingController(text: widget.payment.reason ?? '');
@@ -95,7 +98,8 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
                       ),
                       Expanded(
                           child: ColoredLabel(
-                        text: '${widget.payment.amount}\$',
+                        text:
+                            '\$${formatter.format(double.parse(widget.payment.amount.toString().replaceAll(",", "")))}',
                         height: 6.h,
                       ))
                     ],
@@ -117,11 +121,11 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
                   ),
 
                   LabeledTextField(
-                    label: "Reason",
-                    maxlines: 2,
-                    readonly: false,
-                    textEditingController: reasonController,
-                  ),
+                      label: "Reason",
+                      maxlines: 2,
+                      readonly: false,
+                      textEditingController: TextEditingController(
+                          text: widget.payment.description ?? "NA")),
                   SizedBox(
                     height: 20,
                   ),

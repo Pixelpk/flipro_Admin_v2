@@ -10,7 +10,6 @@ class ProjectRoles {
   ProjectRoles(
       {this.view =true,
         this.addValue =false,
-
         this.addNotes =false,
         this.uploadProgress =false,
         this.addPhotos =false,

@@ -161,9 +161,9 @@ class _RowExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 70,
 
-      margin: const EdgeInsets.only(right: 10),
+
+      margin: const EdgeInsets.only(right: 10, bottom: 10, top: 10),
 
       decoration: BoxDecoration(
 
@@ -187,10 +187,10 @@ class _RowExample extends StatelessWidget {
                        "${activityModel.description}",
                         style: Theme.of(context)
                             .textTheme
-                            .headline5!
-                            .copyWith(color: Colors.white),
-                        maxLines: 1,
-                        overflow: TextOverflow.fade,
+                          .bodySmall!
+                            .copyWith(color: Colors.white, fontSize: 14),
+
+                        overflow: TextOverflow.clip,
                       ),
                     ),
                   ],

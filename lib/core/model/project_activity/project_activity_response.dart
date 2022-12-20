@@ -34,14 +34,14 @@ class Data {
 
   Data(
       {this.currentPage,
-        this.activities,
-        this.firstPageUrl,
-        this.from,
-        this.lastPage,
-        this.path,
-        this.perPage,
-        this.to,
-        this.total});
+      this.activities,
+      this.firstPageUrl,
+      this.from,
+      this.lastPage,
+      this.path,
+      this.perPage,
+      this.to,
+      this.total});
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
@@ -84,16 +84,16 @@ class ProjectActivityModel {
   String? description;
   String? createdAt;
   String? updatedAt;
-  String? dateTime ;
+  String? dateTime;
 
   ProjectActivityModel(
       {this.id,
-        this.projectId,
-        this.userId,
-        this.status,
-        this.description,
-        this.createdAt,
-        this.updatedAt});
+      this.projectId,
+      this.userId,
+      this.status,
+      this.description,
+      this.createdAt,
+      this.updatedAt});
 
   ProjectActivityModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -103,7 +103,7 @@ class ProjectActivityModel {
     description = json['description'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    dateTime =LogicHelper.getFormattedDate(createdAt!);
+    dateTime = LogicHelper.getFormattedDate(createdAt!);
   }
 
   Map<String, dynamic> toJson() {
@@ -118,4 +118,3 @@ class ProjectActivityModel {
     return data;
   }
 }
-

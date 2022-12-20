@@ -16,7 +16,7 @@ import 'package:get/get.dart';
 
 enum loadingState { loaded, loading }
 
-class AuthProvider with ChangeNotifier {
+class AuthProvider extends ChangeNotifier {
   DbService? dbService;
   AuthProvider() {
     dbService = DbService();
@@ -36,6 +36,7 @@ class AuthProvider with ChangeNotifier {
   Future emailLogin(String email, String password) async {
     setStateLoading();
     final String? fcm = await FirebaseMessaging.instance.getToken();
+    print("fcm" + fcm.toString());
     GenericModel genericModel = await AuthService.login(email, password,fcm?? '');
     setStateLoaded();
 

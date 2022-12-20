@@ -36,7 +36,7 @@ class _MemberTabBarState extends State<MemberTabBar> {
           ),
           tabBar(
             context: context,
-            title: "Franchisee",
+            title: "Partners",
             localindex: 2,
           ),
           tabBar(

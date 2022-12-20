@@ -38,8 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
           child: authProvider.getLoadingState == loadingState.loading
               ? HelperWidget.progressIndicator()
               : Form(
-            key: _formKey,
-                child: Column(
+                  key: _formKey,
+                  child: Column(
                     children: [
                       const LoginAppBar(),
                       SizedBox(
@@ -115,8 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 )),
                             GestureDetector(
-                              onTap: (){
-                                Navigator.pushNamed(context, ForgotPasswordScreen.routeName);
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, ForgotPasswordScreen.routeName);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -142,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: 55.w,
                                   buttonText: "Login",
                                   callback: () {
-                                    if(_formKey.currentState!.validate()) {
+                                    if (_formKey.currentState!.validate()) {
                                       authProvider.emailLogin(
                                           emailController.text.trim(),
                                           passwordController.text.trim());
@@ -158,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     ],
                   ),
-              ),
+                ),
         ),
       ),
     );

@@ -96,7 +96,7 @@ class _ProjectDrwDownPaymentsState extends State<ProjectDrwDownPayments> {
         child: const CustomAppBar(
           automaticallyImplyLeading: true,
           bannerText:
-              "Project Payment Reqs",
+              "Payment Request",
           bannerColor:  AppColors.mainThemeBlue,
           showBothIcon: false,
           showNoteIcon: true,

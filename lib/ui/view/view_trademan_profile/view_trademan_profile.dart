@@ -43,6 +43,7 @@ class ViewTradeManProfile extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
+                        readOnly: true,
                         controller: emailController,
                         decoration: customInputDecoration(
                             context: context,
@@ -52,7 +53,21 @@ class ViewTradeManProfile extends StatelessWidget {
                       SizedBox(
                         height: 2.h,
                       ),
+                      _member.userType == "builder" || _member.userType == "evaluator"?TextFormField(
+                        readOnly: true,
+                        controller: emailController,
+                        decoration: customInputDecoration(
+                          height: 18,
+                            width: 18,
+                            context: context,
+                            hintText: "${_member.companyName}",
+                            prefixicon: AppConstant.companyIcon),
+                      ):Container(),
+                      _member.userType == "builder" || _member.userType == "evaluator"?SizedBox(
+                        height: 2.h,
+                      ):Container(),
                       TextFormField(
+                        readOnly: true,
                         controller: emailController,
                         decoration: customInputDecoration(
                             context: context,
@@ -63,6 +78,7 @@ class ViewTradeManProfile extends StatelessWidget {
                         height: 2.h,
                       ),
                       TextFormField(
+                        readOnly: true,
                         controller: emailController,
                         decoration: customInputDecoration(
                             context: context,
@@ -73,11 +89,14 @@ class ViewTradeManProfile extends StatelessWidget {
                         height: 2.h,
                       ),
                       TextFormField(
+                        readOnly: true,
                         controller: emailController,
                         decoration: customInputDecoration(
+                            height: 18,
+                            width: 18,
                             context: context,
-                            hintText: "Location",
-                            prefixicon: AppConstant.passwordIcon),
+                            hintText: "${_member.address}",
+                            prefixicon: AppConstant.homeIcon),
                       ),
                       Container(
                         height: 10.h,

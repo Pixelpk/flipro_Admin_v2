@@ -29,7 +29,7 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(25.h),
         child:  AccessControlAppBar(
-          title: "Franchisee",
+          title: "Partners",
           imageUrl: receivedObject.userRoleModel.avatar ?? '',
         ),
       ),
@@ -117,7 +117,7 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                 SwitchTile(
                   width: 90.w,
                   heigth: 7.5.h,
-                  tileTitle: "Request Draw Down payment",
+                  tileTitle: "Payment Request",
                   callback: accessControlProvider.setRequestPaymentAccess,
                   private:
                       accessControlProvider.getSelectedRoles.requestPayment,
@@ -156,7 +156,10 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                       },
                     ),
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
               ],
             ),
           );

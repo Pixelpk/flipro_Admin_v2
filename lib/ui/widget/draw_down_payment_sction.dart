@@ -8,6 +8,7 @@ import 'package:fliproadmin/ui/view/view_project_screen/view_project_draw_down_p
 import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -26,11 +27,11 @@ class DrawDownPaymentScetion extends StatefulWidget {
 
 class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
   late TextEditingController reasonController = TextEditingController();
+  var formatter = NumberFormat('#,##0.' + "#" * 5);
 
   @override
   Widget build(BuildContext context) {
     return Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-
       if (loadedProject.getLoadingState == loadingState.loading) {
         return const SizedBox();
       }
@@ -46,15 +47,19 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
       if (loadedProject.getLoadedProject!.latestPaymentReq == null ||
           loadedProject.getLoadedProject!.latestPaymentReq!.id == null) {
         // ignore: avoid_unnecessary_containers
-        return  Container(
+        return Container(
           height: 250,
           child: const Center(
-            child:  Text("No draw down payment request from Franchise"),
+            child: Text("No draw down payment request from Franchise"),
           ),
         );
       }
 
-      reasonController.text = loadedProject.getLoadedProject!.latestPaymentReq!=null  ? loadedProject.getLoadedProject!.latestPaymentReq!.reason ?? '' : '';
+      reasonController.text =
+          loadedProject.getLoadedProject!.latestPaymentReq != null
+              ? loadedProject.getLoadedProject!.latestPaymentReq!.reason ?? ''
+              : '';
+
       return Column(
         children: [
           Row(
@@ -70,9 +75,13 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                 ),
               ),
               const Spacer(),
-               ColoredLabel(text: 'View All',callback: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const ProjectDrwDownPayments()));
-              },)
+              ColoredLabel(
+                text: 'View All',
+                callback: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const ProjectDrwDownPayments()));
+                },
+              )
             ],
           ),
           Container(
@@ -94,7 +103,8 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                     Expanded(
                         child: ColoredLabel(
                       text:
-                          '${loadedProject.getLoadedProject!.latestPaymentReq!.amount!}\$',
+                          '\$${formatter.format(double.parse(loadedProject.getLoadedProject!.latestPaymentReq!.amount!.toString().replaceAll(",", "")))}',
+                      //   text: '\$${loadedProject.getLoadedProject!.latestPaymentReq!.amount!}',
                       height: 6.h,
                     ))
                   ],
@@ -118,9 +128,30 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                             .paymentReqMedia!,
                       )
                     : Container(),
-                SizedBox(height: 10,),
-                LabeledTextField(label: "Reason", maxlines: 2, readonly: false,textEditingController: reasonController,),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
+                loadedProject.getLoadedProject!.latestPaymentReq!.status ==
+                        "approved"
+                    ? LabeledTextField(
+                        label: "Reason",
+                        maxlines: 2,
+                        hintText: loadedProject.getLoadedProject!.description,
+                        readonly: true,
+                        textEditingController: reasonController,
+                      )
+                    : LabeledTextField(
+                        label: "Reason",
+                        hintText: loadedProject.getLoadedProject!
+                                .latestPaymentReq!.description ??
+                            "No reason provided",
+                        maxlines: 2,
+                        readonly: false,
+                        //textEditingController: reasonController,
+                      ),
+                SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   height: 2.h,
                 ),

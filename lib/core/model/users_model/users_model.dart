@@ -127,11 +127,11 @@ class Member {
   String? phoneCode;
   String? phone;
   String? address;
-  Null? emailVerifiedAt;
+  String? emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
   String? userType;
-  int? createdBy;
+  String? createdBy;
   String? roles;
 
   Member(

@@ -10,7 +10,7 @@ class User {
   String? createdAt;
   String? updatedAt;
   String? userType;
-  int? createdBy;
+  String? createdBy;
   String? roles;
   String? avatar;
   User(
