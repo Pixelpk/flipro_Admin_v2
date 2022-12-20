@@ -88,7 +88,7 @@ class Project {
   String? projectLatestMarkedValue;
 
   num? propertyDebt;
-  int? crossCollaterized;
+  num? crossCollaterized;
   String? status;
   String? createdAt;
   String? updatedAt;
@@ -98,8 +98,8 @@ class Project {
   bool? valuationSatisfied;
   bool? valuationReviewed;
   bool? progressReviewed;
-  int? userId;
-  int? leadUserId;
+  String? userId;
+  String? leadUserId;
   bool? assigned;
   List<String>? photoGallery;
   UserRoleModel? franchisee;
@@ -107,7 +107,7 @@ class Project {
   List<UserRoleModel>? builder;
   List<UserRoleModel>? valuers;
   String? coverPhoto;
-  List<Null>? actionRequired;
+  List<String>? actionRequired;
   ProjectRoles? projectRoles;
   List<MediaCompressionModel>? videos;
   ProgressModel? latestProgress;
@@ -317,7 +317,7 @@ class UserRoleModel {
   String? createdAt;
   String? updatedAt;
   String? userType;
-  int? createdBy;
+  String? createdBy;
 
   ProjectRoles? userRole;
 

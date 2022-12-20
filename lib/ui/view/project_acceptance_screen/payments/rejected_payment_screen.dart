@@ -11,6 +11,8 @@ import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:fliproadmin/ui/widget/media_section.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -24,6 +26,7 @@ class RejectedPaymentScreen extends StatefulWidget {
 
 class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
   late TextEditingController reasonController;
+  var formatter = NumberFormat('#,##0.' + "#" * 5);
   @override
   void initState() {
     reasonController = TextEditingController(text: widget.payment.reason ?? '');
@@ -37,7 +40,9 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(15.h),
           child: CustomAppBar(
-            bannerText: widget.payment.status == "rejected" ? "Rejected Payments" : "Payment Request",
+            bannerText: widget.payment.status == "rejected"
+                ? "Rejected Payments"
+                : "Payment Request",
             automaticallyImplyLeading: true,
             showBothIcon: false,
             bannerColor: widget.payment.status == "rejected"
@@ -62,7 +67,10 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     "Draw-down Payment Request",
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyDark),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(color: AppColors.greyDark),
                   ),
                 ),
                 const Spacer(),
@@ -74,18 +82,24 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.blueUnselectedTabColor),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: AppColors.blueUnselectedTabColor),
               child: Column(
                 children: [
                   Row(
                     children: [
                       Text(
                         "REQUESTED AMOUNT",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.mainThemeBlue),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6!
+                            .copyWith(color: AppColors.mainThemeBlue),
                       ),
                       Expanded(
                           child: ColoredLabel(
-                        text: '\$${widget.payment.amount}',
+                        text:
+                            '\$${formatter.format(double.parse(widget.payment.amount.toString().replaceAll(",", "")))}',
                         height: 6.h,
                       ))
                     ],
@@ -96,7 +110,8 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
 
                   ///MEDIA SECTION
                   widget.payment.paymentReqMedia != null &&
-                          (widget.payment.paymentReqMedia!.images != null || widget.payment.paymentReqMedia!.videos != null)
+                          (widget.payment.paymentReqMedia!.images != null ||
+                              widget.payment.paymentReqMedia!.videos != null)
                       ? MediaSection(
                           media: widget.payment.paymentReqMedia!,
                         )
@@ -106,11 +121,11 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
                   ),
 
                   LabeledTextField(
-                    label: "Reason",
-                    maxlines: 2,
-                    readonly: false,
-                      textEditingController: TextEditingController(text: widget.payment.description ?? "NA")
-                  ),
+                      label: "Reason",
+                      maxlines: 2,
+                      readonly: false,
+                      textEditingController: TextEditingController(
+                          text: widget.payment.description ?? "NA")),
                   SizedBox(
                     height: 20,
                   ),
@@ -137,12 +152,21 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  GenericModel genericModel = await PaymentService.approveRejectPaymentReq(
-                                      accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
-                                      paymentReqId: widget.payment.id!,
-                                      rejectionReason: reasonController.text,
-                                      isRejected: false);
-                                  GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
+                                  GenericModel genericModel =
+                                      await PaymentService
+                                          .approveRejectPaymentReq(
+                                              accessToken:
+                                                  Provider.of<UserProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .getAuthToken,
+                                              paymentReqId: widget.payment.id!,
+                                              rejectionReason:
+                                                  reasonController.text,
+                                              isRejected: false);
+                                  GetXDialog.showDialog(
+                                      title: genericModel.title,
+                                      message: genericModel.message);
                                   setState(() {
                                     isLoading = false;
                                   });
@@ -162,15 +186,24 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  GenericModel genericModel = await PaymentService.approveRejectPaymentReq(
-                                      accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
-                                      paymentReqId: widget.payment.id!,
-                                      rejectionReason: reasonController.text,
-                                      isRejected: true);
+                                  GenericModel genericModel =
+                                      await PaymentService
+                                          .approveRejectPaymentReq(
+                                              accessToken:
+                                                  Provider.of<UserProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .getAuthToken,
+                                              paymentReqId: widget.payment.id!,
+                                              rejectionReason:
+                                                  reasonController.text,
+                                              isRejected: true);
                                   setState(() {
                                     isLoading = false;
                                   });
-                                  GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
+                                  GetXDialog.showDialog(
+                                      title: genericModel.title,
+                                      message: genericModel.message);
                                   if (genericModel.success) {
                                     Navigator.pop(context, true);
                                   }
@@ -220,15 +253,24 @@ class _RejectedPaymentScreenState extends State<RejectedPaymentScreen> {
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  GenericModel genericModel = await PaymentService.approveRejectPaymentReq(
-                                      accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
-                                      paymentReqId: widget.payment.id!,
-                                      rejectionReason: reasonController.text,
-                                      isRejected: false);
+                                  GenericModel genericModel =
+                                      await PaymentService
+                                          .approveRejectPaymentReq(
+                                              accessToken:
+                                                  Provider.of<UserProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .getAuthToken,
+                                              paymentReqId: widget.payment.id!,
+                                              rejectionReason:
+                                                  reasonController.text,
+                                              isRejected: false);
                                   setState(() {
                                     isLoading = false;
                                   });
-                                  GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
+                                  GetXDialog.showDialog(
+                                      title: genericModel.title,
+                                      message: genericModel.message);
                                   if (genericModel.success) {
                                     Navigator.pop(context, true);
                                   }

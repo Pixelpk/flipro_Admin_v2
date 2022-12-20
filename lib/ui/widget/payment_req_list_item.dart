@@ -12,28 +12,27 @@ import 'package:fliproadmin/ui/view/view_project_screen/view_project_screen.dart
 import 'package:fliproadmin/ui/widget/view_project_details.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import 'custom_cache_network_image.dart';
 
 class PaymentReqListItem extends StatelessWidget {
-  const PaymentReqListItem(
-      {Key? key,
-      required this.rejected,
-      this.paymentRequest,
-      this.pagingController})
-      : super(key: key);
+  const PaymentReqListItem({Key? key, required this.rejected, this.paymentRequest, this.pagingController}) : super(key: key);
   final PagingController? pagingController;
   final DrawDownPayment? paymentRequest;
   final bool rejected;
 
+
+
+
   @override
   Widget build(BuildContext context) {
+    var formatter = NumberFormat('#,##0.' + "#" * 5);
     return Container(
       height: 110,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
       padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.w),
       margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.w),
       child: Row(
@@ -43,16 +42,13 @@ class PaymentReqListItem extends StatelessWidget {
             flex: 50,
             child: InkWell(
               onTap: () async {
+                print("The amount is" + paymentRequest!.amount.toString());
                 ///OPEN SECOND TAB
-                Provider.of<HomeProvider>(context, listen: false)
-                    .onProjectViewPageChange(1);
-                Provider.of<LoadedProjectProvider>(context, listen: false)
-                    .fetchLoadedProject(paymentRequest!.projectId!);
+                Provider.of<HomeProvider>(context, listen: false).onProjectViewPageChange(1);
+                Provider.of<LoadedProjectProvider>(context, listen: false).fetchLoadedProject(paymentRequest!.projectId!);
                 var refresh;
                 // if (rejected) {
-                  refresh = await Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) =>
-                          RejectedPaymentScreen(payment: paymentRequest!)));
+                refresh = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => RejectedPaymentScreen(payment: paymentRequest!)));
                 // }
                 // if (!rejected) {
                 //   refresh = await Navigator.pushNamed(
@@ -87,30 +83,19 @@ class PaymentReqListItem extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 "Title: ${paymentRequest!.project!.title}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(color: AppColors.mainThemeBlue),
+                                style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.mainThemeBlue),
                                 maxLines: 1,
                               ),
                             ),
-                            Flexible(
-                              child: Text(
-                                "Amount: \$${paymentRequest!.amount}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(color: AppColors.mainThemeBlue),
-                                maxLines: 1,
-                              ),
+                            Text(
+                              "Amount: \$${formatter.format(double.parse(paymentRequest!.amount.toString().replaceAll(",", "")))}",
+                              style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.mainThemeBlue,fontSize: 12),
+                              maxLines: 2,
                             ),
                             Flexible(
                               child: Text(
-                                paymentRequest!.description!=null ?   "Reason: ${paymentRequest!.description}" : "Reason: NA",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1!
-                                    .copyWith(color: AppColors.greyDark),
+                                paymentRequest!.description != null ? "Reason: ${paymentRequest!.description}" : "Reason: NA",
+                                style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyDark),
                                 maxLines: 3,
                               ),
                             ),
@@ -139,7 +124,7 @@ class PaymentReqListItem extends StatelessWidget {
                     ),
                   )
                 ],
-              ))
+              )),
         ],
       ),
     );

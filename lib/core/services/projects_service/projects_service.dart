@@ -60,8 +60,10 @@ class ProjectService {
     } on TimeoutException catch (_) {
       return GenericModel(
           returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
-    } catch (e) {
+    } catch (e, t) {
+      print("$t ALL DATA IS");
       print("$e LOGIN AUTH");
+
       return GenericModel(
           returnedModel: null, success: false, statusCode: 400, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
     }
@@ -301,7 +303,8 @@ class ProjectService {
     } on SocketException {
       return GenericModel(
           returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
-    } on TimeoutException catch (_) {
+    } on TimeoutException catch (_, t) {
+
       return GenericModel(
           returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
     }
@@ -342,7 +345,7 @@ class ProjectService {
       var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       var request = http.Request('GET', Uri.parse('${ENV.baseURL}/api/projects?page=$page&filters[status]=$status&filters[approved]=approved'));
       request.headers.addAll(headers);
-
+print("hello" + request.url.toString());
       http.StreamedResponse response = await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();
       print(res);
@@ -436,6 +439,7 @@ class ProjectService {
 
       var request = http.Request('GET', Uri.parse('${ENV.baseURL}/api/projects?filters[byId]=$projectId'));
       request.headers.addAll(headers);
+      print(request.body);
 
       http.StreamedResponse response = await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();

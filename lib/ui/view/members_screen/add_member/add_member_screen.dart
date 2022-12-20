@@ -21,6 +21,8 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../widget/custom_input.dart';
+
 class AddMemberScreen extends StatefulWidget {
   AddMemberScreen({Key? key}) : super(key: key);
 
@@ -155,32 +157,50 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                   "Phone",
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
                 ),
-                SizedBox(
-                  height: 8.h,
-                  child: Row(
-                    children: [
-                      Flexible(
-                        flex: 15,
+                TextFormField(
+                  controller: phoneController,
+                  validator: (e) {
+                    if (e != null) {
+                      if (e.isEmpty) {
+                        return "Please add phone number";
+                      }
+                      return null;
+                    }
+                  },
+                  keyboardType: TextInputType.phone,
+                  decoration: customInputDecoration1(
+                      prefixIcon:  Container(
+                        height: 7.5.h,
+                        margin: const EdgeInsets.only(right: 4),
+                        // constraints: BoxConstraints(minWidth: 10.w),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
                         child: Container(
-                          height: 7.5.h,
-                          margin: const EdgeInsets.only(right: 4),
-                          // constraints: BoxConstraints(minWidth: 10.w),
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                          width: 120,
                           child: CountryCodePicker(
                             onChanged: (value) {
                               setState(() {
                                 countryCode = value.dialCode.toString();
                               });
                             },
-                            textStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black),
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(color: Colors.black),
                             backgroundColor: Colors.transparent,
 
                             dialogBackgroundColor: AppColors.mainThemeBlue,
-                            dialogTextStyle: const TextStyle(color: Colors.white),
+                            dialogTextStyle:
+                            const TextStyle(color: Colors.white),
                             showFlagDialog: true,
                             textOverflow: TextOverflow.visible,
 
-                            searchDecoration: customInputDecoration(context: context, hintText: 'Search', usePrefixIcon: true, prefixicon: 'default'),
+                            searchDecoration: customInputDecoration(
+                                context: context,
+                                hintText: 'Search',
+                                usePrefixIcon: true,
+                                prefixicon: 'default'),
                             // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                             initialSelection: 'AU',
                             onInit: (code) {
@@ -201,27 +221,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           ),
                         ),
                       ),
-                      // Expanded(child: Container()),
-                      Flexible(
-                          flex: 30,
-                          child: SizedBox(
-                            height: 8.h,
-                            child: TextFormField(
-                              controller: phoneController,
-                              validator: (e) {
-                                if (e != null) {
-                                  if (e.isEmpty) {
-                                    return "Please add phone number";
-                                  }
-                                  return null;
-                                }
-                              },
-                              keyboardType: TextInputType.phone,
-                              decoration: customInputDecoration(context: context, hintText: "Phone no."),
-                            ),
-                          )),
-                    ],
-                  ),
+                      context: context, hintText: "Phone no."),
                 ),
                 SizedBox(
                   height: 3.5.h,

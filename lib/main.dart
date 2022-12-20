@@ -22,7 +22,6 @@ import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
 import 'ui/view/splash_screen/splash_screen.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -66,15 +65,18 @@ class FliproAdminApp extends StatelessWidget {
           ),
           ChangeNotifierProxyProvider<UserProvider, UsersProvider>(
             create: (context) => UsersProvider(null),
-            update: (context, userProvider, usersProvider) => UsersProvider(userProvider.getAuthToken),
+            update: (context, userProvider, usersProvider) =>
+                UsersProvider(userProvider.getAuthToken),
           ),
           ChangeNotifierProxyProvider<UserProvider, ProjectsProvider>(
             create: (context) => ProjectsProvider(null),
-            update: (context, userProvider, projectsProvider) => ProjectsProvider(userProvider.getAuthToken),
+            update: (context, userProvider, projectsProvider) =>
+                ProjectsProvider(userProvider.getAuthToken),
           ),
           ChangeNotifierProxyProvider<UserProvider, LoadedProjectProvider>(
             create: (context) => LoadedProjectProvider(null),
-            update: (context, loadedProvider, projectsProvider) => LoadedProjectProvider(loadedProvider.getAuthToken),
+            update: (context, loadedProvider, projectsProvider) =>
+                LoadedProjectProvider(loadedProvider.getAuthToken),
           ),
         ],
         child: GetMaterialApp(
@@ -112,7 +114,11 @@ class FliproAdminApp extends StatelessWidget {
                   color: Colors.white,
                   overflow: TextOverflow.ellipsis,
                 ),
-                button: TextStyle(fontFamily: "SF-Pro-Display-Semibold", fontSize: 18, color: Colors.white, overflow: TextOverflow.ellipsis),
+                button: TextStyle(
+                    fontFamily: "SF-Pro-Display-Semibold",
+                    fontSize: 18,
+                    color: Colors.white,
+                    overflow: TextOverflow.ellipsis),
                 subtitle1: TextStyle(
                   fontSize: 12,
                   fontFamily: "SF-Pro-Display-Regular",
