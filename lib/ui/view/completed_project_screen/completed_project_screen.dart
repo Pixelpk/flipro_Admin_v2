@@ -8,6 +8,7 @@ import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
+
 class CompletedProjectScreen extends StatefulWidget {
   const CompletedProjectScreen({
     Key? key,
@@ -20,8 +21,7 @@ class CompletedProjectScreen extends StatefulWidget {
 class _CompletedProjectScreenState extends State<CompletedProjectScreen> {
   static const _pageSize = 20;
 
-  final PagingController<int, ProjectProvider> _pagingController =
-  PagingController(firstPageKey: 1);
+  final PagingController<int, ProjectProvider> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -40,11 +40,9 @@ class _CompletedProjectScreenState extends State<CompletedProjectScreen> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await ProjectService().getAllActivityProjects(
-          accessToken:
-          Provider.of<UserProvider>(context, listen: false).getAuthToken,
+          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
-          status: "complete"
-      );
+          status: "complete");
       if (genericModel.statusCode == 200) {
         ProjectResponse projectResponse = genericModel.returnedModel;
         if (projectResponse != null && projectResponse.projectsList != null) {
@@ -57,11 +55,8 @@ class _CompletedProjectScreenState extends State<CompletedProjectScreen> {
             _pagingController.appendPage(newItems, nextPageKey);
           }
         }
-      } else if (genericModel.statusCode == 400 ||
-          genericModel.statusCode == 422 ||
-          genericModel.statusCode == 401) {
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+      } else if (genericModel.statusCode == 400 || genericModel.statusCode == 422 || genericModel.statusCode == 401) {
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
       }
     } catch (error) {
       print(error);
@@ -74,17 +69,11 @@ class _CompletedProjectScreenState extends State<CompletedProjectScreen> {
     return RefreshIndicator(
         onRefresh: () => Future.sync(
               () => _pagingController.refresh(),
-        ),
+            ),
         child: PagedListView<int, ProjectProvider>(
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<ProjectProvider>(
-              itemBuilder: (context, project, index) => ActivityListItem(
-                project: project,
-                timeStampLabel: '',
-              )
-
-          ),
+              itemBuilder: (context, project, index) => ActivityListItem(project: project, timeStampLabel: '')),
         ));
-
   }
 }

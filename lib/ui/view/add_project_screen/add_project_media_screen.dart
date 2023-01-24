@@ -249,7 +249,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                   Consumer<ProjectsProvider>(builder: (ctx, pProvider, c) {
                     return MainButton(
                       height: 7.h,
-                      isloading: pProvider.getLoadingState == loadingState.loading,
+                      isloading: pProvider.getLoadingState == LoadingState.loading,
                       callback: () {
                         if (isNewProject) {
                           createProject();

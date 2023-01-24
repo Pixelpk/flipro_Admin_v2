@@ -1,5 +1,3 @@
-import 'package:fliproadmin/core/utilities/app_colors.dart';
-import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
@@ -8,15 +6,11 @@ import 'package:fliproadmin/ui/view/members_screen/members_screen.dart';
 import 'package:fliproadmin/ui/view/profile_screen/profile_Screen.dart';
 import 'package:fliproadmin/ui/view/project_acceptance_screen/project_acceptance_screen.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
-import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 
 import '../../../core/services/firebase_messaging_service/firebase_messaging_service.dart';
-import 'home_item.dart';
 import 'home_nav_bar.dart';
 import 'home_page_body.dart';
 
@@ -25,11 +19,8 @@ class home {
   late final String name;
   late final String loc;
   late final String img;
-  home(
-      {required this.name,
-      required this.assigned,
-      required this.img,
-      required this.loc});
+
+  home({required this.name, required this.assigned, required this.img, required this.loc});
 }
 
 class HomeScreen extends StatefulWidget {
@@ -41,8 +32,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   final List<Widget> bodyWidgets = [
     HomePageBody(),
     const ActivityScreen(),
@@ -57,8 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Future.microtask(() => FirebaseMessagingService.setupTerminatedInteractedMessage(context));
     super.initState();
     print("The token is" + Provider.of<UserProvider>(context, listen: false).getAuthToken);
-
   }
+
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
@@ -66,10 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
         child: CustomAppBar(
-          bannerText: homeProvider.getSelectedHomeIndex == 4
-              ? "Profile"
-              : "Admin Panel",
-
+          bannerText: homeProvider.getSelectedHomeIndex == 4 ? "Profile" : "Admin Panel",
           showBothIcon: true,
           automaticallyImplyLeading: false,
         ),

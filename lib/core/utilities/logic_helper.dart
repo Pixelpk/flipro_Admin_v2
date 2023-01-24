@@ -17,6 +17,7 @@ enum appUsers { admin, franchise, evaluator, homeowner, builder }
 
 class LogicHelper {
   static double get getCustomAppBarHeight => AppBar().preferredSize.height + 40;
+
   static String userTitleHandler(appUsers user) {
     switch (user) {
       case appUsers.admin:
@@ -32,7 +33,7 @@ class LogicHelper {
         break;
       case appUsers.builder:
         {
-          return "Builder";
+          return "Agents/Trades";
         }
       case appUsers.evaluator:
         {
@@ -59,8 +60,6 @@ class LogicHelper {
         return timeago.format(dateTime);
       }
     } catch (e) {
-
-
       return "Some time ago";
     }
   }
@@ -112,10 +111,7 @@ class LogicHelper {
   }
 
   static String getUserTypefromBool(
-      {required bool isBuilder,
-      required bool isFranchisee,
-      required bool isHomeOwner,
-      required bool isvaluer}) {
+      {required bool isBuilder, required bool isFranchisee, required bool isHomeOwner, required bool isvaluer}) {
     if (isFranchisee) {
       return "franchise";
     }
@@ -134,17 +130,14 @@ class LogicHelper {
   static void unauthorizedHandler({bool showMessage = false}) {
     DbService().truncateDb();
     if (showMessage) {
-      GetXDialog.showDialog(
-          title: "Session Expired", message: "Please Login Again");
+      GetXDialog.showDialog(title: "Session Expired", message: "Please Login Again");
     }
-    Navigator.of(Get.context!)
-        .pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
+    Navigator.of(Get.context!).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
   }
 
   static String generateRandomString(int len) {
     var r = Random();
-    String randomString =
-        String.fromCharCodes(List.generate(len, (index) => r.nextInt(33) + 89));
+    String randomString = String.fromCharCodes(List.generate(len, (index) => r.nextInt(33) + 89));
     return randomString;
   }
 }

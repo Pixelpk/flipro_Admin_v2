@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import 'colored_label.dart';
-import 'helper_widget.dart';
 import 'media_section.dart';
 
 class DrawDownPaymentScetion extends StatefulWidget {
@@ -32,11 +31,10 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
   @override
   Widget build(BuildContext context) {
     return Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-      if (loadedProject.getLoadingState == loadingState.loading) {
+      if (loadedProject.getLoadingState == LoadingState.loading) {
         return const SizedBox();
       }
-      if (loadedProject.getLoadedProject == null &&
-          loadedProject.getLoadingState == loadingState.loaded) {
+      if (loadedProject.getLoadedProject == null && loadedProject.getLoadingState == LoadingState.loaded) {
         return SizedBox(
           height: 70.h,
           child: const Center(
@@ -55,10 +53,9 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
         );
       }
 
-      reasonController.text =
-          loadedProject.getLoadedProject!.latestPaymentReq != null
-              ? loadedProject.getLoadedProject!.latestPaymentReq!.reason ?? ''
-              : '';
+      reasonController.text = loadedProject.getLoadedProject!.latestPaymentReq != null
+          ? loadedProject.getLoadedProject!.latestPaymentReq!.reason ?? ''
+          : '';
 
       return Column(
         children: [
@@ -68,37 +65,28 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   "Drawdown Payment Request",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(color: AppColors.greyDark),
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyDark),
                 ),
               ),
               const Spacer(),
               ColoredLabel(
                 text: 'View All',
                 callback: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const ProjectDrwDownPayments()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ProjectDrwDownPayments()));
                 },
               )
             ],
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: AppColors.blueUnselectedTabColor),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.blueUnselectedTabColor),
             child: Column(
               children: [
                 Row(
                   children: [
                     Text(
                       "REQUESTED AMOUNT",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(color: AppColors.mainThemeBlue),
+                      style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.mainThemeBlue),
                     ),
                     Expanded(
                         child: ColoredLabel(
@@ -114,25 +102,17 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                 ),
 
                 ///MEDIA SECTION
-                loadedProject.getLoadedProject!.latestPaymentReq!
-                                .paymentReqMedia !=
-                            null &&
-                        (loadedProject.getLoadedProject!.latestPaymentReq!
-                                    .paymentReqMedia!.images !=
-                                null ||
-                            loadedProject.getLoadedProject!.latestPaymentReq!
-                                    .paymentReqMedia!.videos !=
-                                null)
+                loadedProject.getLoadedProject!.latestPaymentReq!.paymentReqMedia != null &&
+                        (loadedProject.getLoadedProject!.latestPaymentReq!.paymentReqMedia!.images != null ||
+                            loadedProject.getLoadedProject!.latestPaymentReq!.paymentReqMedia!.videos != null)
                     ? MediaSection(
-                        media: loadedProject.getLoadedProject!.latestPaymentReq!
-                            .paymentReqMedia!,
+                        media: loadedProject.getLoadedProject!.latestPaymentReq!.paymentReqMedia!,
                       )
                     : Container(),
                 SizedBox(
                   height: 10,
                 ),
-                loadedProject.getLoadedProject!.latestPaymentReq!.status ==
-                        "approved"
+                loadedProject.getLoadedProject!.latestPaymentReq!.status == "approved"
                     ? LabeledTextField(
                         label: "Reason",
                         maxlines: 2,
@@ -142,9 +122,7 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                       )
                     : LabeledTextField(
                         label: "Reason",
-                        hintText: loadedProject.getLoadedProject!
-                                .latestPaymentReq!.description ??
-                            "No reason provided",
+                        hintText: loadedProject.getLoadedProject!.latestPaymentReq!.description ?? "No reason provided",
                         maxlines: 2,
                         readonly: false,
                         //textEditingController: reasonController,
@@ -159,8 +137,7 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                 ///APPROVAL REJECTION BUTTONS
                 ///
                 ///
-                if (loadedProject.getLoadedProject!.latestPaymentReq!.status ==
-                    "pending")
+                if (loadedProject.getLoadedProject!.latestPaymentReq!.status == "pending")
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -172,19 +149,12 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
 
                         ///PAYMENT REQUEST APPROVE CALLBACK
                         callback: () async {
-                          GenericModel genericModel =
-                              await PaymentService.approveRejectPaymentReq(
-                                  accessToken: Provider.of<UserProvider>(
-                                          context,
-                                          listen: false)
-                                      .getAuthToken,
-                                  paymentReqId: loadedProject
-                                      .getLoadedProject!.latestPaymentReq!.id!,
-                                  rejectionReason: reasonController.text,
-                                  isRejected: false);
-                          GetXDialog.showDialog(
-                              title: genericModel.title,
-                              message: genericModel.message);
+                          GenericModel genericModel = await PaymentService.approveRejectPaymentReq(
+                              accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
+                              paymentReqId: loadedProject.getLoadedProject!.latestPaymentReq!.id!,
+                              rejectionReason: reasonController.text,
+                              isRejected: false);
+                          GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
                           if (genericModel.success) {
                             loadedProject.updatePaymentStatus('approved');
                           }
@@ -198,20 +168,13 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
 
                         ///PAYMENT REQUEST REJECTION CALLBACK
                         callback: () async {
-                          GenericModel genericModel =
-                              await PaymentService.approveRejectPaymentReq(
-                                  accessToken: Provider.of<UserProvider>(
-                                          context,
-                                          listen: false)
-                                      .getAuthToken,
-                                  paymentReqId: loadedProject
-                                      .getLoadedProject!.latestPaymentReq!.id!,
-                                  rejectionReason: reasonController.text,
-                                  isRejected: true);
+                          GenericModel genericModel = await PaymentService.approveRejectPaymentReq(
+                              accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
+                              paymentReqId: loadedProject.getLoadedProject!.latestPaymentReq!.id!,
+                              rejectionReason: reasonController.text,
+                              isRejected: true);
 
-                          GetXDialog.showDialog(
-                              title: genericModel.title,
-                              message: genericModel.message);
+                          GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
                           if (genericModel.success) {
                             loadedProject.updatePaymentStatus('rejected');
                           }
@@ -219,8 +182,7 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                       )
                     ],
                   ),
-                if (loadedProject.getLoadedProject!.latestPaymentReq!.status ==
-                    "approved")
+                if (loadedProject.getLoadedProject!.latestPaymentReq!.status == "approved")
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -232,8 +194,7 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
                       ),
                     ],
                   ),
-                if (loadedProject.getLoadedProject!.latestPaymentReq!.status ==
-                    "rejected")
+                if (loadedProject.getLoadedProject!.latestPaymentReq!.status == "rejected")
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -252,19 +213,12 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
 
                         ///PAYMENT REQUEST REJECTION CALLBACK
                         callback: () async {
-                          GenericModel genericModel =
-                              await PaymentService.approveRejectPaymentReq(
-                                  accessToken: Provider.of<UserProvider>(
-                                          context,
-                                          listen: false)
-                                      .getAuthToken,
-                                  paymentReqId: loadedProject
-                                      .getLoadedProject!.latestPaymentReq!.id!,
-                                  rejectionReason: reasonController.text,
-                                  isRejected: false);
-                          GetXDialog.showDialog(
-                              title: genericModel.title,
-                              message: genericModel.message);
+                          GenericModel genericModel = await PaymentService.approveRejectPaymentReq(
+                              accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
+                              paymentReqId: loadedProject.getLoadedProject!.latestPaymentReq!.id!,
+                              rejectionReason: reasonController.text,
+                              isRejected: false);
+                          GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
                           if (genericModel.success) {
                             loadedProject.updatePaymentStatus('approved');
                           }

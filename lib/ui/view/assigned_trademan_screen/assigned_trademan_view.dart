@@ -13,19 +13,17 @@ class AssignedTrademan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loadedTradman =
-        ModalRoute.of(context)!.settings.arguments as appUsers;
+    final loadedTradman = ModalRoute.of(context)!.settings.arguments as appUsers;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
         child: const CustomAppBar(
-          bannerText: "Assigned Trade-Man",
+          bannerText: "Assigned Agents/Trades",
           showBothIcon: false,
           automaticallyImplyLeading: true,
         ),
       ),
-      body: Consumer<LoadedProjectProvider>(
-          builder: (ctx, loadedProjectProvider, c) {
+      body: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProjectProvider, c) {
         if (loadedProjectProvider.getLoadedProject == null &&
             loadedProjectProvider.getLoadedProject!.valuers == null &&
             loadedTradman == appUsers.evaluator) {
@@ -56,9 +54,7 @@ class AssignedTrademan extends StatelessWidget {
                       currentRoute: AssignedTrademan.routeName,
                       userRoleModel: userRoleModel);
                 },
-                child: TrademanListItem(
-                  userRoleModel: userRoleModel,
-                ),
+                child: TrademanListItem(userRoleModel: userRoleModel),
               );
             });
       }),

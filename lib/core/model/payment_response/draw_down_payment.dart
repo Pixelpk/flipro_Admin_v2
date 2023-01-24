@@ -17,6 +17,7 @@ class DrawDownPayment {
   Project? project;
   UserRoleModel? user;
   MediaObject? paymentReqMedia;
+
   DrawDownPayment(
       {this.id,
       this.projectId,
@@ -96,12 +97,12 @@ class Project {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['cover_photo'] = this.coverPhoto;
-    data['project_address'] = this.projectAddress;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['description'] = description;
+    data['cover_photo'] = coverPhoto;
+    data['project_address'] = projectAddress;
     return data;
   }
 }

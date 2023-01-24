@@ -87,13 +87,7 @@ class ProjectActivityModel {
   String? dateTime;
 
   ProjectActivityModel(
-      {this.id,
-      this.projectId,
-      this.userId,
-      this.status,
-      this.description,
-      this.createdAt,
-      this.updatedAt});
+      {this.id, this.projectId, this.userId, this.status, this.description, this.createdAt, this.updatedAt});
 
   ProjectActivityModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

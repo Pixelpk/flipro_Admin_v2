@@ -36,16 +36,16 @@ class Data {
 
   Data(
       {this.currentPage,
-        this.users,
-        this.firstPageUrl,
-        this.from,
-        this.lastPage,
-        this.lastPageUrl,
-        this.links,
-        this.path,
-        this.perPage,
-        this.to,
-        this.total});
+      this.users,
+      this.firstPageUrl,
+      this.from,
+      this.lastPage,
+      this.lastPageUrl,
+      this.links,
+      this.path,
+      this.perPage,
+      this.to,
+      this.total});
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];

@@ -23,8 +23,8 @@ class ProjectsProvider extends ChangeNotifier {
   int? _userRoleTotalPage;
   int _searchUserCurrentPage = 1;
   int? _searchUserTotalPage;
-  loadingState _isLoading = loadingState.loaded;
-  loadingState get getLoadingState => _isLoading;
+  LoadingState _isLoading = LoadingState.loaded;
+  LoadingState get getLoadingState => _isLoading;
   String? query;
   List<UserRoleModel> _searchedUsers = [];
   List<UserRoleModel> _fetchedUsers = [];
@@ -59,12 +59,12 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   setStateLoading() {
-    _isLoading = loadingState.loading;
+    _isLoading = LoadingState.loading;
     notifyListeners();
   }
 
   setStateLoaded() {
-    _isLoading = loadingState.loaded;
+    _isLoading = LoadingState.loaded;
     notifyListeners();
   }
 

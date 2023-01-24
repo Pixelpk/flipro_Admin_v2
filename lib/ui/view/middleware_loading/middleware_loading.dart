@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 class MiddleWareLoading extends StatefulWidget {
   const MiddleWareLoading({Key? key}) : super(key: key);
   static const routeName = '/MiddleWareLoading';
+
   @override
   _MiddleWareLoadingState createState() => _MiddleWareLoadingState();
 }
@@ -14,15 +15,14 @@ class MiddleWareLoading extends StatefulWidget {
 class _MiddleWareLoadingState extends State<MiddleWareLoading> {
   @override
   void initState() {
-    Future.microtask(()
-    {Provider.of<UserProvider>(context, listen: false).loadCurrentUser().then((value) {
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
-    });
-
+    Future.microtask(() {
+      Provider.of<UserProvider>(context, listen: false).loadCurrentUser().then((value) {
+        Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+      });
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

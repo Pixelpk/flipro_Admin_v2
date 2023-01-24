@@ -4,10 +4,8 @@ import 'dart:io';
 
 import 'package:fliproadmin/core/model/exception_model/exception_model.dart';
 import 'package:fliproadmin/core/model/generic_model/generic_model.dart';
-import 'package:fliproadmin/core/model/login_model/login_model.dart';
 import 'package:fliproadmin/core/model/media_compression_model/media_compression_model.dart';
 import 'package:fliproadmin/core/model/project_response/project_response.dart';
-import 'package:fliproadmin/core/model/user_role_response/user_role_response.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/utilities/env.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
@@ -16,10 +14,12 @@ import 'package:http/http.dart' as http;
 import '../../model/search_project/search_project_response.dart';
 
 class ProjectService {
-  Future<GenericModel> addProjectValue({required String accessToken, required int projectId, required String markedValeu}) async {
+  Future<GenericModel> addProjectValue(
+      {required String accessToken, required int projectId, required String markedValeu}) async {
     try {
       var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
-      var request = http.MultipartRequest('POST', Uri.parse('${ENV.baseURL}/api/projects/value?project_id=$projectId&value=$markedValeu'));
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('${ENV.baseURL}/api/projects/value?project_id=$projectId&value=$markedValeu'));
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
@@ -44,7 +44,11 @@ class ProjectService {
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-            returnedModel: null, success: false, statusCode: 401, message: AppConstant.sessionDescription, title: "Invalid Credentials");
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: "Invalid Credentials");
       } else {
         print("sdfsdf");
         return GenericModel(
@@ -56,16 +60,28 @@ class ProjectService {
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     } catch (e, t) {
       print("$t ALL DATA IS");
       print("$e LOGIN AUTH");
 
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.genericError,
+          title: AppConstant.genericErrorDescription);
     }
   }
 
@@ -113,9 +129,14 @@ class ProjectService {
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-            returnedModel: null, success: false, statusCode: 401, message: AppConstant.sessionDescription, title: "Invalid Credentials");
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: "Invalid Credentials");
       } else if (response.statusCode == 403) {
-        return GenericModel(returnedModel: null, success: false, statusCode: 403, message: jsonDecode(res)['message'], title: '');
+        return GenericModel(
+            returnedModel: null, success: false, statusCode: 403, message: jsonDecode(res)['message'], title: '');
       } else {
         print("sdfsdf");
         return GenericModel(
@@ -127,19 +148,34 @@ class ProjectService {
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     } catch (e) {
       print("$e LOGIN AUTH");
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.genericError,
+          title: AppConstant.genericErrorDescription);
     }
   }
 
   Future<GenericModel> addNewProject(
-      {required String accessToken, required Project project, required List<File> images, required List<MediaCompressionModel> media}) async {
+      {required String accessToken,
+      required Project project,
+      required List<File> images,
+      required List<MediaCompressionModel> media}) async {
     try {
       var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       var request = http.MultipartRequest('POST', Uri.parse('${ENV.baseURL}/api/projects'));
@@ -184,7 +220,11 @@ class ProjectService {
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-            returnedModel: null, success: false, statusCode: 401, message: AppConstant.sessionDescription, title: "Invalid Credentials");
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: "Invalid Credentials");
       } else {
         print("sdfsdf");
         return GenericModel(
@@ -196,19 +236,34 @@ class ProjectService {
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     } catch (e) {
       print("$e LOGIN AUTH");
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.genericError,
+          title: AppConstant.genericErrorDescription);
     }
   }
 
   Future<GenericModel> updateProject(
-      {required String accessToken, required Project project, required List<File> images, required List<MediaCompressionModel> media}) async {
+      {required String accessToken,
+      required Project project,
+      required List<File> images,
+      required List<MediaCompressionModel> media}) async {
     try {
       var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       var request = http.MultipartRequest('POST', Uri.parse('${ENV.baseURL}/api/projects?_method=PATCH'));
@@ -253,7 +308,11 @@ class ProjectService {
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-            returnedModel: null, success: false, statusCode: 401, message: AppConstant.sessionDescription, title: "Invalid Credentials");
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: "Invalid Credentials");
       } else {
         return GenericModel(
             returnedModel: null,
@@ -264,14 +323,26 @@ class ProjectService {
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     } catch (e) {
       print("$e LOGIN AUTH");
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.genericError,
+          title: AppConstant.genericErrorDescription);
     }
   }
 
@@ -282,7 +353,8 @@ class ProjectService {
       if (fetchAssigned) {
         getAssigned = 1;
       }
-      var request = http.Request('GET', Uri.parse('${ENV.baseURL}/api/projects?page=$page&filters[assigned]=$getAssigned'));
+      var request =
+          http.Request('GET', Uri.parse('${ENV.baseURL}/api/projects?page=$page&filters[assigned]=$getAssigned'));
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send().timeout(const Duration(seconds: 30));
@@ -292,27 +364,50 @@ class ProjectService {
         return GenericModel(returnedModel: ProjectResponse.fromJson(jsonDecode(res)), success: true, statusCode: 200);
       } else if (response.statusCode == 422) {
         ExceptionModel exceptionModel = ExceptionModel.fromJson(jsonDecode(res));
-        return GenericModel(returnedModel: exceptionModel, success: false, statusCode: 422, message: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: exceptionModel,
+            success: false,
+            statusCode: 422,
+            message: AppConstant.genericErrorDescription);
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-            returnedModel: null, success: false, statusCode: 401, message: AppConstant.sessionDescription, title: "Invalid Credentials");
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: "Invalid Credentials");
       } else {
-        return GenericModel(returnedModel: null, success: false, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            message: AppConstant.genericError,
+            title: AppConstant.genericErrorDescription);
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_, t) {
-
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     }
   }
 
   Future<GenericModel> searchProject({required String accessToken, required String query}) async {
     try {
-      var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken', "content-type": "application/x-www-form-urlencoded"};
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+        "content-type": "application/x-www-form-urlencoded"
+      };
       var request = http.MultipartRequest('POST', Uri.parse('${ENV.baseURL}/api/projects/search'));
       request.headers.addAll(headers);
       request.fields.addAll({'search': query, 'filters[approved]': 'approved'});
@@ -320,32 +415,55 @@ class ProjectService {
       var res = await response.stream.bytesToString();
       print(res);
       if (response.statusCode == 200) {
-        return GenericModel(returnedModel: SearchProjectResponse.fromJson(jsonDecode(res)), success: true, statusCode: 200);
+        return GenericModel(
+            returnedModel: SearchProjectResponse.fromJson(jsonDecode(res)), success: true, statusCode: 200);
       } else if (response.statusCode == 422) {
         ExceptionModel exceptionModel = ExceptionModel.fromJson(jsonDecode(res));
-        return GenericModel(returnedModel: exceptionModel, success: false, statusCode: 422, message: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: exceptionModel,
+            success: false,
+            statusCode: 422,
+            message: AppConstant.genericErrorDescription);
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-            returnedModel: null, success: false, statusCode: 401, message: AppConstant.sessionDescription, title: "Invalid Credentials");
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: "Invalid Credentials");
       } else {
-        return GenericModel(returnedModel: null, success: false, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            message: AppConstant.genericError,
+            title: AppConstant.genericErrorDescription);
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     }
   }
 
-  Future<GenericModel> getAllActivityProjects({required String accessToken, required int page, required String status}) async {
+  Future<GenericModel> getAllActivityProjects(
+      {required String accessToken, required int page, required String status}) async {
     try {
       var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
-      var request = http.Request('GET', Uri.parse('${ENV.baseURL}/api/projects?page=$page&filters[status]=$status&filters[approved]=approved'));
+      var request = http.Request('GET',
+          Uri.parse('${ENV.baseURL}/api/projects?page=$page&filters[status]=$status&filters[approved]=approved'));
       request.headers.addAll(headers);
-print("hello" + request.url.toString());
+      print("hello" + request.url.toString());
       http.StreamedResponse response = await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();
       print(res);
@@ -369,25 +487,38 @@ print("hello" + request.url.toString());
           title: AppConstant.sessionTitle,
         );
       } else {
-        return GenericModel(returnedModel: null, success: false, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            message: AppConstant.genericError,
+            title: AppConstant.genericErrorDescription);
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
-    }
-    catch(e, t){
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
+    } catch (e, t) {
       print(t);
       throw e;
-
     }
-
   }
 
   Future<GenericModel> getAllStatusPending(
-      {required String accessToken, required int page, required bool fetchPending, required bool fetchapproved, required bool fetchRejected}) async {
+      {required String accessToken,
+      required int page,
+      required bool fetchPending,
+      required bool fetchapproved,
+      required bool fetchRejected}) async {
     try {
       var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       String url = '${ENV.baseURL}/api/projects?page=$page';
@@ -420,16 +551,32 @@ print("hello" + request.url.toString());
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-            returnedModel: null, success: false, statusCode: 401, message: AppConstant.sessionDescription, title: AppConstant.sessionTitle);
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: AppConstant.sessionTitle);
       } else {
-        return GenericModel(returnedModel: null, success: false, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            message: AppConstant.genericError,
+            title: AppConstant.genericErrorDescription);
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     }
   }
 
@@ -448,24 +595,45 @@ print("hello" + request.url.toString());
         return GenericModel(returnedModel: Project.fromJson(jsonDecode(res)['data']), success: true, statusCode: 200);
       } else if (response.statusCode == 422) {
         ExceptionModel exceptionModel = ExceptionModel.fromJson(jsonDecode(res));
-        return GenericModel(returnedModel: exceptionModel, success: false, statusCode: 422, message: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: exceptionModel,
+            success: false,
+            statusCode: 422,
+            message: AppConstant.genericErrorDescription);
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-            returnedModel: null, success: false, statusCode: 401, message: AppConstant.sessionDescription, title: "Invalid Credentials");
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: "Invalid Credentials");
       } else {
-        return GenericModel(returnedModel: null, success: false, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            message: AppConstant.genericError,
+            title: AppConstant.genericErrorDescription);
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     }
   }
 
-  Future<GenericModel> projectApproval({required String accessToken, required int projectId, required bool approve}) async {
+  Future<GenericModel> projectApproval(
+      {required String accessToken, required int projectId, required bool approve}) async {
     try {
       var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       String reqUrl = "${ENV.baseURL}/api/projects/approve?project_id=$projectId";
@@ -486,7 +654,8 @@ print("hello" + request.url.toString());
         return GenericModel(
             returnedModel: Project.fromJson(jsonDecode(response.body)['data']),
             title: approve ? "Project Approved" : "Project Rejected",
-            message: approve ? "Project will be available in New-Activity" : "Project will be available in Rejected List",
+            message:
+                approve ? "Project will be available in New-Activity" : "Project will be available in Rejected List",
             success: true,
             statusCode: 200);
       } else if (response.statusCode == 422) {
@@ -499,16 +668,33 @@ print("hello" + request.url.toString());
             message: exceptionModel.message);
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
-        return GenericModel(returnedModel: null, success: false, statusCode: 401, message: "Please Login again", title: "Session Expired");
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: "Please Login again",
+            title: "Session Expired");
       } else {
-        return GenericModel(returnedModel: null, success: false, message: AppConstant.genericError, title: AppConstant.genericErrorDescription);
+        return GenericModel(
+            returnedModel: null,
+            success: false,
+            message: AppConstant.genericError,
+            title: AppConstant.genericErrorDescription);
       }
     } on SocketException {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.networkError, title: AppConstant.networkErrorDescritpion);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.networkError,
+          title: AppConstant.networkErrorDescritpion);
     } on TimeoutException catch (_) {
       return GenericModel(
-          returnedModel: null, success: false, statusCode: 400, message: AppConstant.timeoutError, title: AppConstant.timeoutErrorDescription);
+          returnedModel: null,
+          success: false,
+          statusCode: 400,
+          message: AppConstant.timeoutError,
+          title: AppConstant.timeoutErrorDescription);
     }
   }
 }

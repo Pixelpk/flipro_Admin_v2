@@ -47,9 +47,9 @@ class UserProvider extends ChangeNotifier {
   String? _authToken;
   String? _userId;
   DbService? _dbService;
-  loadingState _isLoading = loadingState.loaded;
+  LoadingState _isLoading = LoadingState.loaded;
 
-  loadingState get getLoadingState => _isLoading;
+  LoadingState get getLoadingState => _isLoading;
 
   String get getAuthToken => _authToken ?? '';
 
@@ -73,12 +73,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   setStateLoading() {
-    _isLoading = loadingState.loading;
+    _isLoading = LoadingState.loading;
     notifyListeners();
   }
 
   setStateLoaded() {
-    _isLoading = loadingState.loaded;
+    _isLoading = LoadingState.loaded;
     notifyListeners();
   }
 

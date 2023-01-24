@@ -36,15 +36,15 @@ class Data {
 
   Data(
       {this.currentPage,
-        this.notes,
-        this.firstPageUrl,
-        this.from,
-        this.lastPage,
-        this.lastPageUrl,
-        this.path,
-        this.perPage,
-        this.to,
-        this.total});
+      this.notes,
+      this.firstPageUrl,
+      this.from,
+      this.lastPage,
+      this.lastPageUrl,
+      this.path,
+      this.perPage,
+      this.to,
+      this.total});
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
@@ -91,31 +91,32 @@ class Note {
   String? updatedAt;
   String? notes;
   UserRoleModel? user;
-  String? timeago ;
-  bool? isEditAble ;
+  String? timeago;
+
+  bool? isEditAble;
 
   Note(
       {this.id,
-        this.projectId,
-        this.userId,
-        this.isEditAble = false ,
-        this.private = false ,
-        this.createdAt,
-        this.updatedAt,
-        this.notes ,
-        this.user});
+      this.projectId,
+      this.userId,
+      this.isEditAble = false,
+      this.private = true,
+      this.createdAt,
+      this.updatedAt,
+      this.notes,
+      this.user});
 
   Note.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     projectId = json['project_id'];
     userId = json['user_id'];
-    private = json['private'] == 1 ? true :false ;
+    private = json['private'] == 1 ? true : false;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     notes = json['notes'];
     user = json['user'] != null ? UserRoleModel.fromJson(json['user']) : null;
     timeago = LogicHelper.getTimeAgo(updatedAt!);
-    isEditAble = true ;
+    isEditAble = true;
   }
 
   Map<String, dynamic> toJson() {

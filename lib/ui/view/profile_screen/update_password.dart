@@ -113,7 +113,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 height: 7.h,
                 width: 60.w,
                 isloading: Provider.of<UserProvider>(context).getLoadingState ==
-                    loadingState.loading,
+                    LoadingState.loading,
                 callback: () {
                   if (_formKey.currentState!.validate()) {
                     Provider.of<UserProvider>(context, listen: false)

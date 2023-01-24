@@ -1,15 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fliproadmin/core/model/project_response/project_response.dart';
-import 'package:fliproadmin/core/model/users_model/users_model.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
-import 'package:fliproadmin/ui/view/access_control_screen/builder_access_control_screen.dart';
-import 'package:fliproadmin/ui/view/notes_screen/note_view_screen.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
-import 'package:fliproadmin/ui/widget/ui_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 class TrademanListItem extends StatelessWidget {
@@ -36,11 +30,11 @@ class TrademanListItem extends StatelessWidget {
         children: [
           userRoleModel!.avatar!.isEmpty || userRoleModel!.avatar == null
               ? const CircleAvatar(
-            backgroundImage: AssetImage(AppConstant.defaultProjectImage),
-          )
+                  backgroundImage: AssetImage(AppConstant.defaultProjectImage),
+                )
               : CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(userRoleModel!.avatar!),
-          ),
+                  backgroundImage: CachedNetworkImageProvider(userRoleModel!.avatar!),
+                ),
           Container(
             width: 1,
             height: 6.5.h,
@@ -65,7 +59,8 @@ class TrademanListItem extends StatelessWidget {
                     )
                   : Container(),
               userRoleModel!.userType == "builder" || userRoleModel!.userType == "evaluator"
-                  ? Text("${userRoleModel!.name}", style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor))
+                  ? Text("${userRoleModel!.name}",
+                      style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor))
                   : SizedBox(
                       width: 45.w,
                       child: Text(
@@ -75,7 +70,8 @@ class TrademanListItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-              Text("${userRoleModel!.address}", style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor)),
+              Text("${userRoleModel!.address}",
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor)),
             ],
           ),
           const Spacer(),

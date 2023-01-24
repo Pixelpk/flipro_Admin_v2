@@ -8,18 +8,21 @@ class HomeProvider extends ChangeNotifier {
   int _selectedHomeIndex = 0;
   int _activityPageViewCurrentPage = 0;
   int _projectViewCurrentPage = 0;
+
   int get getSelectedHomeIndex => _selectedHomeIndex;
+
   int get getActivityPageViewCurrentPage => _activityPageViewCurrentPage;
+
   int get getProjectViewCurrentPage => _projectViewCurrentPage;
+
   void onItemTapped(int index) {
     if (index == 5) {
       UIHelper.deleteDialog("Are you sure you want to Logout?", () {
         Provider.of<UserProvider>(Get.context!, listen: false).logout();
       }, Get.context!, title: "Logout");
     } else {
-      if(index == 1)
-      {
-        _activityPageViewCurrentPage = 0 ;
+      if (index == 1) {
+        _activityPageViewCurrentPage = 0;
       }
       _selectedHomeIndex = index;
       notifyListeners();

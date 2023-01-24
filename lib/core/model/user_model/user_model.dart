@@ -1,4 +1,3 @@
-
 class User {
   int? id;
   String? name;
@@ -13,21 +12,21 @@ class User {
   String? createdBy;
   String? roles;
   String? avatar;
+
   User(
       {this.id,
-        this.name,
-        this.email,
-        this.phoneCode,
-        this.phone,
-        this.avatar,
-        this.address,
-        this.emailVerifiedAt,
-        this.createdAt,
-        this.updatedAt,
-        this.userType,
-
-        this.createdBy,
-        this.roles});
+      this.name,
+      this.email,
+      this.phoneCode,
+      this.phone,
+      this.avatar,
+      this.address,
+      this.emailVerifiedAt,
+      this.createdAt,
+      this.updatedAt,
+      this.userType,
+      this.createdBy,
+      this.roles});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,7 +56,7 @@ class User {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['user_type'] = userType;
-    data['avatar']=avatar;
+    data['avatar'] = avatar;
     data['created_by'] = createdBy;
     data['roles'] = roles;
     return data;

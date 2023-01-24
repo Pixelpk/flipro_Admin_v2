@@ -7,9 +7,9 @@ import 'package:image_picker/image_picker.dart';
 import 'app_colors.dart';
 
 class AssetsSourceTypeSheet {
-
-  static Future<void> profileImagePicker(BuildContext context,
-      ) {
+  static Future<void> profileImagePicker(
+    BuildContext context,
+  ) {
     return showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
@@ -26,7 +26,7 @@ class AssetsSourceTypeSheet {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
-                children:  const [
+                children: const [
                   Icon(
                     Icons.videocam_outlined,
                     color: AppColors.mainThemeBlue,
@@ -68,8 +68,9 @@ class AssetsSourceTypeSheet {
       ),
     );
   }
- static Future<void> imagePickerSheet(BuildContext context,
-      {bool allowMultiplePicks = true ,required ImageSource imageSource ,bool showcamera = false}) {
+
+  static Future<void> imagePickerSheet(BuildContext context,
+      {bool allowMultiplePicks = true, required ImageSource imageSource, bool showcamera = false}) {
     return showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
@@ -86,7 +87,7 @@ class AssetsSourceTypeSheet {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
-                children:  const [
+                children: const [
                   Icon(
                     Icons.videocam_outlined,
                     color: AppColors.mainThemeBlue,
@@ -100,7 +101,7 @@ class AssetsSourceTypeSheet {
             ),
             onPressed: () async {
               Provider.of<AssetProvider>(context, listen: false)
-                  .videoCameraPicker(context, imageSource: imageSource,multiplePick: allowMultiplePicks);
+                  .videoCameraPicker(context, imageSource: imageSource, multiplePick: allowMultiplePicks);
               Navigator.pop(context);
             },
           ),
@@ -121,8 +122,9 @@ class AssetsSourceTypeSheet {
               ),
             ),
             onPressed: () async {
-              bool alowMultiImage = ImageSource.camera == imageSource ;
-              Provider.of<AssetProvider>(context, listen: false).imageCameraPicker(context, imageSource: imageSource,multiplePick: !alowMultiImage);
+              bool alowMultiImage = ImageSource.camera == imageSource;
+              Provider.of<AssetProvider>(context, listen: false)
+                  .imageCameraPicker(context, imageSource: imageSource, multiplePick: !alowMultiImage);
 
               Navigator.pop(context);
             },
@@ -132,67 +134,68 @@ class AssetsSourceTypeSheet {
     );
   }
 
- static Future<void> singleImagePicker(BuildContext context,
-     {bool allowMultiplePicks = true ,required ImageSource imageSource ,bool showcamera = false}) {
-   return showCupertinoModalPopup<void>(
-     context: context,
-     builder: (BuildContext context) => CupertinoActionSheet(
-       title: const Text(
-         'Pick Media Type',
-         style: TextStyle(
-             color: AppColors.mainThemeBlue,
-             fontFamily: "OpenSans-SemiBold",
-             fontSize: 18,
-             fontWeight: FontWeight.w600),
-       ),
-       actions: <CupertinoActionSheetAction>[
-         CupertinoActionSheetAction(
-           child: Padding(
-             padding: const EdgeInsets.symmetric(horizontal: 15),
-             child: Row(
-               children:  const [
-                 Icon(
-                   Icons.videocam_outlined,
-                   color: AppColors.mainThemeBlue,
-                 ),
-                 SizedBox(
-                   width: 20,
-                 ),
-                 Text('Video'),
-               ],
-             ),
-           ),
-           onPressed: () async {
-             Provider.of<AssetProvider>(context, listen: false)
-                 .videoCameraPicker(context, imageSource: imageSource,multiplePick: allowMultiplePicks);
-             Navigator.pop(context);
-           },
-         ),
-         CupertinoActionSheetAction(
-           child: Padding(
-             padding: const EdgeInsets.symmetric(horizontal: 15),
-             child: Row(
-               children: const [
-                 Icon(
-                   Icons.add_photo_alternate_outlined,
-                   color: AppColors.mainThemeBlue,
-                 ),
-                 SizedBox(
-                   width: 20,
-                 ),
-                 Text('Image'),
-               ],
-             ),
-           ),
-           onPressed: () async {
-             bool alowMultiImage = ImageSource.camera == imageSource ;
-             Provider.of<AssetProvider>(context, listen: false).imageCameraPicker(context, imageSource: imageSource,multiplePick: !alowMultiImage);
+  static Future<void> singleImagePicker(BuildContext context,
+      {bool allowMultiplePicks = true, required ImageSource imageSource, bool showcamera = false}) {
+    return showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text(
+          'Pick Media Type',
+          style: TextStyle(
+              color: AppColors.mainThemeBlue,
+              fontFamily: "OpenSans-SemiBold",
+              fontSize: 18,
+              fontWeight: FontWeight.w600),
+        ),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.videocam_outlined,
+                    color: AppColors.mainThemeBlue,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text('Video'),
+                ],
+              ),
+            ),
+            onPressed: () async {
+              Provider.of<AssetProvider>(context, listen: false)
+                  .videoCameraPicker(context, imageSource: imageSource, multiplePick: allowMultiplePicks);
+              Navigator.pop(context);
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.add_photo_alternate_outlined,
+                    color: AppColors.mainThemeBlue,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text('Image'),
+                ],
+              ),
+            ),
+            onPressed: () async {
+              bool alowMultiImage = ImageSource.camera == imageSource;
+              Provider.of<AssetProvider>(context, listen: false)
+                  .imageCameraPicker(context, imageSource: imageSource, multiplePick: !alowMultiImage);
 
-             Navigator.pop(context);
-           },
-         )
-       ],
-     ),
-   );
- }
+              Navigator.pop(context);
+            },
+          )
+        ],
+      ),
+    );
+  }
 }

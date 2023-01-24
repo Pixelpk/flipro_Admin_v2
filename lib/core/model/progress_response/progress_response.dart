@@ -10,27 +10,21 @@ class ProgressResponse {
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
-
 }
 
 class Data {
   List<ProgressModel>? progressess;
 
-  Data(
-      {
-        this.progressess,
-        });
+  Data({
+    this.progressess,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
-
     if (json['data'] != null) {
       progressess = <ProgressModel>[];
       json['data'].forEach((v) {
         progressess!.add(ProgressModel.fromJson(v));
       });
     }
-
   }
-
 }
-

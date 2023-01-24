@@ -7,7 +7,6 @@ class UsersModel {
   UsersModel({this.message, this.data});
 
   UsersModel.fromJson(Map<String, dynamic> json) {
-
     message = json['message'];
     data = json['data'] != null ? PaginationData.fromJson(json['data']) : null;
   }
@@ -31,7 +30,7 @@ class PaginationData {
   List<Links>? links;
   String? nextPageUrl;
   String? path;
-  List<UserRoleModel>users = [];
+  List<UserRoleModel> users = [];
   var perPage;
   String? prevPageUrl;
   int? to;
@@ -39,17 +38,17 @@ class PaginationData {
 
   PaginationData(
       {this.currentPage,
-        this.firstPageUrl,
-        this.from,
-        this.lastPage,
-        this.lastPageUrl,
-        this.links,
-        this.nextPageUrl,
-        this.path,
-        this.perPage,
-        this.prevPageUrl,
-        this.to,
-        this.total});
+      this.firstPageUrl,
+      this.from,
+      this.lastPage,
+      this.lastPageUrl,
+      this.links,
+      this.nextPageUrl,
+      this.path,
+      this.perPage,
+      this.prevPageUrl,
+      this.to,
+      this.total});
 
   PaginationData.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
@@ -136,17 +135,17 @@ class Member {
 
   Member(
       {this.id,
-        this.name,
-        this.email,
-        this.phoneCode,
-        this.phone,
-        this.address,
-        this.emailVerifiedAt,
-        this.createdAt,
-        this.updatedAt,
-        this.userType,
-        this.createdBy,
-        this.roles});
+      this.name,
+      this.email,
+      this.phoneCode,
+      this.phone,
+      this.address,
+      this.emailVerifiedAt,
+      this.createdAt,
+      this.updatedAt,
+      this.userType,
+      this.createdBy,
+      this.roles});
 
   Member.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -180,4 +179,3 @@ class Member {
     return data;
   }
 }
-

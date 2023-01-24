@@ -124,7 +124,7 @@ class ValuerAccessControlScreen extends StatelessWidget {
                       width: 60.w,
                       radius: 15,
                       isloading:
-                          loadedProject.getLoadingState == loadingState.loading,
+                          loadedProject.getLoadingState == LoadingState.loading,
                       userArrow: false,
                       callback: () async {
                         print(accessControlProvider.getSelectedRoles.toJson());

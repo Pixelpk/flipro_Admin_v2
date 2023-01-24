@@ -5,15 +5,16 @@ class ProjectRoles {
   bool? uploadProgress;
   bool? addPhotos;
   bool? requestPayment;
-  bool? notify = true ;
+  bool? notify = true;
 
-  ProjectRoles(
-      {this.view =true,
-        this.addValue =false,
-        this.addNotes =false,
-        this.uploadProgress =false,
-        this.addPhotos =false,
-        this.requestPayment =false,});
+  ProjectRoles({
+    this.view = true,
+    this.addValue = false,
+    this.addNotes = false,
+    this.uploadProgress = false,
+    this.addPhotos = false,
+    this.requestPayment = false,
+  });
 
   ProjectRoles.fromJson(Map<String, dynamic> json) {
     view = json['view'];

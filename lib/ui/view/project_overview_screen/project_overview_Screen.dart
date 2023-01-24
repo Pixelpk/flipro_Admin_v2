@@ -6,13 +6,11 @@ import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/franchisee_access_control_screen.dart';
-import 'package:fliproadmin/ui/view/access_control_screen/home_owner_access_control.dart';
 import 'package:fliproadmin/ui/view/add_project_screen/add_project_screen.dart';
 import 'package:fliproadmin/ui/view/project_activity_timeline_screen/project_progress_timeline_screen.dart';
 import 'package:fliproadmin/ui/view/project_progress_timeline_screen/project_progress_timeline_screen.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
-import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/helper_widget.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:fliproadmin/ui/widget/main_button.dart';
@@ -57,10 +55,10 @@ class ProjectOverviewScreen extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: () => Future.sync(() => Provider.of<LoadedProjectProvider>(context, listen: false).refresh()),
         child: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-          if (loadedProject.getLoadingState == loadingState.loading) {
+          if (loadedProject.getLoadingState == LoadingState.loading) {
             return SizedBox(height: 70.h, child: HelperWidget.progressIndicator());
           }
-          if (loadedProject.getLoadedProject == null && loadedProject.getLoadingState == loadingState.loaded) {
+          if (loadedProject.getLoadedProject == null && loadedProject.getLoadingState == LoadingState.loaded) {
             return SizedBox(
               height: 70.h,
               child: const Center(
@@ -229,7 +227,8 @@ class ProjectOverviewScreen extends StatelessWidget {
                             //   ],
                             // ),
                             const SizedBox(height: 10),
-                            if ((loadedProject.getLoadedProject!.progressReviewed! || !loadedProject.getLoadedProject!.progressReviewed!) &&
+                            if ((loadedProject.getLoadedProject!.progressReviewed! ||
+                                    !loadedProject.getLoadedProject!.progressReviewed!) &&
                                 !loadedProject.getLoadedProject!.progressSatisfied!)
                               Container(
                                 height: 8.h,
@@ -243,7 +242,10 @@ class ProjectOverviewScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       "Are you satisfied",
-                                      style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1!
+                                          .copyWith(color: AppColors.greyFontColor),
                                     ),
                                     const Spacer(),
                                     Row(
@@ -259,7 +261,10 @@ class ProjectOverviewScreen extends StatelessWidget {
                                             }),
                                         Text(
                                           "YES",
-                                          style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(color: AppColors.greyFontColor),
                                         ),
                                       ],
                                     ),
@@ -276,7 +281,10 @@ class ProjectOverviewScreen extends StatelessWidget {
                                             }),
                                         Text(
                                           "NO",
-                                          style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(color: AppColors.greyFontColor),
                                         ),
                                       ],
                                     )
@@ -309,16 +317,20 @@ class ProjectOverviewScreen extends StatelessWidget {
                             // ),
                             if (!loadedProject.getLoadedProject!.progressSatisfied!)
                               MainButton(
-                                  buttonText: loadedProject.getLoadedProject!.progressReviewed! ? "Update review" : "Add Review",
+                                  buttonText: loadedProject.getLoadedProject!.progressReviewed!
+                                      ? "Update review"
+                                      : "Add Review",
                                   height: 7.h,
                                   width: 60.w,
                                   userArrow: false,
                                   callback: () {
-                                    if (_formKey.currentState!.validate() && loadedProject.getLoadedProject!.progressSatisfied! == false) {
-                                      loadedProject.addProjectReview(clientSatisfied, reviewController.text.trim(), progressSatisfaction: true);
+                                    if (_formKey.currentState!.validate() &&
+                                        loadedProject.getLoadedProject!.progressSatisfied! == false) {
+                                      loadedProject.addProjectReview(clientSatisfied, reviewController.text.trim(),
+                                          progressSatisfaction: true);
                                     }
                                   },
-                                  isloading: loadedProject.getLoadingState == loadingState.loading),
+                                  isloading: loadedProject.getLoadingState == LoadingState.loading),
                           ],
                         ),
                       ),
@@ -426,10 +438,10 @@ class ProjectOverviewScreen extends StatelessWidget {
         }),
       ),
       floatingActionButton: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-        if (loadedProject.getLoadingState == loadingState.loading) {
+        if (loadedProject.getLoadingState == LoadingState.loading) {
           return Container();
         }
-        if (loadedProject.getLoadedProject == null && loadedProject.getLoadingState == loadingState.loaded) {
+        if (loadedProject.getLoadedProject == null && loadedProject.getLoadingState == LoadingState.loaded) {
           return Container();
         }
         if (loadedProject.getLoadedProject!.status == "closed" ||

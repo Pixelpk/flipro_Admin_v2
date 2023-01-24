@@ -32,6 +32,7 @@ class ProjectInfoShareModel {
   String? crossCollText;
   String? existingQText;
   String? PostCodeText;
+
   ProjectInfoShareModel(
       {this.descripton = false,
       this.title = false,
@@ -48,7 +49,7 @@ class ProjectInfoShareModel {
       this.propertyDept = false,
       this.crossColl = false,
       this.existingQ = false,
-        this.postCode = false,
+      this.postCode = false,
       this.area,
       this.anticipatedBudgetText,
       this.currentValueText,
@@ -64,6 +65,5 @@ class ProjectInfoShareModel {
       this.propertyDeptText,
       this.crossCollText,
       this.existingQText,
-      this.PostCodeText
-      });
+      this.PostCodeText});
 }

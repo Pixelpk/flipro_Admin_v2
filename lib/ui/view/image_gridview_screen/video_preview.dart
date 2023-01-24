@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 class VideoPreview extends StatefulWidget {
   final List<MediaCompressionModel> videos;
   final int index;
-  const VideoPreview({Key? key, required this.videos, required this.index})
-      : super(key: key);
+  const VideoPreview({Key? key, required this.videos, required this.index}) : super(key: key);
 
   @override
   State<VideoPreview> createState() => _VideoPreviewState();

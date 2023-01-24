@@ -25,24 +25,19 @@ class BuilderAccessControlScreen extends StatelessWidget {
     ///one is userObject,
     ///other is routeName to which the user will navigate to then he save the access controll
     ///basically there are two routes where user will be naviagte to, viewUnassigned project & projectOverviewScreen
-    final receivedObject =
-        ModalRoute.of(context)!.settings.arguments as AccessControlObject;
+    final receivedObject = ModalRoute.of(context)!.settings.arguments as AccessControlObject;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(25.h),
-        child:  AccessControlAppBar(
-          title: "Builder",
+        child: AccessControlAppBar(
+          title: "Agents/Trades",
           imageUrl: receivedObject.userRoleModel.avatar ?? '',
         ),
       ),
-      body: ChangeNotifierProxyProvider<LoadedProjectProvider,
-          AccessControlProvider>(
-        create: (context) =>
-            AccessControlProvider(projectRoles: ProjectRoles()),
+      body: ChangeNotifierProxyProvider<LoadedProjectProvider, AccessControlProvider>(
+        create: (context) => AccessControlProvider(projectRoles: ProjectRoles()),
         update: (context, loadedProvider, projectsProvider) =>
-            AccessControlProvider(
-                projectRoles: loadedProvider
-                    .getBuilderRoleById(receivedObject.userRoleModel.id)),
+            AccessControlProvider(projectRoles: loadedProvider.getBuilderRoleById(receivedObject.userRoleModel.id)),
         child: Consumer2<LoadedProjectProvider, AccessControlProvider>(
             builder: (ctx, loadedProject, accessControlProvider, c) {
           return Container(
@@ -63,20 +58,18 @@ class BuilderAccessControlScreen extends StatelessWidget {
                       Flexible(
                         child: Text(
                           "${receivedObject.userRoleModel.name}",
-                          style:
-                              Theme.of(context).textTheme.headline5!.copyWith(
-                                    color: AppColors.mainThemeBlue,
-                                  ),
+                          style: Theme.of(context).textTheme.headline5!.copyWith(
+                                color: AppColors.mainThemeBlue,
+                              ),
                           maxLines: 2,
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Flexible(
                         child: Text("${receivedObject.userRoleModel.address}",
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      color: AppColors.greyDark,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  color: AppColors.greyDark,
+                                ),
                             maxLines: 2,
                             textAlign: TextAlign.center),
                       ),
@@ -94,8 +87,7 @@ class BuilderAccessControlScreen extends StatelessWidget {
                   height: 2.5.h,
                 ),
                 SwitchTile(
-                  private:
-                      accessControlProvider.getSelectedRoles.uploadProgress,
+                  private: accessControlProvider.getSelectedRoles.uploadProgress,
                   width: 90.w,
                   heigth: 7.5.h,
                   callback: accessControlProvider.setUploadProgressAccess,
@@ -127,8 +119,7 @@ class BuilderAccessControlScreen extends StatelessWidget {
                       buttonText: "Confirm",
                       width: 60.w,
                       radius: 15,
-                      isloading:
-                          loadedProject.getLoadingState == loadingState.loading,
+                      isloading: loadedProject.getLoadingState == LoadingState.loading,
                       userArrow: false,
                       callback: () async {
                         print(accessControlProvider.getSelectedRoles.toJson());
@@ -140,9 +131,7 @@ class BuilderAccessControlScreen extends StatelessWidget {
 
                         if (projectAssigned) {
                           Provider.of<ProjectsProvider>(context, listen: false)
-                              .removeProject(
-                                  projectId:
-                                      loadedProject.getLoadedProject!.id);
+                              .removeProject(projectId: loadedProject.getLoadedProject!.id);
                         }
                       },
                     ),

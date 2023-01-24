@@ -1,4 +1,3 @@
-
 class RegistratingData {
   String? name;
   String? email;
@@ -9,18 +8,15 @@ class RegistratingData {
   String? password;
   String? companyName;
 
-
   RegistratingData(
       {this.name,
-        this.email,
-        this.phoneCode,
-        this.phone,
-        this.address,
-        this.userType,
-        this.password,
-      this.companyName
-      });
-
+      this.email,
+      this.phoneCode,
+      this.phone,
+      this.address,
+      this.userType,
+      this.password,
+      this.companyName});
 
   Map<String, String> toJson() {
     final Map<String, String> data = <String, String>{};

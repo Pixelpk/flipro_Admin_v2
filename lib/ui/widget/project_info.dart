@@ -25,10 +25,10 @@ class ProjectInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LoadedProjectProvider>(builder: (ctx, project, c) {
-      if (project.getLoadingState == loadingState.loading) {
+      if (project.getLoadingState == LoadingState.loading) {
         return SizedBox(height: 70.h, child: HelperWidget.progressIndicator());
       }
-      if (project.getLoadedProject == null && project.getLoadingState == loadingState.loaded) {
+      if (project.getLoadedProject == null && project.getLoadingState == LoadingState.loaded) {
         return SizedBox(
           height: 70.h,
           child: const Center(

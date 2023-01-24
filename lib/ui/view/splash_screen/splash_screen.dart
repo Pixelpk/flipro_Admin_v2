@@ -32,10 +32,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // FirebaseMessagingService().fcmOnMessageListeners();
     super.initState();
     Future.delayed(const Duration(seconds: 4), () {
-      if (dbService.hasData(AppConstant.getToken) &&
-          dbService.readString(AppConstant.getToken) != null) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(MiddleWareLoading.routeName, (route) => false);
+      if (dbService.hasData(AppConstant.getToken) && dbService.readString(AppConstant.getToken) != null) {
+        Navigator.of(context).pushNamedAndRemoveUntil(MiddleWareLoading.routeName, (route) => false);
       } else {
         Navigator.of(context).pushNamed(LoginScreen.routeName);
       }
@@ -74,8 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     "RENOVATE NOW",
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  Text("PAY WHEN YOU SELL",
-                      style: Theme.of(context).textTheme.headline6)
+                  Text("PAY WHEN YOU SELL", style: Theme.of(context).textTheme.headline6)
                 ],
               ),
               Expanded(flex: 2, child: Container()),

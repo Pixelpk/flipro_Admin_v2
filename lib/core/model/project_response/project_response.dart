@@ -6,7 +6,6 @@ import 'package:fliproadmin/core/model/payment_response/draw_down_payment.dart';
 import 'package:fliproadmin/core/model/project_roles/project_roles.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
-import 'package:fliproadmin/core/view_model/projects_provider/projects_provider.dart';
 
 class ProjectResponse {
   int? currentPage;
@@ -116,6 +115,7 @@ class Project {
   MediaObject? projectMedia;
   String? final_progress_reviews;
   String? valuationReviews;
+
   Project(
       {this.id,
       this.title,
@@ -193,8 +193,7 @@ class Project {
       photoGallery = json['photos'].cast<String>();
     }
     if (json['latest_payment_request'] != null) {
-      latestPaymentReq =
-          DrawDownPayment.fromJson(json["latest_payment_request"]);
+      latestPaymentReq = DrawDownPayment.fromJson(json["latest_payment_request"]);
     }
     if (json['evaluators'] != null) {
       valuers = <UserRoleModel>[];
@@ -212,12 +211,8 @@ class Project {
     if (json['latest_progress'] != null) {
       latestProgress = ProgressModel.fromJson(json['latest_progress']);
     }
-    franchisee = json['franchisee'] != null
-        ? UserRoleModel.fromJson(json['franchisee'])
-        : null;
-    lead = json['lead'] != null && json['lead'].isNotEmpty
-        ? UserRoleModel.fromJson(json['lead'][0])
-        : null;
+    franchisee = json['franchisee'] != null ? UserRoleModel.fromJson(json['franchisee']) : null;
+    lead = json['lead'] != null && json['lead'].isNotEmpty ? UserRoleModel.fromJson(json['lead'][0]) : null;
     coverPhoto = json['cover_photo'];
 
     valuationSatisfied = json['evaluation_satisfied'];
@@ -239,9 +234,7 @@ class Project {
       });
     }
     projectMedia = MediaObject(images: photoGallery, videos: videos);
-    projectRoles = json['project_roles'] != null
-        ? ProjectRoles.fromJson(json['project_roles'])
-        : null;
+    projectRoles = json['project_roles'] != null ? ProjectRoles.fromJson(json['project_roles']) : null;
   }
 
   Map<String, String> toJson() {
