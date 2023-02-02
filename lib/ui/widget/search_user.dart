@@ -1,4 +1,3 @@
-
 import 'package:fliproadmin/core/model/project_response/project_response.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
@@ -15,17 +14,18 @@ import 'helper_widget.dart';
 class SearchUsers extends StatefulWidget {
   const SearchUsers(
       {Key? key,
-        required this.isPortrait,
-        this.projectId,
-        required this.currentRoute,
-        required this.appuser,
-        this.role})
+      required this.isPortrait,
+      this.projectId,
+      required this.currentRoute,
+      required this.appuser,
+      this.role})
       : super(key: key);
   final String? role;
   final String? currentRoute;
   final int? projectId;
   final bool isPortrait;
   final appUsers appuser;
+
   @override
   State<SearchUsers> createState() => _SearchUsersState();
 }
@@ -46,14 +46,12 @@ class _SearchUsersState extends State<SearchUsers> {
       width: 90.w,
       backdropColor: AppColors.blueScaffoldBackground,
       openWidth: 100.w,
-
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: (query) {
         Provider.of<ProjectsProvider>(context, listen: false).searchUsers(
             userRole: LogicHelper.userTypeFromEnum(widget.appuser),
             initialLoading: true,
             searchQuery: query,
-            
             projectId: widget.projectId);
       },
       transition: CircularFloatingSearchBarTransition(),
@@ -72,14 +70,11 @@ class _SearchUsersState extends State<SearchUsers> {
       builder: (context, transition) {
         return Consumer<ProjectsProvider>(builder: (ctx, projectProvider, c) {
           print(projectProvider.getLoadingState);
-          if (projectProvider.getLoadingState == LoadingState.loading &&
-              projectProvider.getCurrentPage == 1) {
+          if (projectProvider.getLoadingState == LoadingState.loading && projectProvider.getCurrentPage == 1) {
             return HelperWidget.progressIndicator();
           }
           return LazyLoadScrollView(
-
-              isLoading:
-              projectProvider.getLoadingState == LoadingState.loading,
+              isLoading: projectProvider.getLoadingState == LoadingState.loading,
               onEndOfPage: () {
                 projectProvider.searchUsers(
                     userRole: LogicHelper.userTypeFromEnum(widget.appuser),
@@ -89,8 +84,7 @@ class _SearchUsersState extends State<SearchUsers> {
               child: ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  UserRoleModel fetchedUser =
-                  projectProvider.getSearcherUsers[index];
+                  UserRoleModel fetchedUser = projectProvider.getSearcherUsers[index];
                   return InkWell(
                       onTap: () {
                         HelperWidget.handleTrademanNavigation(
@@ -99,9 +93,7 @@ class _SearchUsersState extends State<SearchUsers> {
                             currentRoute: widget.currentRoute,
                             userRoleModel: fetchedUser);
                       },
-                      child: TrademanListItem(
-                        userRoleModel: fetchedUser,
-                      ));
+                      child: TrademanListItem(userRoleModel: fetchedUser));
                 },
                 itemCount: projectProvider.getSearcherUsers.length,
               ));

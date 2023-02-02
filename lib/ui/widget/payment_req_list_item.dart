@@ -19,13 +19,11 @@ import 'package:sizer/sizer.dart';
 import 'custom_cache_network_image.dart';
 
 class PaymentReqListItem extends StatelessWidget {
-  const PaymentReqListItem({Key? key, required this.rejected, this.paymentRequest, this.pagingController}) : super(key: key);
+  const PaymentReqListItem({Key? key, required this.rejected, this.paymentRequest, this.pagingController})
+      : super(key: key);
   final PagingController? pagingController;
   final DrawDownPayment? paymentRequest;
   final bool rejected;
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +41,15 @@ class PaymentReqListItem extends StatelessWidget {
             child: InkWell(
               onTap: () async {
                 print("The amount is" + paymentRequest!.amount.toString());
+
                 ///OPEN SECOND TAB
                 Provider.of<HomeProvider>(context, listen: false).onProjectViewPageChange(1);
-                Provider.of<LoadedProjectProvider>(context, listen: false).fetchLoadedProject(paymentRequest!.projectId!);
+                Provider.of<LoadedProjectProvider>(context, listen: false)
+                    .fetchLoadedProject(paymentRequest!.projectId!);
                 var refresh;
                 // if (rejected) {
-                refresh = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => RejectedPaymentScreen(payment: paymentRequest!)));
+                refresh = await Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => RejectedPaymentScreen(payment: paymentRequest!)));
                 // }
                 // if (!rejected) {
                 //   refresh = await Navigator.pushNamed(
@@ -89,12 +90,17 @@ class PaymentReqListItem extends StatelessWidget {
                             ),
                             Text(
                               "Amount: \$${formatter.format(double.parse(paymentRequest!.amount.toString().replaceAll(",", "")))}",
-                              style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.mainThemeBlue,fontSize: 12),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(color: AppColors.mainThemeBlue, fontSize: 12),
                               maxLines: 2,
                             ),
                             Flexible(
                               child: Text(
-                                paymentRequest!.description != null ? "Reason: ${paymentRequest!.description}" : "Reason: NA",
+                                paymentRequest!.description != null
+                                    ? "Reason: ${paymentRequest!.description}"
+                                    : "Reason: NA",
                                 style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyDark),
                                 maxLines: 3,
                               ),
@@ -108,23 +114,17 @@ class PaymentReqListItem extends StatelessWidget {
           ),
           Expanded(
               flex: rejected ? 15 : 20,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: Text(
-                      "${paymentRequest!.status!.toUpperCase()}",
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          color: paymentRequest!.status == "rejected"
-                              ? AppColors.lightRed
-                              : paymentRequest!.status == "approved"
-                                  ? AppColors.green
-                                  : AppColors.yellow,
-                          overflow: TextOverflow.fade),
-                    ),
-                  )
-                ],
-              )),
+              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Flexible(
+                    child: Text(paymentRequest!.status!.toUpperCase(),
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            color: paymentRequest!.status == "rejected"
+                                ? AppColors.lightRed
+                                : paymentRequest!.status == "approved"
+                                    ? AppColors.green
+                                    : AppColors.yellow,
+                            overflow: TextOverflow.fade)))
+              ])),
         ],
       ),
     );

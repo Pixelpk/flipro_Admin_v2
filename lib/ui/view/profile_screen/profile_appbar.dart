@@ -8,10 +8,10 @@ class ProfileAppbar extends StatelessWidget {
   const ProfileAppbar({
     Key? key,
     this.pictureEditable = false,
-   required this.imageUrl,
+    required this.imageUrl,
   }) : super(key: key);
   final bool pictureEditable;
-  final String imageUrl ;
+  final String imageUrl;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,9 +23,7 @@ class ProfileAppbar extends StatelessWidget {
             width: 100.w,
             decoration: const BoxDecoration(
                 color: AppColors.mainThemeBlue,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25))),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25))),
           ),
           SizedBox(
             width: 100.w,
@@ -41,8 +39,7 @@ class ProfileAppbar extends StatelessWidget {
                   radius: 7.h,
                   child: CircleAvatar(
                     radius: 6.8.h,
-                    backgroundImage:
-                    CachedNetworkImageProvider(imageUrl),
+                    backgroundImage: CachedNetworkImageProvider(imageUrl),
                     child: Stack(
                       clipBehavior: Clip.none,
                       alignment: Alignment.bottomLeft,

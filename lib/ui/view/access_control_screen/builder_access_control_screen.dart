@@ -1,7 +1,5 @@
 import 'package:fliproadmin/core/model/access_control_object.dart';
-import 'package:fliproadmin/core/model/project_response/project_response.dart';
 import 'package:fliproadmin/core/model/project_roles/project_roles.dart';
-import 'package:fliproadmin/core/services/assets_provider/assets_provider.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/view_model/access_control_provider/access_control_provider.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
@@ -21,10 +19,6 @@ class BuilderAccessControlScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ///WE NEED TWO THING ON THIS SCREEN
-    ///one is userObject,
-    ///other is routeName to which the user will navigate to then he save the access controll
-    ///basically there are two routes where user will be naviagte to, viewUnassigned project & projectOverviewScreen
     final receivedObject = ModalRoute.of(context)!.settings.arguments as AccessControlObject;
     return Scaffold(
       appBar: PreferredSize(
@@ -46,9 +40,7 @@ class BuilderAccessControlScreen extends StatelessWidget {
             height: 75.h,
             child: ListView(
               children: [
-                SizedBox(
-                  height: 8.h,
-                ),
+                SizedBox(height: 8.h),
                 SizedBox(
                   height: 8.h,
                   child: Column(
@@ -93,28 +85,20 @@ class BuilderAccessControlScreen extends StatelessWidget {
                   callback: accessControlProvider.setUploadProgressAccess,
                   tileTitle: "Can Update Progress",
                 ),
-                SizedBox(
-                  height: 2.5.h,
-                ),
+                SizedBox(height: 2.5.h),
                 SwitchTile(
                   private: accessControlProvider.getSelectedRoles.addPhotos,
                   tileTitle: "Can Add Photos",
                   callback: accessControlProvider.setAddPhotosAccess,
                 ),
-                SizedBox(
-                  height: 2.5.h,
-                ),
+                SizedBox(height: 2.5.h),
                 SwitchTile(
                     private: accessControlProvider.getSelectedRoles.addNotes,
                     tileTitle: "Add Notes/Review",
                     callback: accessControlProvider.setAddNotesAccess),
-                SizedBox(
-                  height: 6.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MainButton(
+                SizedBox(height: 6.h),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  MainButton(
                       height: 7.h,
                       buttonText: "Confirm",
                       width: 60.w,
@@ -122,7 +106,6 @@ class BuilderAccessControlScreen extends StatelessWidget {
                       isloading: loadedProject.getLoadingState == LoadingState.loading,
                       userArrow: false,
                       callback: () async {
-                        print(accessControlProvider.getSelectedRoles.toJson());
                         bool projectAssigned = await loadedProject.updateAccess(
                             receivedObject.userRoleModel.id!,
                             loadedProject.getLoadedProject!.id!,
@@ -133,10 +116,8 @@ class BuilderAccessControlScreen extends StatelessWidget {
                           Provider.of<ProjectsProvider>(context, listen: false)
                               .removeProject(projectId: loadedProject.getLoadedProject!.id);
                         }
-                      },
-                    ),
-                  ],
-                )
+                      })
+                ])
               ],
             ),
           );

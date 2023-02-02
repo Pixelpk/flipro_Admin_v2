@@ -21,8 +21,6 @@ class AppColors {
   static const profileBackPink = Color(0xffF3B4B6);
   static const greyDark = Color(0xff717171);
 
-
-
   static const MaterialColor primaryBlueSwatch = MaterialColor(_mcgpalette0PrimaryValue, <int, Color>{
     50: Color(0xFFE3EBF3),
     100: Color(0xFFB9CEE0),
@@ -36,6 +34,4 @@ class AppColors {
     900: Color(0xFF06306A),
   });
   static const int _mcgpalette0PrimaryValue = 0xFF165C98;
-
-
 }

@@ -46,10 +46,11 @@ class LoadedProjectProvider extends ChangeNotifier {
     }
   }
 
-  ProjectRoles getBuilderRoleById(int? builderId) {
+  ProjectRoles getBuilderRoleById(dynamic builderId) {
     try {
+      print("BUI${builderId.runtimeType}");
       UserRoleModel userRoleModel = _loadedProject!.builder!.firstWhere((element) {
-        if (element.id == builderId) {
+        if (element.id.toString() == builderId.toString()) {
           return true;
         }
         return false;
@@ -83,17 +84,20 @@ class LoadedProjectProvider extends ChangeNotifier {
     }
   }
 
-  UserRoleModel getBuilderById(int? builderId) {
+  UserRoleModel getBuilderById(dynamic builderId) {
     try {
-      if (builderId == 00) {
+
+      if (builderId.toString() == '00') {
+
         return _loadedProject!.builder![0];
       }
       UserRoleModel userRoleModel = _loadedProject!.builder!.firstWhere((element) {
-        if (element.id == builderId) {
+        if (element.id.toString() == builderId.toString()) {
           return true;
         }
         return false;
       });
+      print("lo ========> ${userRoleModel.toJson()}");
       return userRoleModel;
     } catch (e) {
       print(e);

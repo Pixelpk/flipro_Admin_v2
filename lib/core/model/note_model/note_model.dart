@@ -110,7 +110,7 @@ class Note {
     id = json['id'];
     projectId = json['project_id'];
     userId = json['user_id'];
-    private = json['private'] == 1 ? true : false;
+    private = json['private'] == 1 || json['private'] == "true" || json['private'] ? true : false;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     notes = json['notes'];

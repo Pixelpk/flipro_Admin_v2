@@ -8,13 +8,11 @@ import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-
-
-
 class ForgotPasswordScreen extends StatefulWidget {
   static const routeName = '/forgotPasswordScreen';
 
   const ForgotPasswordScreen({Key? key}) : super(key: key);
+
   @override
   _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
@@ -22,8 +20,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController emailController =
-      TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   @override
   void dispose() {
     emailController.dispose();
@@ -47,8 +45,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(
                 height: 15.h,
               ),
-              const Text(
-                  'One time password will be send \n to your email so you can recover your password',
+              const Text('One time password will be send \n to your email so you can recover your password',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(
                 height: 30,
@@ -78,8 +75,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           borderRadius: BorderRadius.circular(10),
                           gapPadding: 8.0),
                       focusedBorder: OutlineInputBorder(
-                          borderSide:
-                            const   BorderSide(color: AppColors.mainThemeBlue),
+                          borderSide: const BorderSide(color: AppColors.mainThemeBlue),
                           borderRadius: BorderRadius.circular(15),
                           gapPadding: 8.0),
                       hintText: 'Enter Your Email',
@@ -102,7 +98,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           authProvider.forgotPassword(emailController.text.trim());
                         }
                       },
-
                     )
             ],
           )),

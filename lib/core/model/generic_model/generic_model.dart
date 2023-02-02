@@ -1,8 +1,6 @@
 class GenericModel {
   bool success;
-
   var returnedModel;
-
   String? message;
   String? title;
   int? statusCode;

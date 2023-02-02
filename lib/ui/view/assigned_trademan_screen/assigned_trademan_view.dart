@@ -34,9 +34,7 @@ class AssignedTrademan extends StatelessWidget {
         if (loadedProjectProvider.getLoadedProject == null &&
             loadedProjectProvider.getLoadedProject!.builder == null &&
             loadedTradman == appUsers.builder) {
-          return const Center(
-            child: Text("No Valuer assigned"),
-          );
+          return const Center(child: Text("No Valuer assigned"));
         }
         return ListView.builder(
             itemCount: loadedTradman == appUsers.builder
@@ -47,15 +45,14 @@ class AssignedTrademan extends StatelessWidget {
                   ? loadedProjectProvider.getLoadedProject!.builder![index]
                   : loadedProjectProvider.getLoadedProject!.valuers![index];
               return InkWell(
-                onTap: () {
-                  HelperWidget.handleTrademanNavigation(
-                      user: loadedTradman,
-                      context: context,
-                      currentRoute: AssignedTrademan.routeName,
-                      userRoleModel: userRoleModel);
-                },
-                child: TrademanListItem(userRoleModel: userRoleModel),
-              );
+                  onTap: () {
+                    HelperWidget.handleTrademanNavigation(
+                        user: loadedTradman,
+                        context: context,
+                        currentRoute: AssignedTrademan.routeName,
+                        userRoleModel: userRoleModel);
+                  },
+                  child: TrademanListItem(userRoleModel: userRoleModel));
             });
       }),
     );
