@@ -23,11 +23,8 @@ addValueBottomSheet({
         return SingleChildScrollView(
             child: Container(
                 // height: 300,
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                 child: Container(
                     padding: const EdgeInsets.all(8),
@@ -39,10 +36,9 @@ addValueBottomSheet({
                           children: [
                             Center(
                                 child: LabeledTextField(
-                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               label: value ?? 'Add Value',
                               maxlines: 1,
-
                               textEditingController: controller,
                               validation: (e) {
                                 if (e == null || e.trim().isEmpty) {
@@ -51,10 +47,7 @@ addValueBottomSheet({
                                 return null;
                               },
                               readonly: false,
-                              fillColor: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.4),
+                              fillColor: Theme.of(context).colorScheme.primary.withOpacity(0.4),
                             )),
                             const SizedBox(
                               height: 10,
@@ -64,15 +57,12 @@ addValueBottomSheet({
                               buttonText: "Add",
                               callback: () {
                                 if (_formKey.currentState!.validate()) {
-                                  Provider.of<LoadedProjectProvider>(context,
-                                          listen: false)
+                                  Provider.of<LoadedProjectProvider>(context, listen: false)
                                       .addProjectValue(controller.text.trim().toString());
                                 }
                               },
                               isloading:
-                                  Provider.of<LoadedProjectProvider>(context)
-                                          .getLoadingState ==
-                                      loadingState.loading,
+                                  Provider.of<LoadedProjectProvider>(context).getLoadingState == LoadingState.loading,
                               userArrow: false,
                               width: 70.w,
                             )

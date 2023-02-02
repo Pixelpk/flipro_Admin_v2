@@ -1,4 +1,3 @@
-
 import 'draw_down_payment.dart';
 
 class PaymentResponse {
@@ -37,16 +36,16 @@ class Data {
 
   Data(
       {this.currentPage,
-        this.drawDownPaymentsReqs,
-        this.firstPageUrl,
-        this.from,
-        this.lastPage,
-        this.lastPageUrl,
-        this.links,
-        this.path,
-        this.perPage,
-        this.to,
-        this.total});
+      this.drawDownPaymentsReqs,
+      this.firstPageUrl,
+      this.from,
+      this.lastPage,
+      this.lastPageUrl,
+      this.links,
+      this.path,
+      this.perPage,
+      this.to,
+      this.total});
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
@@ -92,7 +91,6 @@ class Data {
     return data;
   }
 }
-
 
 class Links {
   String? url;

@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:fliproadmin/core/model/exception_model/exception_model.dart';
 import 'package:fliproadmin/core/model/generic_model/generic_model.dart';
-import 'package:fliproadmin/core/model/payment_response/payment_response.dart';
 import 'package:fliproadmin/core/model/progress_response/progress_response.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/utilities/env.dart';
@@ -12,39 +11,28 @@ import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:http/http.dart' as http;
 
 import '../../model/project_activity/project_activity_response.dart';
-import '../../model/search_project/search_project_response.dart';
 
 class ProgressService {
-
   static Future<GenericModel> getProjectProgress({
     required String accessToken,
     required int projectId,
     required int page,
   }) async {
     try {
-      var headers = {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $accessToken'
-      };
+      var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       String url = '${ENV.baseURL}/api/projects/progress?project_id=$projectId&page=$page';
       print("REQ URL $url");
       var request = http.Request('GET', Uri.parse(url));
       request.headers.addAll(headers);
 
-      http.StreamedResponse response =
-          await request.send().timeout(const Duration(seconds: 30));
+      http.StreamedResponse response = await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();
       print(res);
       if (response.statusCode == 200) {
         ProgressResponse p = ProgressResponse.fromJson(jsonDecode(res));
-
-        return GenericModel(
-            returnedModel:p,
-            success: true,
-            statusCode: 200);
+        return GenericModel(returnedModel: p, success: true, statusCode: 200);
       } else if (response.statusCode == 422) {
-        ExceptionModel exceptionModel =
-            ExceptionModel.fromJson(jsonDecode(res));
+        ExceptionModel exceptionModel = ExceptionModel.fromJson(jsonDecode(res));
         return GenericModel(
             returnedModel: exceptionModel,
             success: false,
@@ -82,7 +70,6 @@ class ProgressService {
           title: AppConstant.timeoutErrorDescription);
     }
   }
-
 
   static Future<GenericModel> getProjectActivity({
     required String accessToken,
@@ -90,29 +77,21 @@ class ProgressService {
     required int page,
   }) async {
     try {
-      var headers = {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $accessToken'
-      };
+      var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       String url = '${ENV.baseURL}/api/event/log?project_id=$projectId&page=$page';
       print("REQ URL $url");
       var request = http.Request('GET', Uri.parse(url));
       request.headers.addAll(headers);
 
-      http.StreamedResponse response =
-          await request.send().timeout(const Duration(seconds: 30));
+      http.StreamedResponse response = await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();
       print(res);
       if (response.statusCode == 200) {
         ActivityTimeLineResponse p = ActivityTimeLineResponse.fromJson(jsonDecode(res));
 
-        return GenericModel(
-            returnedModel:p,
-            success: true,
-            statusCode: 200);
+        return GenericModel(returnedModel: p, success: true, statusCode: 200);
       } else if (response.statusCode == 422) {
-        ExceptionModel exceptionModel =
-            ExceptionModel.fromJson(jsonDecode(res));
+        ExceptionModel exceptionModel = ExceptionModel.fromJson(jsonDecode(res));
         return GenericModel(
             returnedModel: exceptionModel,
             success: false,
@@ -151,17 +130,13 @@ class ProgressService {
     }
   }
 
-
   static Future<GenericModel> approveRejectPaymentReq(
       {required String accessToken,
       required int paymentReqId,
       required String? rejectionReason,
       required bool isRejected}) async {
     try {
-      var headers = {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $accessToken'
-      };
+      var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       String url = '${ENV.baseURL}/api/payment-requests?id=$paymentReqId&reason=$rejectionReason';
       if (isRejected) {
         url = "$url&status=rejected";
@@ -173,22 +148,17 @@ class ProgressService {
       var request = http.Request('PATCH', Uri.parse(url));
       request.headers.addAll(headers);
 
-      http.StreamedResponse response =
-          await request.send().timeout(const Duration(seconds: 30));
+      http.StreamedResponse response = await request.send().timeout(const Duration(seconds: 30));
       var res = await response.stream.bytesToString();
-      print(res);
       if (response.statusCode == 200) {
         return GenericModel(
             returnedModel: null,
             title: isRejected ? "Payment Rejected" : "Payment Approved",
-            message: isRejected
-                ? "Payment Request Rejected"
-                : "Payment Request has been approved",
+            message: isRejected ? "Payment Request Rejected" : "Payment Request has been approved",
             success: true,
             statusCode: 200);
       } else if (response.statusCode == 422) {
-        ExceptionModel exceptionModel =
-            ExceptionModel.fromJson(jsonDecode(res));
+        ExceptionModel exceptionModel = ExceptionModel.fromJson(jsonDecode(res));
         return GenericModel(
             returnedModel: exceptionModel,
             success: false,

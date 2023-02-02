@@ -72,14 +72,14 @@ class _SearchUsersState extends State<SearchUsers> {
       builder: (context, transition) {
         return Consumer<ProjectsProvider>(builder: (ctx, projectProvider, c) {
           print(projectProvider.getLoadingState);
-          if (projectProvider.getLoadingState == loadingState.loading &&
+          if (projectProvider.getLoadingState == LoadingState.loading &&
               projectProvider.getCurrentPage == 1) {
             return HelperWidget.progressIndicator();
           }
           return LazyLoadScrollView(
 
               isLoading:
-              projectProvider.getLoadingState == loadingState.loading,
+              projectProvider.getLoadingState == LoadingState.loading,
               onEndOfPage: () {
                 projectProvider.searchUsers(
                     userRole: LogicHelper.userTypeFromEnum(widget.appuser),

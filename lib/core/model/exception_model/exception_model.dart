@@ -8,11 +8,11 @@ class ExceptionModel {
     message = json['message'];
     errors = json['errors'] != null ? Errors.fromJson(json['errors']) : null;
   }
-
 }
 
 class Errors {
   List<Error>? errorList = [];
+
   Errors({this.errorList});
 
   Errors.fromJson(Map<String, dynamic> json) {
@@ -20,13 +20,12 @@ class Errors {
       errorList!.add(Error(error: key, message: value[0]));
     });
   }
-
-
 }
 
 class Error {
   String? error;
   String? message;
+
   Error({this.message, this.error});
 
   Error.fromJson(Map<String, dynamic> json) {

@@ -12,6 +12,7 @@ class ShareProvider extends ChangeNotifier {
   List<MediaCompressionModel> _selectedMedia = [];
 
   ProjectInfoShareModel get projectInfo => _infoShareModel;
+
   ShareProvider() {
     _infoShareModel = ProjectInfoShareModel();
   }
@@ -33,7 +34,7 @@ class ShareProvider extends ChangeNotifier {
   }
 
   getCachedImages() async {
-    showLoadingDialog(title: "Downloading...");
+    showLoadingDialog(title: "Downloading...", showCancelIcon: true);
     DefaultCacheManager defaultCacheManager = DefaultCacheManager();
     print("sdsdf${_selectedMedia.length}");
     List<Future<String?>> futureRestulsList = _selectedMedia.map((e) async {
@@ -49,7 +50,8 @@ class ShareProvider extends ChangeNotifier {
         }
       }
     }).toList();
-    List<String?> shareAbleMedia = await Future.wait(List.generate(futureRestulsList.length, (index) => futureRestulsList[index]));
+    List<String?> shareAbleMedia =
+        await Future.wait(List.generate(futureRestulsList.length, (index) => futureRestulsList[index]));
     Navigator.pop(Get.context!);
     print(shareAbleMedia.length);
     getProjectInfo();
@@ -96,7 +98,8 @@ class ShareProvider extends ChangeNotifier {
     }
     if (_infoShareModel.existingQ!) {
       t = "$t\nExisting Query: ${_infoShareModel.existingQText}";
-    }  if (_infoShareModel.postCode!) {
+    }
+    if (_infoShareModel.postCode!) {
       t = "$t\nPostcode: ${_infoShareModel.PostCodeText}";
     }
     print("sdfsdf $t");

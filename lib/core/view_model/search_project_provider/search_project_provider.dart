@@ -13,8 +13,8 @@ class SearchProjectProvider extends ChangeNotifier {
     projectService = ProjectService();
   }
 
-  loadingState _isLoading = loadingState.loaded;
-  loadingState get getLoadingState => _isLoading;
+  LoadingState _isLoading = LoadingState.loaded;
+  LoadingState get getLoadingState => _isLoading;
   late ProjectService projectService;
   List<ProjectProvider> _searchedProjects = [];
   clear(){
@@ -22,12 +22,12 @@ class SearchProjectProvider extends ChangeNotifier {
   }
   List<ProjectProvider> get getSearchedProjects => _searchedProjects;
   setStateLoading() {
-    _isLoading = loadingState.loading;
+    _isLoading = LoadingState.loading;
     notifyListeners();
   }
 
   setStateLoaded() {
-    _isLoading = loadingState.loaded;
+    _isLoading = LoadingState.loaded;
     notifyListeners();
   }
 

@@ -8,23 +8,23 @@ import 'package:flutter/cupertino.dart';
 
 class AccessControlProvider with ChangeNotifier {
   late ProjectRoles _projectRoles;
-  loadingState _isLoading = loadingState.loaded;
+  LoadingState _isLoading = LoadingState.loaded;
 
   AccessControlProvider({ProjectRoles? projectRoles}) {
     _projectRoles = projectRoles ?? ProjectRoles();
     notifyListeners();
   }
 
-  loadingState get getLoadingState => _isLoading;
+  LoadingState get getLoadingState => _isLoading;
   ProjectRoles get getSelectedRoles => _projectRoles;
 
   setStateLoading() {
-    _isLoading = loadingState.loading;
+    _isLoading = LoadingState.loading;
     notifyListeners();
   }
 
   setStateLoaded() {
-    _isLoading = loadingState.loaded;
+    _isLoading = LoadingState.loaded;
     notifyListeners();
   }
 

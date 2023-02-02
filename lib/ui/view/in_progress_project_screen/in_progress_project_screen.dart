@@ -48,8 +48,7 @@ class InProgressProjectScreen extends StatefulWidget {
 class _InProgressProjectScreenState extends State<InProgressProjectScreen> {
   static const _pageSize = 20;
 
-  final PagingController<int, ProjectProvider> _pagingController =
-  PagingController(firstPageKey: 1);
+  final PagingController<int, ProjectProvider> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -68,11 +67,9 @@ class _InProgressProjectScreenState extends State<InProgressProjectScreen> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await ProjectService().getAllActivityProjects(
-          accessToken:
-          Provider.of<UserProvider>(context, listen: false).getAuthToken,
+          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
-          status: "in-progress"
-      );
+          status: "in-progress");
       if (genericModel.statusCode == 200) {
         ProjectResponse projectResponse = genericModel.returnedModel;
         if (projectResponse != null && projectResponse.projectsList != null) {
@@ -85,11 +82,8 @@ class _InProgressProjectScreenState extends State<InProgressProjectScreen> {
             _pagingController.appendPage(newItems, nextPageKey);
           }
         }
-      } else if (genericModel.statusCode == 400 ||
-          genericModel.statusCode == 422 ||
-          genericModel.statusCode == 401) {
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+      } else if (genericModel.statusCode == 400 || genericModel.statusCode == 422 || genericModel.statusCode == 401) {
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
       }
     } catch (error) {
       print(error);
@@ -102,17 +96,14 @@ class _InProgressProjectScreenState extends State<InProgressProjectScreen> {
     return RefreshIndicator(
         onRefresh: () => Future.sync(
               () => _pagingController.refresh(),
-        ),
+            ),
         child: PagedListView<int, ProjectProvider>(
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<ProjectProvider>(
               itemBuilder: (context, project, index) => ActivityListItem(
-                project: project,
-                timeStampLabel: '',
-              )
-
-          ),
+                    project: project,
+                    timeStampLabel: '',
+                  )),
         ));
-
   }
 }

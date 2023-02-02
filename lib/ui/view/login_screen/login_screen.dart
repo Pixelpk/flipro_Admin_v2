@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Container(
           height: 100.h,
-          child: authProvider.getLoadingState == loadingState.loading
+          child: authProvider.getLoadingState == LoadingState.loading
               ? HelperWidget.progressIndicator()
               : Form(
                   key: _formKey,

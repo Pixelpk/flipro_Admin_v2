@@ -116,7 +116,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
 
                     buttonText: "Update",
                     isloading:
-                        authProvider.getLoadingState == loadingState.loading,
+                        authProvider.getLoadingState == LoadingState.loading,
                     callback: () {
                       if (_formKey.currentState!.validate()) {
                         authProvider.updatePassword(password: passwordController.text.trim(), otp: args['otp'], email: args['email']);

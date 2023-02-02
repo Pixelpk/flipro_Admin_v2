@@ -25,38 +25,34 @@ import 'package:fliproadmin/ui/view/view_trademan_profile/view_trademan_profile.
 import 'package:fliproadmin/ui/view/view_unassigned_project/view_unassigned_project.dart';
 import 'package:fliproadmin/ui/widget/view_project_details.dart';
 import 'package:flutter/material.dart';
+
 class Routes {
   static Map<String, Widget Function(BuildContext)> appRoutes = {
     LoginScreen.routeName: (_) => const LoginScreen(),
-    ForgotPasswordScreen.routeName: (_) =>  const ForgotPasswordScreen(),
-    ForgotPasswordOtpScreen.routeName: (_) =>  const ForgotPasswordOtpScreen(),
-    UpdatePasswordScreen.routeName: (_) =>  const UpdatePasswordScreen(),
+    ForgotPasswordScreen.routeName: (_) => const ForgotPasswordScreen(),
+    ForgotPasswordOtpScreen.routeName: (_) => const ForgotPasswordOtpScreen(),
+    UpdatePasswordScreen.routeName: (_) => const UpdatePasswordScreen(),
     MiddleWareLoading.routeName: (_) => const MiddleWareLoading(),
     UpdatePassword.routeName: (_) => const UpdatePassword(),
     HomeScreen.routeName: (_) => const HomeScreen(),
     ViewUnassignedProject.routeName: (_) => const ViewUnassignedProject(),
     MediaViewAll.routeName: (_) => const MediaViewAll(),
-    NotesScreen.routeName: (_) =>  NotesScreen(),
+    NotesScreen.routeName: (_) => NotesScreen(),
     NoteViewScreen.routeName: (_) => NoteViewScreen(),
     ViewProjectScreen.routeName: (_) => const ViewProjectScreen(),
-    ProjectOverviewScreen.routeName: (_) =>  ProjectOverviewScreen(),
-    ProjectProgressTimeLineScreen.routeName: (_) =>
-        const ProjectProgressTimeLineScreen(),
-    ProjectActivityTimeLineScreen.routeName: (_) =>
-        const ProjectActivityTimeLineScreen(),
+    ProjectOverviewScreen.routeName: (_) => ProjectOverviewScreen(),
+    ProjectProgressTimeLineScreen.routeName: (_) => const ProjectProgressTimeLineScreen(),
+    ProjectActivityTimeLineScreen.routeName: (_) => const ProjectActivityTimeLineScreen(),
     SingleProgressScreen.routeName: (_) => const SingleProgressScreen(),
     AddTradeManScreen.routeName: (_) => const AddTradeManScreen(),
-    BuilderAccessControlScreen.routeName: (_) =>
-        const BuilderAccessControlScreen(),
-    ValuerAccessControlScreen.routeName: (_) =>
-        const ValuerAccessControlScreen(),
-    FranchiseeAccessControlScreen.routeName: (_) =>
-        const FranchiseeAccessControlScreen(),
+    BuilderAccessControlScreen.routeName: (_) => const BuilderAccessControlScreen(),
+    ValuerAccessControlScreen.routeName: (_) => const ValuerAccessControlScreen(),
+    FranchiseeAccessControlScreen.routeName: (_) => const FranchiseeAccessControlScreen(),
     ViewProjectDetails.routeName: (_) => const ViewProjectDetails(),
     ViewTradeManProfile.routeName: (_) => ViewTradeManProfile(),
     AddMemberScreen.routeName: (_) => AddMemberScreen(),
     AddProjectMediaScreen.routeName: (_) => const AddProjectMediaScreen(),
     AssignedTrademan.routeName: (_) => const AssignedTrademan(),
-    HomeOwnerAccessControlScreen.routeName:(_)=>const HomeOwnerAccessControlScreen()
+    HomeOwnerAccessControlScreen.routeName: (_) => const HomeOwnerAccessControlScreen()
   };
 }

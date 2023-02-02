@@ -17,15 +17,15 @@ class AssetProvider extends ChangeNotifier {
   List<File> get getPickedImages => _compressedImage;
   List<MediaCompressionModel> get getCompressedVidoesWithThumbnail => _compressedVidoesWithThumbnail;
   File? get getSinglePickedImage => _singlePickedImage;
-  loadingState compressionProgress = loadingState.loaded;
-  loadingState get getCompressionProgress => compressionProgress;
+  LoadingState compressionProgress = LoadingState.loaded;
+  LoadingState get getCompressionProgress => compressionProgress;
   setStateLoading() {
-    compressionProgress = loadingState.loading;
+    compressionProgress = LoadingState.loading;
     notifyListeners();
   }
 
   setStateLoaded() {
-    compressionProgress = loadingState.loaded;
+    compressionProgress = LoadingState.loaded;
     notifyListeners();
   }
 

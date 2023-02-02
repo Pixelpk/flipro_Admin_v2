@@ -151,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 60.w,
                         isloading: Provider.of<UserProvider>(context)
                                 .getLoadingState ==
-                            loadingState.loading,
+                            LoadingState.loading,
                         callback: () {
                           if (_formKey.currentState!.validate()) {
                             User user = User(

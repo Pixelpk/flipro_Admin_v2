@@ -1,6 +1,4 @@
-import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
-import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
 import 'package:fliproadmin/core/view_model/project_provider/project_provider.dart';
 import 'package:fliproadmin/core/view_model/projects_provider/projects_provider.dart';
 import 'package:fliproadmin/ui/view/add_project_screen/add_project_screen.dart';
@@ -12,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import 'home_item.dart';
-import 'home_screen.dart';
 
 class HomePageBody extends StatefulWidget {
   HomePageBody({
@@ -26,8 +23,7 @@ class HomePageBody extends StatefulWidget {
 class _HomePageBodyState extends State<HomePageBody> {
   @override
   void initState() {
-    Future.microtask(() => Provider.of<ProjectsProvider>(context, listen: false)
-        .fetchProjects(initialLoading: true));
+    Future.microtask(() => Provider.of<ProjectsProvider>(context, listen: false).fetchProjects(initialLoading: true));
     super.initState();
   }
 
@@ -45,23 +41,24 @@ class _HomePageBodyState extends State<HomePageBody> {
       ),
       body: Consumer<ProjectsProvider>(builder: (ctx, projectProvider, c) {
         print(projectProvider.getLoadingState);
-        if (projectProvider.getLoadingState == loadingState.loading &&
-            projectProvider.getCurrentPage == 1) {
+        if (projectProvider.getLoadingState == LoadingState.loading && projectProvider.getCurrentPage == 1) {
           return HelperWidget.progressIndicator();
         }
-        if (projectProvider.getLoadingState == loadingState.loaded &&
-            projectProvider.getProjects == null) {
+        if (projectProvider.getLoadingState == LoadingState.loaded && projectProvider.getProjects == null) {
           return const Center(child: Text("Encounter an error please try again later"));
         }
-        if(projectProvider.getProjects.isEmpty){
-          return const Center(child: Text("No Project Found", style: TextStyle(color: Colors.black),),);
-        }
-        else{
+        if (projectProvider.getProjects.isEmpty) {
+          return const Center(
+            child: Text(
+              "No Project Found",
+              style: TextStyle(color: Colors.black),
+            ),
+          );
+        } else {
           return LazyLoadScrollView(
-              isLoading: projectProvider.getLoadingState == loadingState.loading,
+              isLoading: projectProvider.getLoadingState == LoadingState.loading,
               onEndOfPage: () =>
-                  Provider.of<ProjectsProvider>(context, listen: false)
-                      .fetchProjects(initialLoading: false),
+                  Provider.of<ProjectsProvider>(context, listen: false).fetchProjects(initialLoading: false),
               child: GridView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -75,16 +72,12 @@ class _HomePageBodyState extends State<HomePageBody> {
                   itemBuilder: (BuildContext ctx, index) {
                     var project = projectProvider.getProjects[index];
 
-
                     return ChangeNotifierProvider<ProjectProvider>.value(
                       value: project,
                       child: const HomeItem(),
                     );
-
-
                   }));
         }
-
       }),
     );
   }

@@ -25,80 +25,67 @@ class ViewProjectDetails extends StatelessWidget {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
-        child: CustomAppBar(
-          bannerText: projectRejected ? "Project Rejected" : "Project Details",
-          showBothIcon: false,
-          showShareIcon: true,
-          showNoteIcon: true,
-          automaticallyImplyLeading: true,
-          bannerColor: projectRejected ? AppColors.lightRed : null,
-        ),
-      ),
+          preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
+          child: CustomAppBar(
+              bannerText: projectRejected ? "Project Rejected" : "Project Details",
+              showBothIcon: false,
+              showShareIcon: true,
+              showNoteIcon: true,
+              automaticallyImplyLeading: true,
+              bannerColor: projectRejected ? AppColors.lightRed : null)),
       body: SizedBox(
         height: 100.h,
-        child:   Consumer<LoadedProjectProvider>(builder: (ctx, project, c) {
-          if (project.getLoadedProject == null &&
-              project.getLoadingState == loadingState.loaded) {
+        child: Consumer<LoadedProjectProvider>(builder: (ctx, project, c) {
+          if (project.getLoadedProject == null && project.getLoadingState == LoadingState.loaded) {
             return Container();
           }
-          if (project.getLoadingState == loadingState.loading) {
+          if (project.getLoadingState == LoadingState.loading) {
             return HelperWidget.progressIndicator();
           }
-            return ListView(
-              children: [
-                 ProjectInfoSection(),
-                 MediaSection(
-                   media: project.getLoadedProject!.projectMedia!,
-                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                   Row(
-                    mainAxisAlignment: projectRejected
-                        ? MainAxisAlignment.center
-                        : MainAxisAlignment.spaceEvenly,
-                    children: [
-                      projectRejected
-                          ? Container()
-                          : MainButton(
-                              height: 6.h,
-                              buttonText: "Reject",
-                              buttonColor: AppColors.darkRed,
-                              width: 30.w,
-                              radius: 8,
-                              userArrow: false,
-                              callback: () {
-                                Provider.of<ProjectsProvider>(context,
-                                        listen: false)
-                                    .approveRejectProject(
-                                        isApproved: false,
-                                        projectId: project.getLoadedProject!.id!,
-                                        doPop: true);
-                              },
-                            ),
-                      MainButton(
-                        height: 6.h,
-                        buttonText: "Approve",
-                        buttonColor: AppColors.green,
-                        width: 30.w,
-                        userArrow: false,
-                        radius: 8,
-                        callback: () {
-                          Provider.of<ProjectsProvider>(context, listen: false)
-                              .approveRejectProject(
-                                  isApproved: true,
-                                  projectId: project.getLoadedProject!.id!,
-                                  doPop: true);
-                        },
-                      ),
-                    ],
-                  )
-
-              ],
-            );
-          }
-        ),
+          return ListView(
+            children: [
+              ProjectInfoSection(),
+              MediaSection(
+                media: project.getLoadedProject!.projectMedia!,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: projectRejected ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
+                children: [
+                  projectRejected
+                      ? Container()
+                      : MainButton(
+                          height: 6.h,
+                          buttonText: "Reject",
+                          buttonColor: AppColors.darkRed,
+                          width: 30.w,
+                          radius: 8,
+                          userArrow: false,
+                          callback: () {
+                            Provider.of<ProjectsProvider>(context, listen: false).approveRejectProject(
+                                isApproved: false, projectId: project.getLoadedProject!.id!, doPop: true);
+                          },
+                        ),
+                  MainButton(
+                    height: 6.h,
+                    buttonText: "Approve",
+                    buttonColor: AppColors.green,
+                    width: 45.w,
+                    userArrow: false,
+                    radius: 8,
+                    callback: () {
+                      Provider.of<ProjectsProvider>(context, listen: false).approveRejectProject(
+                          isApproved: true, projectId: project.getLoadedProject!.id!, doPop: true);
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 2.h)
+            ],
+          );
+        }),
       ),
     );
   }

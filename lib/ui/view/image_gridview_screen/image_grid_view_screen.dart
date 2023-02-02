@@ -1,14 +1,5 @@
 import 'package:fliproadmin/core/model/media_compression_model/media_compression_model.dart';
-import 'package:fliproadmin/core/utilities/app_constant.dart';
-import 'package:fliproadmin/core/utilities/logic_helper.dart';
-import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
-import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
-import 'package:fliproadmin/ui/view/image_gridview_screen/video_tab_page.dart';
-import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
-import 'package:fliproadmin/ui/widget/helper_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
+
 //
 // class ImageGridViewScreen extends StatelessWidget {
 //   const ImageGridViewScreen({Key? key}) : super(key: key);
@@ -32,27 +23,28 @@ import 'package:sizer/sizer.dart';
 // }
 
 import 'package:fliproadmin/core/utilities/app_colors.dart';
-import 'package:fliproadmin/core/utilities/app_constant.dart';
-import 'package:fliproadmin/ui/widget/approve_list_item.dart';
+import 'package:fliproadmin/core/utilities/logic_helper.dart';
+import 'package:fliproadmin/ui/view/image_gridview_screen/video_tab_page.dart';
+import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
-import 'images_tab_page.dart';
+import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
+import 'images_tab_page.dart';
 
 class MediaViewAll extends StatefulWidget {
   const MediaViewAll({Key? key}) : super(key: key);
   static const routeName = '/imageGridViewScreen';
 
   @override
-  State<MediaViewAll> createState() =>
-      _MediaViewAllState();
+  State<MediaViewAll> createState() => _MediaViewAllState();
 }
 
 class _MediaViewAllState extends State<MediaViewAll> {
   int segmentedControlValue = 0;
- late MediaObject mediaObject ;
+  late MediaObject mediaObject;
+
   Widget segmentedControl() {
-
-
     return Container(
       width: 85.w,
       padding: const EdgeInsets.all(8.0),
@@ -72,20 +64,21 @@ class _MediaViewAllState extends State<MediaViewAll> {
     );
   }
 
-late  List<Widget> bodyWidgets ;
+  late List<Widget> bodyWidgets;
 
   @override
   void initState() {
     Future.microtask(() {
-      mediaObject =  ModalRoute.of(context)!.settings.arguments as MediaObject;
+      mediaObject = ModalRoute.of(context)!.settings.arguments as MediaObject;
       bodyWidgets = [
-        Expanded(child: ImagesTabBody(mediaObject: mediaObject,)),
-        Expanded(child: VideosTabBody(mediaObject: mediaObject,))
+        Expanded(child: ImagesTabBody(mediaObject: mediaObject)),
+        Expanded(child: VideosTabBody(mediaObject: mediaObject))
       ];
       setState(() {});
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,12 +92,7 @@ late  List<Widget> bodyWidgets ;
       ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              segmentedControl(),
-            ],
-          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [segmentedControl()]),
           bodyWidgets.elementAt(segmentedControlValue)
         ],
       ),

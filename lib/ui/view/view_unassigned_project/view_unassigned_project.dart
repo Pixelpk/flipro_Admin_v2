@@ -36,11 +36,11 @@ class ViewUnassignedProject extends StatelessWidget {
         height: 100.h,
         child:
             Consumer<LoadedProjectProvider>(builder: (ctx, projectProvider, c) {
-          if (projectProvider.getLoadingState == loadingState.loading) {
+          if (projectProvider.getLoadingState == LoadingState.loading) {
             return HelperWidget.progressIndicator();
           }
           if (projectProvider.getLoadedProject == null &&
-              projectProvider.getLoadingState == loadingState.loaded) {
+              projectProvider.getLoadingState == LoadingState.loaded) {
             return const Center(
               child: Text("Please try again later"),
             );

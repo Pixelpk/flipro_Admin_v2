@@ -62,10 +62,10 @@ class _ShareScreenState extends State<ShareScreen> {
           Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
         if ((loadedProject.getLoadedProject == null ||
                 loadedProject.getLoadedProject!.videos == null) &&
-            loadedProject.getLoadingState == loadingState.loaded) {
+            loadedProject.getLoadingState == LoadingState.loaded) {
           return Container();
         }
-        if (loadedProject.getLoadingState == loadingState.loading) {
+        if (loadedProject.getLoadingState == LoadingState.loading) {
           return Container();
         }
         return Row(

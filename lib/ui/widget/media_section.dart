@@ -21,10 +21,10 @@ class MediaSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LoadedProjectProvider>(builder: (ctx, project, c) {
-      if (media == null && project.getLoadingState == loadingState.loaded) {
+      if (media == null && project.getLoadingState == LoadingState.loaded) {
         return Container();
       }
-      if (project.getLoadingState == loadingState.loading) {
+      if (project.getLoadingState == LoadingState.loading) {
         return Container();
       }
       return Column(

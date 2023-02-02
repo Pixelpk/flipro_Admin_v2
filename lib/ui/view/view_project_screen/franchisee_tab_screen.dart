@@ -3,13 +3,11 @@ import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/franchisee_access_control_screen.dart';
-import 'package:fliproadmin/ui/view/project_overview_screen/project_overview_Screen.dart';
 import 'package:fliproadmin/ui/view/single_progress_screen/single_progress_screen.dart';
 import 'package:fliproadmin/ui/view/view_project_screen/view_project_screen.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/draw_down_payment_sction.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
-import 'package:fliproadmin/ui/widget/media_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -31,10 +29,8 @@ class FranchiseeTabScreen extends StatelessWidget {
                 height: 2.h,
               ),
               Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-                if (loadedProject.getLoadingState == loadingState.loading) {
-                  return SizedBox(
-                    height: 1.h,
-                  );
+                if (loadedProject.getLoadingState == LoadingState.loading) {
+                  return SizedBox(height: 1.h);
                 }
                 if (loadedProject.getLoadedProject != null && loadedProject.getLoadedProject!.franchisee != null) {
                   return Padding(
@@ -50,7 +46,8 @@ class FranchiseeTabScreen extends StatelessWidget {
                         callback: () {
                           Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
                               arguments: AccessControlObject(
-                                  userRoleModel: loadedProject.getLoadedProject!.franchisee!, routeName: ViewProjectScreen.routeName));
+                                  userRoleModel: loadedProject.getLoadedProject!.franchisee!,
+                                  routeName: ViewProjectScreen.routeName));
                         },
                       ),
                     ),
@@ -60,13 +57,11 @@ class FranchiseeTabScreen extends StatelessWidget {
                 }
               }),
               const DrawDownPaymentScetion(),
-              SizedBox(
-                height: 2.h,
-              ),
+              SizedBox(height: 2.h),
               SizedBox(
                   height: 55.h,
                   child: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-                    if (loadedProject.getLoadingState == loadingState.loading) {
+                    if (loadedProject.getLoadingState == LoadingState.loading) {
                       return SizedBox(
                         height: 1.h,
                       );
@@ -84,7 +79,7 @@ class FranchiseeTabScreen extends StatelessWidget {
                     }
                   })),
               Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
-                if (loadedProject.getLoadingState == loadingState.loading) {
+                if (loadedProject.getLoadingState == LoadingState.loading) {
                   return SizedBox(
                     height: 1.h,
                   );
@@ -102,9 +97,7 @@ class FranchiseeTabScreen extends StatelessWidget {
                   return Container();
                 }
               }),
-              SizedBox(
-                height: 5.h,
-              )
+              SizedBox(height: 5.h)
             ],
           ),
         ),

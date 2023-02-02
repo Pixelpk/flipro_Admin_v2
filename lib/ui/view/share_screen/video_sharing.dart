@@ -26,12 +26,12 @@ class _VideoSharingState extends State<VideoSharing> {
     return Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
       if ((loadedProject.getLoadedProject == null ||
               loadedProject.getLoadedProject!.videos == null) &&
-          loadedProject.getLoadingState == loadingState.loaded) {
+          loadedProject.getLoadingState == LoadingState.loaded) {
         return const Center(
           child: Text("No Video availble"),
         );
       }
-      if (loadedProject.getLoadingState == loadingState.loading) {
+      if (loadedProject.getLoadingState == LoadingState.loading) {
         return HelperWidget.progressIndicator();
       }
       return Column(

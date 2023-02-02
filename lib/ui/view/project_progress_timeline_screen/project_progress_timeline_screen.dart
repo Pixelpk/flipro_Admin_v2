@@ -3,19 +3,16 @@ import 'package:fliproadmin/core/model/progress_response/progress_response.dart'
 import 'package:fliproadmin/core/model/project_response/project_response.dart';
 import 'package:fliproadmin/core/services/progress_service/progress_service.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
-import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/ui/view/single_progress_screen/single_progress_screen.dart';
-import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
 import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class ProjectProgressTimeLineScreen extends StatefulWidget {
@@ -29,6 +26,7 @@ class ProjectProgressTimeLineScreen extends StatefulWidget {
 class _ProjectProgressTimeLineScreenState extends State<ProjectProgressTimeLineScreen> {
   final _pageSize = 20;
   final PagingController<int, ProgressModel> _pagingController = PagingController(firstPageKey: 1);
+
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await ProgressService.getProjectProgress(
@@ -101,15 +99,11 @@ class _ProjectProgressTimeLineScreenState extends State<ProjectProgressTimeLineS
                     ),
                     beforeLineStyle: const LineStyle(thickness: 3, color: AppColors.mainThemeBlue),
                     endChild: GestureDetector(
-                      child: _RowExample(
-                        progressModel: progress,
-                      ),
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => SingleProgressScreen(
-                                  progressModel: progress,
-                                )));
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (_) => SingleProgressScreen(progressModel: progress)));
                       },
+                      child: _RowExample(progressModel: progress),
                     ),
                   )),
         ),
@@ -173,44 +167,25 @@ class _RowExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-
-      margin: const EdgeInsets.only(right: 10,top: 10,bottom: 10),
+      margin: const EdgeInsets.only(right: 10, top: 10, bottom: 10),
       decoration: BoxDecoration(color: AppColors.mainThemeBlue, borderRadius: BorderRadius.circular(15)),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("${progressModel.formattedDate}", style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white)),
-
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        "${progressModel.title}",
-                        style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white,fontSize: 16),
-                        maxLines: 1,
-
-                      ),
-                    ),
-                  ],
-                ),
-                // SizedBox(height: 2,),
-                Text(
-                  "${progressModel.description}",
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
-                  overflow: TextOverflow.clip,
-
-                )
-              ],
-            ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("${progressModel.formattedDate}",
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                  child: Text("${progressModel.title}",
+                      style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white, fontSize: 14),
+                      maxLines: 1)),
+              const Icon(Icons.navigate_next, color: AppColors.circleBorderGrey, size: 26),
+            ],
           ),
-          const Icon(
-            Icons.navigate_next,
-            color: AppColors.mainThemeBlue,
-            size: 26,
-          ),
+          Text("${progressModel.description}",
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white), overflow: TextOverflow.clip)
         ],
       ),
     );
@@ -241,22 +216,13 @@ class Example1Horizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverList(
-      delegate: SliverChildListDelegate(
-        <Widget>[
-          Row(
-            children: [
-              Container(
-                constraints: const BoxConstraints(maxHeight: 100),
-                color: Colors.white,
-                child: TimelineTile(
-                  axis: TimelineAxis.horizontal,
-                  alignment: TimelineAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+        delegate: SliverChildListDelegate(<Widget>[
+      Row(children: [
+        Container(
+            constraints: const BoxConstraints(maxHeight: 100),
+            color: Colors.white,
+            child: TimelineTile(axis: TimelineAxis.horizontal, alignment: TimelineAlign.center))
+      ])
+    ]));
   }
 }

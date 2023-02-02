@@ -146,7 +146,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                   ),
                   MaterialButton(
                     onPressed: authProvider.getLoadingState ==
-                            loadingState.loading
+                            LoadingState.loading
                         ? null
                         : resend
                             ? () {
@@ -192,7 +192,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                 height: 7.h,
                 userArrow: false,
                 width: 14.w,
-                isloading: authProvider.getLoadingState == loadingState.loading,
+                isloading: authProvider.getLoadingState == LoadingState.loading,
                 callback: () {
                   if (_formKey.currentState!.validate()) {
                     authProvider.forgotPasswordOtpConfirmation(

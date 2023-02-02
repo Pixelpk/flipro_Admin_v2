@@ -26,10 +26,10 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
   @override
   Widget build(BuildContext context) {
     return Consumer2<LoadedProjectProvider, ShareProvider>(builder: (ctx, project, shareProvider, c) {
-      if (project.getLoadingState == loadingState.loading) {
+      if (project.getLoadingState == LoadingState.loading) {
         return SizedBox(height: 70.h, child: HelperWidget.progressIndicator());
       }
-      if (project.getLoadedProject == null && project.getLoadingState == loadingState.loaded) {
+      if (project.getLoadedProject == null && project.getLoadingState == LoadingState.loaded) {
         return SizedBox(
           height: 70.h,
           child: const Center(

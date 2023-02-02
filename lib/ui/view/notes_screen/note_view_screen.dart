@@ -1,21 +1,16 @@
 import 'package:fliproadmin/core/model/generic_model/generic_model.dart';
 import 'package:fliproadmin/core/model/note_model/note_model.dart';
 import 'package:fliproadmin/core/services/notes_service/notes_service.dart';
-import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/utilities/logic_helper.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
-import 'package:fliproadmin/ui/view/view_unassigned_project/view_unassigned_project.dart';
 import 'package:fliproadmin/ui/widget/SwitchTile.dart';
-import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
 import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -36,6 +31,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
   bool private = false;
   bool readOnly = true;
   bool isNewNote = true;
+
   @override
   void initState() {
     notesFocusNode = FocusNode();
@@ -72,7 +68,9 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
           bannerText: "View Note",
           showBothIcon: true,
           showNoteIcon:
-              note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!,
+              note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id
+                  ? false
+                  : note!.isEditAble!,
           customWidget: InkWell(
             onTap: () {
               setState(() {
@@ -119,11 +117,16 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
             ),
 
             ///TODO: PENDING
-            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!)Text(
-              "Note Status",
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.black),
-            ),
-            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!)
+            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id
+                ? false
+                : note!.isEditAble!)
+              Text(
+                "Note Status",
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.black),
+              ),
+            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id
+                ? false
+                : note!.isEditAble!)
               SwitchTile(
                 private: note == null ? false : note!.private!,
                 callback: (c) {
@@ -146,7 +149,9 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
             SizedBox(
               height: 20.h,
             ),
-            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!)
+            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id
+                ? false
+                : note!.isEditAble!)
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 12.w),
                   child: MainButton(
@@ -167,13 +172,13 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                           isLoading = true;
                         });
                         if (note!.isEditAble!) {
-                          genericModel =
-                              await NotesService.updateNote(accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
+                          genericModel = await NotesService.updateNote(
+                              accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
                         } else {
                           ///CALL CREATE NOTE API
 
-                          genericModel =
-                              await NotesService.createNote(accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
+                          genericModel = await NotesService.createNote(
+                              accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
                         }
                         GetXDialog.showDialog(message: genericModel.message, title: genericModel.title);
                         setState(() {
@@ -207,13 +212,13 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                           isLoading = true;
                         });
                         if (note!.isEditAble!) {
-                          genericModel =
-                              await NotesService.updateNote(accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
+                          genericModel = await NotesService.updateNote(
+                              accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
                         } else {
                           ///CALL CREATE NOTE API
 
-                          genericModel =
-                              await NotesService.createNote(accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
+                          genericModel = await NotesService.createNote(
+                              accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, note: note);
                         }
                         GetXDialog.showDialog(message: genericModel.message, title: genericModel.title);
                         setState(() {

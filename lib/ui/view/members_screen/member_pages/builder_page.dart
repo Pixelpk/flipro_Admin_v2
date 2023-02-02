@@ -20,8 +20,7 @@ class BuilderPage extends StatefulWidget {
 class _BuilderPageState extends State<BuilderPage> {
   static const _pageSize = 20;
 
-  final PagingController<int, UserRoleModel> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, UserRoleModel> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -30,23 +29,21 @@ class _BuilderPageState extends State<BuilderPage> {
     });
     super.initState();
   }
+
   @override
   void dispose() {
-    _pagingController.dispose();    super.dispose();
+    _pagingController.dispose();
+    super.dispose();
   }
+
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await UsersService.getUsers(
-          page: pageKey,
-          type: 'builder',
-          token:
-              Provider.of<UserProvider>(context, listen: false).getAuthToken);
+          page: pageKey, type: 'builder', token: Provider.of<UserProvider>(context, listen: false).getAuthToken);
       if (genericModel.statusCode == 200) {
         UsersModel usersModel = genericModel.returnedModel;
         print("BUILDERS ${usersModel.data!.users.length}");
-        if (usersModel != null &&
-            usersModel.data != null &&
-            usersModel.data!.users != null) {
+        if (usersModel != null && usersModel.data != null && usersModel.data!.users != null) {
           final newItems = usersModel.data!.users;
           final isLastPage = newItems.length < _pageSize;
           if (isLastPage) {
@@ -69,13 +66,11 @@ class _BuilderPageState extends State<BuilderPage> {
         builderDelegate: PagedChildBuilderDelegate<UserRoleModel>(
             itemBuilder: (context, user, index) => InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, ViewTradeManProfile.routeName,
-                        arguments: user);
+                    Navigator.pushNamed(context, ViewTradeManProfile.routeName, arguments: user);
                   },
                   child: TrademanListItem(
                     userRoleModel: user,
                   ),
                 )),
       );
-
 }

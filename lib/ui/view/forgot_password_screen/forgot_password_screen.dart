@@ -90,7 +90,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(
                 height: 5.h,
               ),
-              authProvider.getLoadingState == loadingState.loading
+              authProvider.getLoadingState == LoadingState.loading
                   ? HelperWidget.progressIndicator()
                   : MainButton(
                       buttonText: "Reset",

@@ -9,7 +9,6 @@ import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -18,6 +17,7 @@ class NoteItem extends StatelessWidget {
   const NoteItem({Key? key, this.note, required this.pagingController}) : super(key: key);
   final Note? note;
   final PagingController pagingController;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,16 +66,20 @@ class NoteItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Text("${note!.timeago}", style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor)),
+                Text("${note!.timeago}",
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor)),
               ],
             ),
             const Spacer(),
-            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id ? false : note!.isEditAble!)
+            if (note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id
+                ? false
+                : note!.isEditAble!)
               IconButton(
                   onPressed: () {
                     UIHelper.deleteDialog("Are you sure to delete this note?", () async {
                       GenericModel genericModel = await NotesService.deleteNote(
-                          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken, nodeId: note!.id);
+                          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
+                          nodeId: note!.id);
                       if (genericModel.success) {
                         GetXDialog.showDialog(message: genericModel.message, title: genericModel.title);
                         pagingController.refresh();

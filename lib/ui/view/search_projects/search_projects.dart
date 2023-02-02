@@ -82,10 +82,10 @@ class _SearchProjectsScreenState extends State<SearchProjectsScreen> {
         builder: (context, transition) {
           return Consumer<SearchProjectProvider>(builder: (ctx, projectProvider, c) {
             print(projectProvider.getLoadingState);
-            if (projectProvider.getLoadingState == loadingState.loading) {
+            if (projectProvider.getLoadingState == LoadingState.loading) {
               return HelperWidget.progressIndicator();
             }
-            if (projectProvider.getSearchedProjects.isEmpty && projectProvider.getLoadingState == loadingState.loaded) {
+            if (projectProvider.getSearchedProjects.isEmpty && projectProvider.getLoadingState == LoadingState.loaded) {
               return const Center(
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 150.0),

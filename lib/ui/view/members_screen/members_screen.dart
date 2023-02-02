@@ -16,6 +16,7 @@ class MembersScreen extends StatefulWidget {
 
 class _MembersScreenState extends State<MembersScreen> {
   late PageController pageController;
+
   @override
   void initState() {
     pageController = PageController(initialPage: 0);
@@ -23,9 +24,9 @@ class _MembersScreenState extends State<MembersScreen> {
   }
 
   int _index = 0;
+
   @override
   void dispose() {
-    print("DISPOSING");
     pageController.dispose();
     super.dispose();
   }
@@ -59,12 +60,10 @@ class _MembersScreenState extends State<MembersScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(AddMemberScreen.routeName,
-              arguments: {
-                "appUsers": getCurrentUser(_index),
-                "createAssign": false,
-
-              });
+          Navigator.of(context).pushNamed(AddMemberScreen.routeName, arguments: {
+            "appUsers": getCurrentUser(_index),
+            "createAssign": false,
+          });
         },
         child: const Icon(
           Icons.person_add_alt_1,
