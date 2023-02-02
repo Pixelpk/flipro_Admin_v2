@@ -51,7 +51,7 @@ class BuilderTabScreen extends StatelessWidget {
                                   loadedProject.getLoadedProject!.builder!.isNotEmpty
                               ? ColoredLabel(
                                   color: AppColors.lightRed,
-                                  text: 'Edit B Access',
+                                  text: 'Edit Access',
                                   callback: () {
                                     Navigator.pushNamed(context, BuilderAccessControlScreen.routeName,
                                         arguments: AccessControlObject(
