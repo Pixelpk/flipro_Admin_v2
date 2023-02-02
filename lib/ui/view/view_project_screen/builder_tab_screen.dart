@@ -28,11 +28,8 @@ class BuilderTabScreen extends StatelessWidget {
             children: [
               Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
                 if (loadedProject.getLoadingState == LoadingState.loading) {
-                  return SizedBox(
-                    height: 1.h,
-                  );
+                  return SizedBox(height: 1.h);
                 }
-
                 if (loadedProject.getLoadedProject != null &&
                     (loadedProject.getLoadedProject!.builder != null ||
                         loadedProject.getLoadedProject!.latestProgress != null)) {
@@ -49,13 +46,13 @@ class BuilderTabScreen extends StatelessWidget {
                               ? loadedProject.getLoadedProject?.builder![0].name
                               // : loadedProject.getLoadedProject?.latestProgress != null
                               //     ? loadedProject.getLoadedProject?.latestProgress?.user?.name!
-                              : "No Agents/Trades Assigned",
-                          labelWidget: loadedProject.getLoadedProject?.latestProgress != null
+                              : "No Agents/Trades Info",
+                          labelWidget: loadedProject.getLoadedProject?.builder != null &&
+                                  loadedProject.getLoadedProject!.builder!.isNotEmpty
                               ? ColoredLabel(
                                   color: AppColors.lightRed,
-                                  text: 'Edit Access',
+                                  text: 'Edit B Access',
                                   callback: () {
-                                    print(loadedProject.getLoadedProject?.latestProgress?.user?.name!);
                                     Navigator.pushNamed(context, BuilderAccessControlScreen.routeName,
                                         arguments: AccessControlObject(
                                             userRoleModel: loadedProject.getBuilderById(
@@ -65,17 +62,17 @@ class BuilderTabScreen extends StatelessWidget {
                                             routeName: ViewProjectScreen.routeName));
                                   },
                                 )
-                              : loadedProject.getLoadedProject?.builder != null &&
-                                      loadedProject.getLoadedProject!.builder!.isNotEmpty
+                              : loadedProject.getLoadedProject?.latestProgress != null
                                   ? ColoredLabel(
                                       color: AppColors.lightRed,
-                                      text: 'Edit Access',
+                                      text: 'Edit P Access',
                                       callback: () {
+                                        print(loadedProject.getLoadedProject?.latestProgress?.user?.toJson());
                                         Navigator.pushNamed(context, BuilderAccessControlScreen.routeName,
                                             arguments: AccessControlObject(
                                                 userRoleModel: loadedProject.getBuilderById(
                                                     loadedProject.getLoadedProject!.latestProgress != null
-                                                        ? loadedProject.getLoadedProject!.latestProgress!.userId
+                                                        ? loadedProject.getLoadedProject!.latestProgress!.user!.id
                                                         : 00),
                                                 routeName: ViewProjectScreen.routeName));
                                       },
@@ -96,7 +93,7 @@ class BuilderTabScreen extends StatelessWidget {
                                 ? "${loadedProject.getLoadedProject?.builder![0].phoneCode}${loadedProject.getLoadedProject?.builder![0].phone}"
                                 // : loadedProject.getLoadedProject?.latestProgress != null
                                 //     ? loadedProject.getLoadedProject?.latestProgress?.user?.name!
-                                : "No Agents/Trades Assigned"),
+                                : "No Agents/Trades Contact"),
                       ),
                     ],
                   );
@@ -127,9 +124,7 @@ class BuilderTabScreen extends StatelessWidget {
                   })),
               Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
                 if (loadedProject.getLoadingState == LoadingState.loading) {
-                  return SizedBox(
-                    height: 1.h,
-                  );
+                  return SizedBox(height: 1.h);
                 }
                 if (loadedProject.getLoadedProject != null &&
                     loadedProject.getLoadedProject!.latestNote != null &&

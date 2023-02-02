@@ -2,12 +2,10 @@ import 'package:fliproadmin/core/services/db_service/db_service.dart';
 import 'package:fliproadmin/core/services/firebase_messaging_service/firebase_messaging_service.dart';
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
-import 'package:fliproadmin/ui/view/home_screen/home_screen.dart';
 import 'package:fliproadmin/ui/view/login_screen/login_screen.dart';
 import 'package:fliproadmin/ui/view/middleware_loading/middleware_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -68,10 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    "RENOVATE NOW",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
+                  Text("RENOVATE NOW", style: Theme.of(context).textTheme.headline6),
                   Text("PAY WHEN YOU SELL", style: Theme.of(context).textTheme.headline6)
                 ],
               ),

@@ -1,5 +1,4 @@
 import 'package:fliproadmin/core/utilities/app_colors.dart';
-import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
@@ -7,14 +6,13 @@ import 'package:sizer/sizer.dart';
 InputDecoration customInputDecoration(
     {required BuildContext context,
     String prefixicon = '',
-      String? prefixText = '',
-
+    String? prefixText = '',
     required String hintText,
     bool usePrefixIcon = true,
     Widget? suffixIcon,
     Color fillColor = Colors.white,
     double? height,
-      Color? prefixColor,
+    Color? prefixColor,
     double? width}) {
   return InputDecoration(
     prefixText: prefixText,
@@ -29,10 +27,10 @@ InputDecoration customInputDecoration(
         ? Padding(
             padding: EdgeInsets.all(2.2.h),
             child: prefixicon == 'default'
-                ?  const Icon(Icons.search, color: AppColors.mainThemeBlue)
+                ? const Icon(Icons.search, color: AppColors.mainThemeBlue)
                 : SvgPicture.asset(
                     prefixicon,
-                    color: prefixColor??AppColors.blueUnselectedTabColor,
+                    color: prefixColor ?? AppColors.blueUnselectedTabColor,
                     height: height,
                     width: width,
                   ),

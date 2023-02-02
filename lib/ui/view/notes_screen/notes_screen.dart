@@ -19,30 +19,23 @@ class NotesScreen extends StatefulWidget {
   NotesScreen({Key? key}) : super(key: key);
   static const routeName = '/notesScreen';
 
-
   @override
   State<NotesScreen> createState() => _NotesScreenState();
 }
 
 class _NotesScreenState extends State<NotesScreen> {
-   final _pageSize = 20;
-  final PagingController<int, Note> _pagingController =
-      PagingController(firstPageKey: 1);
+  final _pageSize = 20;
+  final PagingController<int, Note> _pagingController = PagingController(firstPageKey: 1);
 
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await NotesService.getAllPrjectNotes(
-          accessToken:
-              Provider.of<UserProvider>(context, listen: false).getAuthToken,
+          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
-          projectId: Provider.of<LoadedProjectProvider>(context, listen: false)
-              .getLoadedProject!
-              .id);
+          projectId: Provider.of<LoadedProjectProvider>(context, listen: false).getLoadedProject!.id);
       if (genericModel.statusCode == 200) {
         NotesResponse notesResponse = genericModel.returnedModel;
-        if (notesResponse != null &&
-            notesResponse.data != null &&
-            notesResponse.data!.notes != null) {
+        if (notesResponse != null && notesResponse.data != null && notesResponse.data!.notes != null) {
           final newItems = notesResponse.data!.notes ?? [];
           final isLastPage = newItems.length < _pageSize;
           if (isLastPage) {
@@ -52,11 +45,8 @@ class _NotesScreenState extends State<NotesScreen> {
             _pagingController.appendPage(newItems, nextPageKey);
           }
         }
-      } else if (genericModel.statusCode == 400 ||
-          genericModel.statusCode == 422 ||
-          genericModel.statusCode == 401) {
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+      } else if (genericModel.statusCode == 400 || genericModel.statusCode == 422 || genericModel.statusCode == 401) {
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
       }
     } catch (error) {
       print(error);
@@ -98,7 +88,7 @@ class _NotesScreenState extends State<NotesScreen> {
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Note>(
               itemBuilder: (context, note, index) => NoteItem(
-                pagingController: _pagingController,
+                    pagingController: _pagingController,
                     key: ValueKey(note.notes),
                     note: note,
                   )),
@@ -110,20 +100,14 @@ class _NotesScreenState extends State<NotesScreen> {
           child: const Icon(Icons.add),
           onPressed: () async {
             ///create new note ,not edit able initially
-            final isSucess = await   Navigator.of(context).pushNamed(NoteViewScreen.routeName,
+            final isSucess = await Navigator.of(context).pushNamed(NoteViewScreen.routeName,
                 arguments: Note(
                     isEditAble: false,
-                    projectId: Provider.of<LoadedProjectProvider>(context,
-                            listen: false)
-                        .getLoadedProject!
-                        .id));
+                    projectId: Provider.of<LoadedProjectProvider>(context, listen: false).getLoadedProject!.id));
             if (isSucess != null && isSucess == true) {
               print("sdsf$isSucess");
               _pagingController.refresh();
             }
-
-
-
           }),
     );
   }

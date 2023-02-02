@@ -1,4 +1,3 @@
-
 import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/utilities/camera_sourcetype_picker.dart';
@@ -17,10 +16,7 @@ class MediaPickedTile extends StatelessWidget {
           const SizedBox(
             width: 20,
           ),
-          Text(
-            "Add Media",
-            style: Theme.of(context).textTheme.headline5,
-          ),
+          Text("Add Media", style: Theme.of(context).textTheme.headline5),
           const Spacer(),
           mediaIcon(
               userPhoto: false,
@@ -38,9 +34,7 @@ class MediaPickedTile extends StatelessWidget {
       ),
       margin: EdgeInsets.symmetric(horizontal: 2.w),
       height: 9.h,
-      decoration: BoxDecoration(
-          color: AppColors.mainThemeBlue,
-          borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(color: AppColors.mainThemeBlue, borderRadius: BorderRadius.circular(8)),
     );
   }
 
@@ -52,8 +46,7 @@ class MediaPickedTile extends StatelessWidget {
         margin: EdgeInsets.only(right: userPhoto ? 3.w : 2.5.w),
         height: 6.5.h,
         width: 6.5.h,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
         child: userPhoto
             ? Image.asset(AppConstant.photo)
             : const Icon(

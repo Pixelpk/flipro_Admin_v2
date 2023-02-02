@@ -65,7 +65,11 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
         child: CustomAppBar(
           automaticallyImplyLeading: true,
-          bannerText: "View Note",
+          bannerText: note?.id == null
+              ? "Add Note"
+              : !readOnly
+                  ? "Edit Note"
+                  : "View Note",
           showBothIcon: true,
           showNoteIcon:
               note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id

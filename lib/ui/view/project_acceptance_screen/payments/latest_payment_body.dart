@@ -2,16 +2,9 @@ import 'package:fliproadmin/core/model/generic_model/generic_model.dart';
 import 'package:fliproadmin/core/model/payment_response/draw_down_payment.dart';
 import 'package:fliproadmin/core/model/payment_response/payment_response.dart';
 import 'package:fliproadmin/core/services/payment_service/payment_service.dart';
-import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
-import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
-import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
-import 'package:fliproadmin/ui/view/project_overview_screen/project_overview_Screen.dart';
-import 'package:fliproadmin/ui/view/view_project_screen/view_project_screen.dart';
-import 'package:fliproadmin/ui/widget/approve_list_item.dart';
 import 'package:fliproadmin/ui/widget/getx_dialogs.dart';
 import 'package:fliproadmin/ui/widget/payment_req_list_item.dart';
-import 'package:fliproadmin/ui/widget/view_project_details.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +21,7 @@ class LatestPaymentBody extends StatefulWidget {
 class _LatestPaymentBodyState extends State<LatestPaymentBody> {
   static const _pageSize = 20;
 
-  final PagingController<int, DrawDownPayment> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, DrawDownPayment> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -48,8 +40,7 @@ class _LatestPaymentBodyState extends State<LatestPaymentBody> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await PaymentService.getAllPayments(
-          accessToken:
-              Provider.of<UserProvider>(context, listen: false).getAuthToken,
+          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
           fetchPending: true,
           fetchapproved: false,
@@ -68,11 +59,8 @@ class _LatestPaymentBodyState extends State<LatestPaymentBody> {
             _pagingController.appendPage(newItems, nextPageKey);
           }
         }
-      } else if (genericModel.statusCode == 400 ||
-          genericModel.statusCode == 422 ||
-          genericModel.statusCode == 401) {
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+      } else if (genericModel.statusCode == 400 || genericModel.statusCode == 422 || genericModel.statusCode == 401) {
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
       }
     } catch (error) {
       print(error);
@@ -82,7 +70,6 @@ class _LatestPaymentBodyState extends State<LatestPaymentBody> {
 
   @override
   Widget build(BuildContext context) {
-
     return RefreshIndicator(
       onRefresh: () => Future.sync(
         () => _pagingController.refresh(),
