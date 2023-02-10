@@ -38,7 +38,6 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   TextEditingController? anticipatedBudgetController;
   TextEditingController? projectAddressController;
   TextEditingController? substateController;
-  TextEditingController? supplierDetailsController;
   TextEditingController? description;
   bool existingQuriesYes = true;
   bool existingQueriesNo = false;
@@ -47,6 +46,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   String crossCollaterized = "";
 
   final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     Future.microtask(() => initControllers());
@@ -183,14 +183,12 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                           children: [
                             Checkbox(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
-                                value: crossCollaterizedYes,
+                                value: existingQuriesYes,
                                 onChanged: (c) {
                                   setState(() {
-                                    crossCollaterizedYes = c!;
-                                    crossCollaterizedNo = false;
-                                    if (c == true) {
-                                      crossCollaterized = "Yes";
-                                    }
+                                    existingQuriesYes = c!;
+                                    existingQueriesNo = false;
+
                                   });
                                 }),
                             Text(
@@ -203,14 +201,11 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                           children: [
                             Checkbox(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
-                                value: crossCollaterizedNo,
+                                value: existingQueriesNo,
                                 onChanged: (c) {
                                   setState(() {
-                                    crossCollaterizedYes = false;
-                                    crossCollaterizedNo = c!;
-                                    if (c == true) {
-                                      crossCollaterized = "No";
-                                    }
+                                    existingQuriesYes = false;
+                                    existingQueriesNo = c!;
                                   });
                                 }),
                             Text(
@@ -298,8 +293,14 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
       titleController = TextEditingController(text: project.projectAddress!);
       projectAddressController = TextEditingController(text: project.title!);
       substateController = TextEditingController(text: project.projectState!);
-      supplierDetailsController = TextEditingController(text: project.contractorSupplierDetails!);
       description = TextEditingController(text: project.description.toString());
+      if(project.contractorSupplierDetails == "1") {
+        existingQuriesYes = true;
+        existingQueriesNo =false ;
+      } if(project.contractorSupplierDetails == "0") {
+        existingQuriesYes = false;
+        existingQueriesNo =true ;
+      }
     } else {
       print("init ELSE CONTRA");
       titleController = TextEditingController();
@@ -320,16 +321,15 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
     if (Provider.of<AssetProvider>(context, listen: false).getPickedImages.isEmpty) {
       GetXDialog.showDialog(title: "Project Images", message: "Please add project images");
     }
-    if (_formKey.currentState!.validate() && Provider.of<AssetProvider>(context, listen: false).getPickedImages.isNotEmpty) {
+    if (_formKey.currentState!.validate() &&
+        Provider.of<AssetProvider>(context, listen: false).getPickedImages.isNotEmpty) {
       project.title = titleController!.text.trim();
       project.area = areaController!.text.trim();
       project.anticipatedBudget = double.tryParse(anticipatedBudgetController!.text.trim());
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = substateController!.text.trim();
-      project.contractorSupplierDetails = crossCollaterized;
+      project.contractorSupplierDetails = existingQuriesYes ? '1': '0';
       project.description = description!.text.trim();
-
-      print(project.toJson());
 
       bool isSuccess = await Provider.of<ProjectsProvider>(context, listen: false).addProject(
           project: project,
@@ -349,7 +349,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
       project.anticipatedBudget = double.tryParse(anticipatedBudgetController!.text.trim());
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = substateController!.text.trim();
-      project.contractorSupplierDetails = crossCollaterized;
+      project.contractorSupplierDetails = existingQuriesYes ? '1': '0';
       project.description = description!.text;
 
       print(project.toJson());
@@ -382,7 +382,8 @@ class PickedImagesGrid extends StatelessWidget {
             assetProvider.getPickedImages.isNotEmpty
                 ? Padding(
                     padding: EdgeInsets.only(left: 5.w, top: 5.w),
-                    child: Text("Picked Images", style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppColors.mainThemeBlue)),
+                    child: Text("Picked Images",
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppColors.mainThemeBlue)),
                   )
                 : Container()
           ],
@@ -402,25 +403,14 @@ class PickedImagesGrid extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.topRight,
                       children: [
-                        Image.file(
-                          e,
-                          height: 16.h,
-                          width: 25.w,
-                          fit: BoxFit.cover,
-                        ),
+                        Image.file(e, height: 16.h, width: 25.w, fit: BoxFit.cover),
                         Positioned(
                             top: 1.h,
                             right: 1.h,
                             child: const CircleAvatar(
-                              radius: 10,
-                              backgroundColor: Colors.red,
-                              child: Center(
-                                  child: Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                                size: 16,
-                              )),
-                            ))
+                                radius: 10,
+                                backgroundColor: Colors.red,
+                                child: Center(child: Icon(Icons.remove, color: Colors.white, size: 16))))
                       ],
                     ),
                   ),
@@ -464,7 +454,8 @@ class VideoGridView extends StatelessWidget {
                 padding: const EdgeInsets.all(4.0),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => FileMediaPlayer(video: File(e.compressedVideoPath))));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => FileMediaPlayer(video: File(e.compressedVideoPath))));
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),

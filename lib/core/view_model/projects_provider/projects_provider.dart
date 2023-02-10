@@ -24,15 +24,20 @@ class ProjectsProvider extends ChangeNotifier {
   int _searchUserCurrentPage = 1;
   int? _searchUserTotalPage;
   LoadingState _isLoading = LoadingState.loaded;
+
   LoadingState get getLoadingState => _isLoading;
   String? query;
   List<UserRoleModel> _searchedUsers = [];
   List<UserRoleModel> _fetchedUsers = [];
+
   List<UserRoleModel> get getFetchedUsers => _fetchedUsers;
+
   List<UserRoleModel> get getSearcherUsers => _searchedUsers;
+
   int get getCurrentPage => _currentPage;
   late ProjectService _projectService;
   late UsersService _usersService;
+
   ProjectsProvider(String? authToken) {
     _projectService = ProjectService();
     _usersService = UsersService();
@@ -73,25 +78,18 @@ class ProjectsProvider extends ChangeNotifier {
   List<ProjectProvider> get getProjects => _projects;
 
   Future<bool> addProject(
-      {required Project project,
-      required List<File> images,
-      required List<MediaCompressionModel> media}) async {
+      {required Project project, required List<File> images, required List<MediaCompressionModel> media}) async {
     setStateLoading();
-    GenericModel genericModel = await _projectService.addNewProject(
-        accessToken: _authToken!,
-        project: project,
-        images: images,
-        media: media);
+    GenericModel genericModel =
+        await _projectService.addNewProject(accessToken: _authToken!, project: project, images: images, media: media);
     if (genericModel.statusCode == 200 ||
         genericModel.statusCode == 400 ||
         genericModel.statusCode == 401 ||
         genericModel.statusCode == 422) {
-      GetXDialog.showDialog(
-          title: genericModel.title, message: genericModel.message);
+      GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
 
       if (genericModel.statusCode != 422 || genericModel.statusCode != 400) {
-        Navigator.of(Get.context!)
-            .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+        Navigator.of(Get.context!).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
       }
       return genericModel.success;
     }
@@ -100,38 +98,30 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   Future<bool> updateProject(
-      {required Project project,
-      required List<File> images,
-      required List<MediaCompressionModel> media}) async {
-    try{
+      {required Project project, required List<File> images, required List<MediaCompressionModel> media}) async {
+    try {
       setStateLoading();
-      GenericModel genericModel = await _projectService.updateProject(
-          accessToken: _authToken!,
-          project: project,
-          images: images,
-          media: media);
+      GenericModel genericModel =
+          await _projectService.updateProject(accessToken: _authToken!, project: project, images: images, media: media);
       if (genericModel.statusCode == 200 ||
           genericModel.statusCode == 400 ||
           genericModel.statusCode == 401 ||
           genericModel.statusCode == 422) {
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
 
         if (genericModel.statusCode != 422 || genericModel.statusCode != 400) {
-          Navigator.of(Get.context!)
-              .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+          Navigator.of(Get.context!).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
         }
         return genericModel.success;
       }
 
       return false;
-    }finally{
+    } finally {
       setStateLoaded();
     }
   }
 
-  Future<void> fetchProjects(
-      {bool initialLoading = false, bool fetchAssigned = false}) async {
+  Future<void> fetchProjects({bool initialLoading = false, bool fetchAssigned = false}) async {
     print("INITAIL FETCHS total$_totalPages");
     try {
       if (_authToken != null) {
@@ -142,18 +132,13 @@ class ProjectsProvider extends ChangeNotifier {
           _totalPages = null;
         }
 
-        if ((_totalPages == null && _currentPage == 1) ||
-            (_currentPage <= _totalPages!)) {
+        if ((_totalPages == null && _currentPage == 1) || (_currentPage <= _totalPages!)) {
           GenericModel genericModel = await _projectService.getAllProjects(
-              fetchAssigned: fetchAssigned,
-              accessToken: _authToken!,
-              page: _currentPage);
+              fetchAssigned: fetchAssigned, accessToken: _authToken!, page: _currentPage);
 
           if (genericModel.statusCode == 200) {
             ProjectResponse response = genericModel.returnedModel;
-            if (response != null &&
-                response.projectsList != null &&
-                response.projectsList!.isNotEmpty) {
+            if (response != null && response.projectsList != null && response.projectsList!.isNotEmpty) {
               _currentPage = response.currentPage! + 1;
               _totalPages = response.lastPage;
 
@@ -178,10 +163,7 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   Future<void> fetchUsers(
-      {bool initialLoading = false,
-      required String userRole,
-      int? projectId,
-      String? searchQuery}) async {
+      {bool initialLoading = false, required String userRole, int? projectId, String? searchQuery}) async {
     print("INITAIL FETCH USERS $userRole");
     try {
       setStateLoading();
@@ -231,10 +213,7 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   Future<void> searchUsers(
-      {bool initialLoading = false,
-      required String userRole,
-      int? projectId,
-      String? searchQuery}) async {
+      {bool initialLoading = false, required String userRole, int? projectId, String? searchQuery}) async {
     print("INITAIL FETCH USERS $userRole");
     try {
       if (_authToken != null) {
@@ -284,23 +263,18 @@ class ProjectsProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> approveRejectProject(
-      {required bool isApproved,
-      required int projectId,
-      bool doPop = true}) async {
+  Future<bool> approveRejectProject({required bool isApproved, required int projectId, bool doPop = true}) async {
     if (_authToken != null) {
       showLoadingDialog(title: "Loading...");
-      GenericModel genericModel = await _projectService.projectApproval(
-          accessToken: _authToken!, projectId: projectId, approve: isApproved);
+      GenericModel genericModel =
+          await _projectService.projectApproval(accessToken: _authToken!, projectId: projectId, approve: isApproved);
       Navigator.pop(Get.context!, false);
       if (genericModel.statusCode == 200 ||
           genericModel.statusCode == 400 ||
           genericModel.statusCode == 401 ||
           genericModel.statusCode == 422) {
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
-        if (genericModel.statusCode == 200 &&
-            genericModel.returnedModel != null) {
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
+        if (genericModel.statusCode == 200 && genericModel.returnedModel != null) {
           if (doPop) {
             Navigator.pop(Get.context!, true);
           }

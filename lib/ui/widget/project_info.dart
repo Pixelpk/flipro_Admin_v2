@@ -13,6 +13,7 @@ import 'package:sizer/sizer.dart';
 import '../../core/utilities/app_colors.dart';
 import '../../core/utilities/app_constant.dart';
 import 'labeledTextField.dart';
+import 'package:intl/intl.dart'; // for date format
 
 class ProjectInfoSection extends StatelessWidget {
   ProjectInfoSection({
@@ -22,6 +23,7 @@ class ProjectInfoSection extends StatelessWidget {
   final bool readOnly;
 
   var formatter = NumberFormat('#,##0.' + "#" * 5);
+
   @override
   Widget build(BuildContext context) {
     return Consumer<LoadedProjectProvider>(builder: (ctx, project, c) {
@@ -36,6 +38,7 @@ class ProjectInfoSection extends StatelessWidget {
           ),
         );
       }
+      print("=====>${project.getLoadedProject!.contractorSupplierDetails}");
       return SizedBox(
         width: double.infinity,
         child: Column(
@@ -45,23 +48,24 @@ class ProjectInfoSection extends StatelessWidget {
               height: 1.h,
             ),
             LabeledTextField(
-              label: "Project Address:",
-              maxlines: null,
-              readonly: readOnly,
-              hintText: "${project.getLoadedProject!.projectAddress}",
-            ),
-            SizedBox(
-              height: 1.h,
-            ),
+                label: "Project Address:",
+                maxlines: null,
+                readonly: readOnly,
+                hintText: "${project.getLoadedProject!.projectAddress}"),
+            SizedBox(height: 1.h),
             LabeledTextField(
-              label: "Area(Square Meter):",
-              maxlines: null,
-              readonly: readOnly,
-              hintText: formatter.format(double.parse(project.getLoadedProject!.area!.replaceAll(",", ""))),
-            ),
-            SizedBox(
-              height: 1.h,
-            ),
+                label: "Project Date:",
+                maxlines: null,
+                readonly: readOnly,
+                hintText:
+                    DateFormat.yMMMMd().format(DateTime.tryParse(project.getLoadedProject!.createdAt.toString())!)),
+            SizedBox(height: 1.h),
+            LabeledTextField(
+                label: "Area(Square Meter):",
+                maxlines: null,
+                readonly: readOnly,
+                hintText: formatter.format(double.parse(project.getLoadedProject!.area!.replaceAll(",", "")))),
+            SizedBox(height: 1.h),
             LabeledTextField(
               label: "Description",
               maxlines: 6,
@@ -94,7 +98,8 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Anticipated Budget:",
               maxlines: 1,
               readonly: true,
-              hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget!.toString().replaceAll(",", "")))}',
+              hintText:
+                  '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget!.toString().replaceAll(",", "")))}',
             ),
             SizedBox(
               height: 1.h,
@@ -159,7 +164,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Existing Queries:",
               maxlines: 1,
               readonly: true,
-              hintText: project.getLoadedProject!.contractorSupplierDetails == 1 ? 'Yes' : 'No',
+              hintText: project.getLoadedProject!.contractorSupplierDetails == '1' ? 'Yes' : 'No',
             ),
             SizedBox(
               height: 1.h,

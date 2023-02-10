@@ -200,8 +200,8 @@ class ProjectService {
 
       http.StreamedResponse response = await request.send();
       var res = await response.stream.bytesToString();
-      print(res);
-      print(response.statusCode);
+
+
       if (response.statusCode == 200) {
         return GenericModel(
             returnedModel: Project.fromJson(jsonDecode(res)['data']),
@@ -226,7 +226,6 @@ class ProjectService {
             message: AppConstant.sessionDescription,
             title: "Invalid Credentials");
       } else {
-        print("sdfsdf");
         return GenericModel(
             returnedModel: null,
             success: false,
@@ -249,7 +248,6 @@ class ProjectService {
           message: AppConstant.timeoutError,
           title: AppConstant.timeoutErrorDescription);
     } catch (e) {
-      print("$e LOGIN AUTH");
       return GenericModel(
           returnedModel: null,
           success: false,

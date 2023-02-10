@@ -64,30 +64,25 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
         child: CustomAppBar(
-          automaticallyImplyLeading: true,
-          bannerText: note?.id == null
-              ? "Add Note"
-              : !readOnly
-                  ? "Edit Note"
-                  : "View Note",
-          showBothIcon: true,
-          showNoteIcon:
-              note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id
-                  ? false
-                  : note!.isEditAble!,
-          customWidget: InkWell(
-            onTap: () {
-              setState(() {
-                readOnly = false;
-              });
-              notesFocusNode.requestFocus();
-            },
-            child: SvgPicture.asset(
-              AppConstant.editIcon,
-              height: 20,
-            ),
-          ),
-        ),
+            automaticallyImplyLeading: true,
+            bannerText: note?.id == null
+                ? "Add Note"
+                : !readOnly
+                    ? "Edit Note"
+                    : "View Note",
+            showBothIcon: true,
+            showNoteIcon:
+                note == null || note!.userId != Provider.of<UserProvider>(context, listen: false).getCurrentUser.id
+                    ? false
+                    : note!.isEditAble!,
+            customWidget: InkWell(
+                onTap: () {
+                  setState(() {
+                    readOnly = false;
+                  });
+                  notesFocusNode.requestFocus();
+                },
+                child: SvgPicture.asset(AppConstant.editIcon, height: 20))),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.w),

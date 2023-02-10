@@ -164,7 +164,7 @@ class Project {
     anticipatedBudget = json['anticipated_budget'];
     projectAddress = json['project_address'] ?? '';
     projectState = json['project_state'];
-    contractorSupplierDetails = json['contractor_supplier_details'];
+    contractorSupplierDetails = json['contractor_supplier_details'].toString();
     applicantName = json['applicant_name'];
     email = json['email'];
     phone = json['phone'];
@@ -186,7 +186,7 @@ class Project {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    userId = json['user_id'];
+    userId = json['user_id'].toString();
     leadUserId = json['lead_user_id'];
     assigned = json['assigned'] ?? false;
     if (json['photos'] != null) {
