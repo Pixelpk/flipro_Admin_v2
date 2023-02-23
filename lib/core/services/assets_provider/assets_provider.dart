@@ -14,11 +14,16 @@ class AssetProvider extends ChangeNotifier {
   File? _singlePickedImage;
   final List<File> _compressedImage = [];
   final List<MediaCompressionModel> _compressedVidoesWithThumbnail = [];
+
   List<File> get getPickedImages => _compressedImage;
+
   List<MediaCompressionModel> get getCompressedVidoesWithThumbnail => _compressedVidoesWithThumbnail;
+
   File? get getSinglePickedImage => _singlePickedImage;
   LoadingState compressionProgress = LoadingState.loaded;
+
   LoadingState get getCompressionProgress => compressionProgress;
+
   setStateLoading() {
     compressionProgress = LoadingState.loading;
     notifyListeners();
@@ -116,8 +121,8 @@ class AssetProvider extends ChangeNotifier {
                 position: -1 // default(-1)
                 );
             print("THUMBNAIL ${thumbnailFile.path}");
-            _compressedVidoesWithThumbnail.add(MediaCompressionModel(compressedVideoPath: compressedVideo.path, thumbnailPath: thumbnailFile.path));
-            print(_compressedVidoesWithThumbnail.length);
+            _compressedVidoesWithThumbnail.add(
+                MediaCompressionModel(compressedVideoPath: compressedVideo.path, thumbnailPath: thumbnailFile.path));
             Navigator.pop(Get.context!);
             setStateLoaded();
           }

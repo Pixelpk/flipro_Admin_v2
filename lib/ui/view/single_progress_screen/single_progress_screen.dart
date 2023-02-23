@@ -44,12 +44,12 @@ class SingleProgressScreen extends StatelessWidget {
                 LabeledTextField(
                   label: "Title",
                   hintText:  "${progressModel!.title!}",
-                  maxlines: null,
+                  maxLines: null,
                   readonly: readOnly,
                 ),
                 LabeledTextField(
                   label: "Description",
-                  maxlines: 6,
+                  maxLines: 6,
                   hintText: "${progressModel!.description!}",
                   readonly: readOnly,
                 ),

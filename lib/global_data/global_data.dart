@@ -9,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import '../firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -43,17 +44,15 @@ Future initServices() async {
 }
 
 Future precacherSVG() async {
-  List<String> svgs = [ AppConstant.logoWhite,AppConstant.homeLogo];
-  return Future.wait(
-    List.generate(svgs.length, (index) async {
-      print("precaching svg $index");
-      await precachePicture(
-          ExactAssetPicture(
-            SvgPicture.svgStringDecoderBuilder,
-            svgs[index],
-          ),
-          null,
-      );
-    })
-  );
+  List<String> svgs = [AppConstant.logoWhite, AppConstant.homeLogo];
+  return Future.wait(List.generate(svgs.length, (index) async {
+    print("precaching svg $index");
+    await precachePicture(
+      ExactAssetPicture(
+        SvgPicture.svgStringDecoderBuilder,
+        svgs[index],
+      ),
+      null,
+    );
+  }));
 }

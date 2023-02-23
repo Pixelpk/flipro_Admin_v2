@@ -103,7 +103,6 @@ class ProjectService {
         url = "${url}projects/progress/review";
       }
       url = "$url?project_id=$projectId&client_satisfied=$isSatisfied&client_reviews=$review";
-      print(url);
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.headers.addAll(headers);
 
@@ -200,8 +199,7 @@ class ProjectService {
 
       http.StreamedResponse response = await request.send();
       var res = await response.stream.bytesToString();
-      print(res);
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         return GenericModel(
             returnedModel: Project.fromJson(jsonDecode(res)['data']),
@@ -226,7 +224,6 @@ class ProjectService {
             message: AppConstant.sessionDescription,
             title: "Invalid Credentials");
       } else {
-        print("sdfsdf");
         return GenericModel(
             returnedModel: null,
             success: false,
@@ -249,7 +246,6 @@ class ProjectService {
           message: AppConstant.timeoutError,
           title: AppConstant.timeoutErrorDescription);
     } catch (e) {
-      print("$e LOGIN AUTH");
       return GenericModel(
           returnedModel: null,
           success: false,
@@ -480,12 +476,11 @@ class ProjectService {
       } else if (response.statusCode == 401) {
         LogicHelper.unauthorizedHandler();
         return GenericModel(
-          returnedModel: null,
-          success: false,
-          statusCode: 401,
-          message: AppConstant.sessionDescription,
-          title: AppConstant.sessionTitle,
-        );
+            returnedModel: null,
+            success: false,
+            statusCode: 401,
+            message: AppConstant.sessionDescription,
+            title: AppConstant.sessionTitle);
       } else {
         return GenericModel(
             returnedModel: null,

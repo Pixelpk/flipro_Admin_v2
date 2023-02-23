@@ -16,10 +16,12 @@ import 'package:sizer/sizer.dart';
 import 'add_project_media_screen.dart';
 
 class AddProjectScreen extends StatefulWidget {
-  const AddProjectScreen({Key? key, this.showAppBar = true, this.project, required this.isNewProject}) : super(key: key);
+  const AddProjectScreen({Key? key, this.showAppBar = true, this.project, required this.isNewProject})
+      : super(key: key);
   final bool showAppBar;
   final bool isNewProject;
   final ProjectProvider? project;
+
   @override
   State<AddProjectScreen> createState() => _AddProjectScreenState();
 }
@@ -47,165 +49,161 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
-        child: const CustomAppBar(
-          bannerText: "Add Project",
-          showBothIcon: false,
-          automaticallyImplyLeading: true,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
+          child: const CustomAppBar(
+            bannerText: "Add Project",
+            showBothIcon: false,
+            automaticallyImplyLeading: true,
+          ),
         ),
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
+        body: ListView(physics: const BouncingScrollPhysics(), children: [
           SizedBox(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: 90.w,
-                    margin: EdgeInsets.symmetric(vertical: 2.h),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Applicant Information",
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ],
+              child: Form(
+                  key: _formKey,
+                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                    Container(
+                      width: 90.w,
+                      margin: EdgeInsets.symmetric(vertical: 2.h),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Applicant Information",
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  LabeledTextField(
-                    label: "",
-                    maxlines: 1,
-                    hintText: 'Applicant Name',
-                    readonly: false,
-                    keyboardType: TextInputType.name,
-                    textEditingController: applicantNameController,
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please Add Applicant's name";
-                      } else if (e.length < 3) {
-                        return "Applicant name should be at-least 3-digit long";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  LabeledTextField(
-                    label: "",
-                    maxlines: 1,
-                    hintText: 'Email',
-                    readonly: false,
-                    textEditingController: applicantEmailController,
-                    keyboardType: TextInputType.emailAddress,
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please Add Applicant's email address";
-                      } else if (!GetUtils.isEmail(e)) {
-                        return "Please add valid email address";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  LabeledTextField(
-                    label: "",
-                    maxlines: 1,
-                    hintText: 'Phone #',
-                    readonly: false,
-                    textEditingController: applicantPhoneController,
-                    keyboardType: TextInputType.phone,
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please Add Applicant's Phone number";
-                      } else if (!GetUtils.isPhoneNumber(e)) {
-                        return "Please add valid Phone number";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  LabeledTextField(
-                    label: "",
-                    maxlines: 1,
-                    hintText: 'Applicant Address ',
-                    readonly: false,
-                    textEditingController: applicantAddressController,
-                    keyboardType: TextInputType.streetAddress,
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please Add Applicant's address";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  LabeledTextField(
-                    label: "",
-                    maxlines: 1,
-                    hintText: 'Registered Owner',
-                    readonly: false,
-                    textEditingController: registeredOwnerController,
-                    keyboardType: TextInputType.name,
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please add registered owner's name";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  Container(
-                    width: 90.w,
-                    margin: EdgeInsets.symmetric(vertical: 2.h),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Financial",
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ],
+                    LabeledTextField(
+                      label: "",
+                      maxLines: 1,
+                      hintText: 'Applicant Name',
+                      readonly: false,
+                      keyboardType: TextInputType.name,
+                      textEditingController: applicantNameController,
+                      validation: (e) {
+                        if (e == null || e.isEmpty) {
+                          return "Please Add Applicant's name";
+                        } else if (e.length < 3) {
+                          return "Applicant name should be at-least 3-digit long";
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
-                  ),
-                  LabeledTextField(
-                    prefixText: "\$",
-                    height: 18,
-                    width: 18,
-                    label: "",
-                    maxlines: 1,
-                    hintText: 'Current Property Value',
-                    readonly: false,
-                    textEditingController: currentPropertyValue,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please add current property value";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  LabeledTextField(
-                    prefixText: "\$",
-                    height: 18,
-                    width: 18,
-                    label: "",
-                    maxlines: 1,
-                    hintText: 'Current Property Debt.',
-                    readonly: false,
-                    textEditingController: currentPropertyDebt,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please add current property value";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  /*LabeledTextField(
+                    LabeledTextField(
+                      label: "",
+                      maxLines: 1,
+                      hintText: 'Email',
+                      readonly: false,
+                      textEditingController: applicantEmailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validation: (e) {
+                        if (e == null || e.isEmpty) {
+                          return "Please Add Applicant's email address";
+                        } else if (!GetUtils.isEmail(e)) {
+                          return "Please add valid email address";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    LabeledTextField(
+                      label: "",
+                      maxLines: 1,
+                      hintText: 'Phone #',
+                      readonly: false,
+                      textEditingController: applicantPhoneController,
+                      keyboardType: TextInputType.phone,
+                      validation: (e) {
+                        if (e == null || e.isEmpty) {
+                          return "Please Add Applicant's Phone number";
+                        } else if (!GetUtils.isPhoneNumber(e)) {
+                          return "Please add valid Phone number";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    LabeledTextField(
+                      label: "",
+                      maxLines: 1,
+                      hintText: 'Applicant Address ',
+                      readonly: false,
+                      textEditingController: applicantAddressController,
+                      keyboardType: TextInputType.streetAddress,
+                      validation: (e) {
+                        if (e == null || e.isEmpty) {
+                          return "Please Add Applicant's address";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    LabeledTextField(
+                      label: "",
+                      maxLines: 1,
+                      hintText: 'Registered Owner',
+                      readonly: false,
+                      textEditingController: registeredOwnerController,
+                      keyboardType: TextInputType.name,
+                      validation: (e) {
+                        if (e == null || e.isEmpty) {
+                          return "Please add registered owner's name";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    Container(
+                      width: 90.w,
+                      margin: EdgeInsets.symmetric(vertical: 2.h),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Financial",
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ],
+                      ),
+                    ),
+                    LabeledTextField(
+                      prefixText: "\$",
+                      height: 18,
+                      width: 18,
+                      label: "",
+                      maxLines: 1,
+                      hintText: 'Current Property Value',
+                      readonly: false,
+                      textEditingController: currentPropertyValue,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      validation: (e) {
+                        if (e == null || e.isEmpty) {
+                          return "Please add current property value";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    LabeledTextField(
+                      prefixText: "\$",
+                      height: 18,
+                      width: 18,
+                      label: "",
+                      maxLines: 1,
+                      hintText: 'Current Property Debt.',
+                      readonly: false,
+                      textEditingController: currentPropertyDebt,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      validation: (e) {
+                        if (e == null || e.isEmpty) {
+                          return "Please add current property value";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    /*LabeledTextField(
                     label: "",
                     maxlines: 1,
                     hintText: 'Current Property Value',
@@ -237,24 +235,17 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                       }
                     },
                   ),*/
-                  Container(
-                    margin: const EdgeInsets.all(8),
-                    width: 90.w,
-                    height: 8.h,
-                    padding: EdgeInsets.symmetric(horizontal: 3.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Cross-Collaterized",
-                          style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
-                        ),
-                        const Spacer(),
-                        Row(
-                          children: [
+                    Container(
+                        margin: const EdgeInsets.all(8),
+                        width: 90.w,
+                        height: 8.h,
+                        padding: EdgeInsets.symmetric(horizontal: 3.w),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+                        child: Row(children: [
+                          Text("Cross-Collaterized",
+                              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor)),
+                          const Spacer(),
+                          Row(children: [
                             Checkbox(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
                                 value: crossCollaterizedYes,
@@ -264,14 +255,10 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                                     crossCollaterizedNo = false;
                                   });
                                 }),
-                            Text(
-                              "YES",
-                              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
+                            Text("YES",
+                                style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor))
+                          ]),
+                          Row(children: [
                             Checkbox(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60)),
                                 value: crossCollaterizedNo,
@@ -281,34 +268,15 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                                     crossCollaterizedNo = c!;
                                   });
                                 }),
-                            Text(
-                              "NO",
-                              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  MainButton(
-                    height: 7.h,
-                    callback: save,
-                    buttonText: "Continue",
-                    width: 60.w,
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                            Text("NO",
+                                style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor))
+                          ])
+                        ])),
+                    SizedBox(height: 5.h),
+                    MainButton(height: 7.h, callback: save, buttonText: "Continue", width: 60.w),
+                    SizedBox(height: 5.h),
+                  ])))
+        ]));
   }
 
   initControllers() {
@@ -352,7 +320,8 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
       project.propertyDebt = double.tryParse(currentPropertyDebt.text);
       project.crossCollaterized = crossCollaterizedYes ? 1 : 0;
 
-      Navigator.of(context).pushNamed(AddProjectMediaScreen.routeName, arguments: {"project": project, "newProject": widget.isNewProject});
+      Navigator.of(context).pushNamed(AddProjectMediaScreen.routeName,
+          arguments: {"project": project, "newProject": widget.isNewProject});
     }
     if (crossCollaterizedYes == false && crossCollaterizedNo == false) {
       GetXDialog.showDialog(title: "Cross Collaterized", message: "Please add cross-collaterized status");

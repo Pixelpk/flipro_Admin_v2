@@ -37,7 +37,7 @@ class FranchiseeTabScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                     child: LabeledTextField(
                       label: "Partners Info",
-                      maxlines: null,
+                      maxLines: null,
                       readonly: false,
                       hintText: loadedProject.getLoadedProject!.franchisee!.name!,
                       labelWidget: ColoredLabel(
@@ -89,7 +89,7 @@ class FranchiseeTabScreen extends StatelessWidget {
                     loadedProject.getLoadedProject!.latestNote!.user!.userType == 'franchise') {
                   return LabeledTextField(
                     label: "Note",
-                    maxlines: 10,
+                    maxLines: 10,
                     readonly: true,
                     hintText: loadedProject.getLoadedProject!.latestNote!.notes!,
                   );

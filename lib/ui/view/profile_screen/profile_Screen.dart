@@ -86,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: customInputDecoration(
                             context: context,
                             hintText: userRoleModel.name ?? '',
-                            prefixicon: AppConstant.person),
+                            prefixIcon: AppConstant.person),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: customInputDecoration(
                             context: context,
                             hintText: userRoleModel.email ?? '',
-                            prefixicon: AppConstant.emailIdon),
+                            prefixIcon: AppConstant.emailIdon),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: customInputDecoration(
                             context: context,
                             hintText: userRoleModel.phone ?? '',
-                            prefixicon: AppConstant.phoneIcon),
+                            prefixIcon: AppConstant.phoneIcon),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -129,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: customInputDecoration(
                             context: context,
                             hintText: userRoleModel.address ?? '',
-                            prefixicon: AppConstant.homeIcon),
+                            prefixIcon: AppConstant.homeIcon),
                       ),
                       SizedBox(
                         height: 2.h,

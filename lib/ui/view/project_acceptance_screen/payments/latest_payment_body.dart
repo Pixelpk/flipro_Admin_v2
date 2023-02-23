@@ -78,10 +78,7 @@ class _LatestPaymentBodyState extends State<LatestPaymentBody> {
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<DrawDownPayment>(
             itemBuilder: (context, paymentRequest, index) => PaymentReqListItem(
-                  paymentRequest: paymentRequest,
-                  rejected: false,
-                  pagingController: _pagingController,
-                )),
+                paymentRequest: paymentRequest, rejected: false, pagingController: _pagingController)),
       ),
     );
 

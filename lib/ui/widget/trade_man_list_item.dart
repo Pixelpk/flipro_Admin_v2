@@ -29,19 +29,13 @@ class TrademanListItem extends StatelessWidget {
       child: Row(
         children: [
           userRoleModel!.avatar!.isEmpty || userRoleModel!.avatar == null
-              ? const CircleAvatar(
-                  backgroundImage: AssetImage(AppConstant.defaultProjectImage),
-                )
-              : CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(userRoleModel!.avatar!),
-                ),
+              ? const CircleAvatar(backgroundImage: AssetImage(AppConstant.defaultProjectImage))
+              : CircleAvatar(backgroundImage: CachedNetworkImageProvider(userRoleModel!.avatar!)),
           Container(
             width: 1,
             height: 6.5.h,
             color: AppColors.greyFontColor.withOpacity(0.5),
-            margin: EdgeInsets.symmetric(
-              horizontal: 2.w,
-            ),
+            margin: EdgeInsets.symmetric(horizontal: 2.w),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,12 +44,8 @@ class TrademanListItem extends StatelessWidget {
               userRoleModel!.userType == "builder" || userRoleModel!.userType == "evaluator"
                   ? SizedBox(
                       width: 45.w,
-                      child: Text(
-                        "${userRoleModel!.companyName}",
-                        style: Theme.of(context).textTheme.bodyText1,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: Text("${userRoleModel!.companyName}",
+                          style: Theme.of(context).textTheme.bodyText1, maxLines: 1, overflow: TextOverflow.ellipsis),
                     )
                   : Container(),
               userRoleModel!.userType == "builder" || userRoleModel!.userType == "evaluator"
@@ -63,25 +53,15 @@ class TrademanListItem extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor))
                   : SizedBox(
                       width: 45.w,
-                      child: Text(
-                        "${userRoleModel!.name}",
-                        style: Theme.of(context).textTheme.bodyText1,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: Text("${userRoleModel!.name}",
+                          style: Theme.of(context).textTheme.bodyText1, maxLines: 1, overflow: TextOverflow.ellipsis),
                     ),
               Text("${userRoleModel!.address}",
                   style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.greyFontColor)),
             ],
           ),
           const Spacer(),
-          showAssignButton
-              ? ColoredLabel(
-                  color: AppColors.mainThemeBlue,
-                  text: "Assign",
-                  height: 4.h,
-                )
-              : Container()
+          showAssignButton ? ColoredLabel(color: AppColors.mainThemeBlue, text: "Assign", height: 4.h) : Container()
         ],
       ),
     );

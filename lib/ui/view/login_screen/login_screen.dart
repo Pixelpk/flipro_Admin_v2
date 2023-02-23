@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           decoration: customInputDecoration(
                               context: context,
-                              prefixicon: AppConstant.person,
+                              prefixIcon: AppConstant.person,
                               hintText: 'Email '),
                         ),
                       ),

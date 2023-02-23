@@ -58,7 +58,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 decoration: customInputDecoration(
                     context: context,
                     hintText: "Old Password",
-                    prefixicon: AppConstant.passwordIcon),
+                    prefixIcon: AppConstant.passwordIcon),
               ),
               SizedBox(
                 height: 2.h,
@@ -81,7 +81,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 decoration: customInputDecoration(
                     context: context,
                     hintText: "New Password",
-                    prefixicon: AppConstant.passwordIcon),
+                    prefixIcon: AppConstant.passwordIcon),
               ),
               SizedBox(
                 height: 2.h,
@@ -104,7 +104,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 decoration: customInputDecoration(
                     context: context,
                     hintText: "Confirm Password",
-                    prefixicon: AppConstant.passwordIcon),
+                    prefixIcon: AppConstant.passwordIcon),
               ),
               SizedBox(
                 height: 5.h,

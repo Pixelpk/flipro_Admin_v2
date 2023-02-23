@@ -24,8 +24,7 @@ class LatestProjectBody extends StatefulWidget {
 class _LatestProjectBodyState extends State<LatestProjectBody> {
   static const _pageSize = 20;
 
-  final PagingController<int, ProjectProvider> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, ProjectProvider> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -44,8 +43,7 @@ class _LatestProjectBodyState extends State<LatestProjectBody> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await ProjectService().getAllStatusPending(
-          accessToken:
-              Provider.of<UserProvider>(context, listen: false).getAuthToken,
+          accessToken: Provider.of<UserProvider>(context, listen: false).getAuthToken,
           page: pageKey,
           fetchPending: true,
           fetchapproved: false,
@@ -62,11 +60,8 @@ class _LatestProjectBodyState extends State<LatestProjectBody> {
             _pagingController.appendPage(newItems, nextPageKey);
           }
         }
-      } else if (genericModel.statusCode == 400 ||
-          genericModel.statusCode == 422 ||
-          genericModel.statusCode == 401) {
-        GetXDialog.showDialog(
-            title: genericModel.title, message: genericModel.message);
+      } else if (genericModel.statusCode == 400 || genericModel.statusCode == 422 || genericModel.statusCode == 401) {
+        GetXDialog.showDialog(title: genericModel.title, message: genericModel.message);
       }
     } catch (error) {
       print(error);

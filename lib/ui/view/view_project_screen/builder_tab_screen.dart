@@ -39,7 +39,7 @@ class BuilderTabScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                         child: LabeledTextField(
                           label: "Agents/Trades Info",
-                          maxlines: null,
+                          maxLines: null,
                           readonly: true,
                           hintText: loadedProject.getLoadedProject?.builder != null &&
                                   loadedProject.getLoadedProject!.builder!.isNotEmpty
@@ -84,13 +84,13 @@ class BuilderTabScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                         child: LabeledTextField(
                             label: "Agents/Trades Contact",
-                            maxlines: null,
+                            maxLines: null,
                             onTab: () => launchCaller(
-                                "${loadedProject.getLoadedProject?.builder![0].phoneCode}${loadedProject.getLoadedProject?.builder![0].phone}"),
+                                "${loadedProject.getLoadedProject?.builder![0].phone}"),
                             readonly: true,
                             hintText: loadedProject.getLoadedProject?.builder != null &&
                                     loadedProject.getLoadedProject!.builder!.isNotEmpty
-                                ? "${loadedProject.getLoadedProject?.builder![0].phoneCode}${loadedProject.getLoadedProject?.builder![0].phone}"
+                                ? "${loadedProject.getLoadedProject?.builder![0].phone}"
                                 // : loadedProject.getLoadedProject?.latestProgress != null
                                 //     ? loadedProject.getLoadedProject?.latestProgress?.user?.name!
                                 : "No Agents/Trades Contact"),
@@ -105,17 +105,13 @@ class BuilderTabScreen extends StatelessWidget {
                   height: 55.h,
                   child: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
                     if (loadedProject.getLoadingState == LoadingState.loading) {
-                      return SizedBox(
-                        height: 1.h,
-                      );
+                      return SizedBox(height: 1.h);
                     }
                     if (loadedProject.getLoadedProject != null &&
                         loadedProject.getLoadedProject!.latestProgress != null &&
                         loadedProject.getLoadedProject!.latestProgress!.user!.userType == 'builder') {
                       return SingleProgressScreen(
-                        showAppBar: false,
-                        progressModel: loadedProject.getLoadedProject!.latestProgress!,
-                      );
+                          showAppBar: false, progressModel: loadedProject.getLoadedProject!.latestProgress!);
                     } else {
                       return const Center(
                         child: Text("No Progress submitted by Agents/Trades"),
@@ -131,7 +127,7 @@ class BuilderTabScreen extends StatelessWidget {
                     loadedProject.getLoadedProject!.latestNote!.user!.userType == 'builder') {
                   return LabeledTextField(
                     label: "Note",
-                    maxlines: 10,
+                    maxLines: 10,
                     readonly: true,
                     hintText: loadedProject.getLoadedProject!.latestNote!.notes!,
                   );

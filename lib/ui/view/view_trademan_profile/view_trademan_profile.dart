@@ -21,7 +21,7 @@ class ViewTradeManProfile extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
         child: const CustomAppBar(
-          bannerText: " Profile",
+          bannerText: "Profile",
           automaticallyImplyLeading: true,
         ),
       ),
@@ -42,7 +42,7 @@ class ViewTradeManProfile extends StatelessWidget {
                   readOnly: true,
                   controller: emailController,
                   decoration: customInputDecoration(
-                      context: context, hintText: "${_member.name}", prefixicon: AppConstant.person),
+                      context: context, hintText: "${_member.name}", prefixIcon: AppConstant.person),
                 ),
                 SizedBox(height: 2.h),
                 _member.userType == "builder" || _member.userType == "evaluator"
@@ -54,24 +54,22 @@ class ViewTradeManProfile extends StatelessWidget {
                             width: 18,
                             context: context,
                             hintText: "${_member.companyName}",
-                            prefixicon: AppConstant.companyIcon))
+                            prefixIcon: AppConstant.companyIcon))
                     : Container(),
                 _member.userType == "builder" || _member.userType == "evaluator" ? SizedBox(height: 2.h) : Container(),
                 TextFormField(
                   readOnly: true,
                   controller: emailController,
                   decoration: customInputDecoration(
-                      context: context, hintText: "${_member.email}", prefixicon: AppConstant.emailIdon),
+                      context: context, hintText: "${_member.email}", prefixIcon: AppConstant.emailIdon),
                 ),
                 SizedBox(height: 2.h),
                 TextFormField(
                     readOnly: true,
-                    onTap: () => launchCaller("${_member.phoneCode}${_member.phone}"),
+                    onTap: () => launchCaller("${_member.phone}"),
                     controller: emailController,
                     decoration: customInputDecoration(
-                        context: context,
-                        hintText: "${_member.phoneCode}${_member.phone}",
-                        prefixicon: AppConstant.phoneIcon)),
+                        context: context, hintText: "${_member.phone}", prefixIcon: AppConstant.phoneIcon)),
                 SizedBox(height: 2.h),
                 TextFormField(
                     readOnly: true,
@@ -81,7 +79,7 @@ class ViewTradeManProfile extends StatelessWidget {
                         width: 18,
                         context: context,
                         hintText: "${_member.address}",
-                        prefixicon: AppConstant.homeIcon)),
+                        prefixIcon: AppConstant.homeIcon)),
                 Container(height: 10.h)
               ]))),
             ),

@@ -1,6 +1,4 @@
 class AppConstant {
-
-
   static const getCurrentUser = "currentUser";
   static const getToken = "authToken";
   static const getCurrentUserID = "currentUserID";
@@ -35,24 +33,13 @@ class AppConstant {
   static const dummy =
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
-
-
-
-
-
-
-
-
   ///EXCEPTION MESSAGE
   static const sessionTitle = 'Session Expired';
   static const sessionDescription = 'Please login again';
   static const networkError = "Network Error";
-  static const networkErrorDescritpion =  "Please check your connectivity";
+  static const networkErrorDescritpion = "Please check your connectivity";
   static const timeoutError = "Timeout";
-  static const timeoutErrorDescription =  "Make sure your have working internet";
+  static const timeoutErrorDescription = "Make sure your have working internet";
   static const genericError = "Operation Failed";
   static const genericErrorDescription = "Please try again later";
-
-
-
 }

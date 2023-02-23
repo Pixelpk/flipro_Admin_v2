@@ -92,7 +92,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           label: 'Name',
           textEditingController: nameController,
           readonly: false,
-          maxlines: 1,
+          maxLines: 1,
           validation: (e) {
             if (e != null) {
               if (e.isEmpty) {
@@ -113,7 +113,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           label: 'Email',
           textEditingController: emailController,
           readonly: false,
-          maxlines: 1,
+          maxLines: 1,
           hintText: "Email Address",
           validation: (email) {
             Get.log("EMAIL $email");
@@ -131,7 +131,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
         LabeledTextField(
           label: 'Address',
           readonly: false,
-          maxlines: 1,
+          maxLines: 1,
           textEditingController: addressController,
           hintText: "Address",
           validation: (e) {
@@ -151,7 +151,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
             ? LabeledTextField(
                 label: 'Company Name',
                 readonly: false,
-                maxlines: 1,
+                maxLines: 1,
                 textEditingController: companyController,
                 hintText: "Company Name",
                 validation: (e) {
@@ -208,7 +208,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                     textOverflow: TextOverflow.visible,
 
                     searchDecoration: customInputDecoration(
-                        context: context, hintText: 'Search', usePrefixIcon: true, prefixicon: 'default'),
+                        context: context, hintText: 'Search', usePrefixIcon: true, prefixIcon: 'default'),
                     // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                     initialSelection: 'AU',
                     onInit: (code) {
