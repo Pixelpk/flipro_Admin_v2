@@ -34,7 +34,7 @@ addValueBottomSheet({String? value}) {
                                   child: LabeledTextField(
                                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                 label: value ?? 'Add Value',
-                                maxlines: 1,
+                                maxLines: 1,
                                 textEditingController: controller,
                                 validation: (e) {
                                   if (e == null || e.trim().isEmpty) {

@@ -13,7 +13,7 @@ class CustomAppBar extends StatelessWidget {
     this.showShareIcon = false,
     this.showBothIcon = false,
     this.customWidget,
-  required   this.automaticallyImplyLeading  ,
+    required this.automaticallyImplyLeading,
     this.bannerColor,
     this.notesCallback,
     this.shareCallback,
@@ -26,34 +26,38 @@ class CustomAppBar extends StatelessWidget {
   final Color? bannerColor;
   final VoidCallback? notesCallback;
   final VoidCallback? shareCallback;
-  final Widget? customWidget ;
+  final Widget? customWidget;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         AppBar(
-          centerTitle: true,
-          elevation: 0,
-
-          leading: automaticallyImplyLeading! ? IconButton(icon: const Icon(Icons.arrow_back_ios ,color: Colors.black,),onPressed: (){
-            Navigator.pop(context);
-          },):null,
-          automaticallyImplyLeading: automaticallyImplyLeading!,
-          backgroundColor: AppColors.blueScaffoldBackground,
-          title: SvgPicture.asset(AppConstant.logoBlack,height: 40),
-        ),
+            centerTitle: true,
+            elevation: 0,
+            leading: automaticallyImplyLeading!
+                ? IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                : null,
+            automaticallyImplyLeading: automaticallyImplyLeading!,
+            backgroundColor: AppColors.blueScaffoldBackground,
+            title: SvgPicture.asset(AppConstant.logoBlack, height: 40)),
         Container(
           width: 100.w,
           height: 40,
-          color: bannerColor?? AppColors.mainThemeBlue,
+          color: bannerColor ?? AppColors.mainThemeBlue,
           child: showBothIcon
               ? Row(
                   children: [
                     Expanded(flex: 30, child: Container()),
-                    Text(
-                      bannerText,
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
+                    Text(bannerText, style: Theme.of(context).textTheme.headline5),
                     Expanded(flex: 10, child: Container()),
                     Expanded(
                       flex: 20,
@@ -61,29 +65,23 @@ class CustomAppBar extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           showShareIcon
-                              ? InkWell(
-                                  onTap: shareCallback,
-                                  child:
-                                      SvgPicture.asset(AppConstant.shareIcon))
+                              ? InkWell(onTap: shareCallback, child: SvgPicture.asset(AppConstant.shareIcon))
                               : Container(),
                           showNoteIcon
-                              ? customWidget ?? InkWell(
-                                  onTap: notesCallback ??() {
-                                    Navigator.of(context).pushNamed(NotesScreen.routeName);
-                                  },
-                                  child:
-                                      SvgPicture.asset(AppConstant.notesIcon))
+                              ? customWidget ??
+                                  InkWell(
+                                      onTap: notesCallback ??
+                                          () {
+                                            Navigator.of(context).pushNamed(NotesScreen.routeName);
+                                          },
+                                      child: SvgPicture.asset(AppConstant.notesIcon))
                               : Container(),
                         ],
                       ),
                     )
                   ],
                 )
-              : Center(
-                  child: Text(
-                  bannerText,
-                  style: Theme.of(context).textTheme.headline5,
-                )),
+              : Center(child: Text(bannerText, style: Theme.of(context).textTheme.headline5)),
         )
       ],
     );

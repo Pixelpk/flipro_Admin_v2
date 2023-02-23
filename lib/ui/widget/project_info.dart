@@ -49,26 +49,26 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
                 label: "Project Address:",
-                maxlines: null,
+                maxLines: null,
                 readonly: readOnly,
                 hintText: "${project.getLoadedProject!.projectAddress}"),
             SizedBox(height: 1.h),
             LabeledTextField(
                 label: "Project Date:",
-                maxlines: null,
+                maxLines: null,
                 readonly: readOnly,
                 hintText:
                     DateFormat.yMMMMd().format(DateTime.tryParse(project.getLoadedProject!.createdAt.toString())!)),
             SizedBox(height: 1.h),
             LabeledTextField(
                 label: "Area(Square Meter):",
-                maxlines: null,
+                maxLines: null,
                 readonly: readOnly,
                 hintText: formatter.format(double.parse(project.getLoadedProject!.area!.replaceAll(",", "")))),
             SizedBox(height: 1.h),
             LabeledTextField(
               label: "Description",
-              maxlines: 6,
+              maxLines: 6,
               readonly: readOnly,
               hintText: "${project.getLoadedProject!.description}",
             ),
@@ -77,7 +77,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               label: "Project Title",
-              maxlines: 1,
+              maxLines: 1,
               readonly: readOnly,
               hintText: "${project.getLoadedProject!.title}",
             ),
@@ -86,7 +86,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               label: "Applicant Name:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText: project.getLoadedProject!.applicantName,
             ),
@@ -96,7 +96,7 @@ class ProjectInfoSection extends StatelessWidget {
             LabeledTextField(
               inputFormatter: [ThousandsFormatter()],
               label: "Anticipated Budget:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText:
                   '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget!.toString().replaceAll(",", "")))}',
@@ -106,7 +106,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               label: "Applicant Address:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText: "${project.getLoadedProject!.applicantAddress}",
             ),
@@ -115,7 +115,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               label: "Applicant Phone:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText: '${project.getLoadedProject!.phone}',
             ),
@@ -124,7 +124,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               label: "Registered Owner:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText: '${project.getLoadedProject!.registeredOwners}',
             ),
@@ -133,7 +133,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               label: "Cross Collaterized:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText: project.getLoadedProject!.crossCollaterized == 1 ? "Yes" : "No",
             ),
@@ -142,7 +142,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               label: "Applicant email:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText: '${project.getLoadedProject!.email}',
             ),
@@ -151,7 +151,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               label: "Property Debt:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText:
                   '\$${formatter.format(double.parse(project.getLoadedProject!.propertyDebt!.toString().replaceAll(",", "")))}', /*NumberFormat.currency(symbol: '\$').format((int.parse(project.getLoadedProject!.propertyDebt.toString())))*/
@@ -162,7 +162,7 @@ class ProjectInfoSection extends StatelessWidget {
             LabeledTextField(
               inputFormatter: [ThousandsFormatter()],
               label: "Existing Queries:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText: project.getLoadedProject!.contractorSupplierDetails == '1' ? 'Yes' : 'No',
             ),
@@ -172,7 +172,7 @@ class ProjectInfoSection extends StatelessWidget {
             LabeledTextField(
               inputFormatter: [ThousandsFormatter()],
               label: "Postcode:",
-              maxlines: 1,
+              maxLines: 1,
               readonly: true,
               hintText: '${project.getLoadedProject!.projectState}',
             ),

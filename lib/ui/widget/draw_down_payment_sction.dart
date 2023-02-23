@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
 import 'colored_label.dart';
 import 'media_section.dart';
 
@@ -105,14 +104,14 @@ class _DrawDownPaymentScetionState extends State<DrawDownPaymentScetion> {
               loadedProject.getLoadedProject!.latestPaymentReq!.status == "approved"
                   ? LabeledTextField(
                       label: "Reason",
-                      maxlines: 2,
+                      maxLines: 2,
                       hintText: loadedProject.getLoadedProject!.description,
                       readonly: true,
                       textEditingController: reasonController)
                   : LabeledTextField(
                       label: "Reason",
                       hintText: loadedProject.getLoadedProject!.latestPaymentReq!.description ?? "No reason provided",
-                      maxlines: 2,
+                      maxLines: 2,
                       readonly: false
                       //textEditingController: reasonController,
                       ),

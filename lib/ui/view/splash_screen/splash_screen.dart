@@ -18,6 +18,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseMessagingService? firebaseMessagingServiceHandler;
   late DbService dbService;
+
   @override
   void initState() {
     dbService = DbService();
@@ -51,28 +52,20 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
         body: SizedBox(
-          height: 78.h,
-          width: 100.w,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(flex: 8, child: Container()),
-              SvgPicture.asset(
-                AppConstant.logoSimpleWhite,
-                height: 6.h,
-              ),
-              Expanded(flex: 10, child: Container()),
-              Column(
+            height: 78.h,
+            width: 100.w,
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("RENOVATE NOW", style: Theme.of(context).textTheme.headline6),
-                  Text("PAY WHEN YOU SELL", style: Theme.of(context).textTheme.headline6)
-                ],
-              ),
-              Expanded(flex: 2, child: Container()),
-            ],
-          ),
-        ));
+                  Expanded(flex: 8, child: Container()),
+                  SvgPicture.asset(AppConstant.logoSimpleWhite, height: 6.h),
+                  Expanded(flex: 10, child: Container()),
+                  Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    Text("RENOVATE NOW", style: Theme.of(context).textTheme.headline6),
+                    Text("PAY WHEN YOU SELL", style: Theme.of(context).textTheme.headline6)
+                  ]),
+                  Expanded(flex: 2, child: Container())
+                ])));
   }
 }

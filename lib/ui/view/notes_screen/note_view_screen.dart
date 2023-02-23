@@ -104,7 +104,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                   }
                 },
                 labelStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.black),
-                maxlines: 10,
+                maxLines: 10,
                 hintText: notesController.text,
                 focusNode: notesFocusNode,
                 textEditingController: notesController,

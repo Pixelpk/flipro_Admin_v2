@@ -12,7 +12,7 @@ import 'package:sizer/sizer.dart';
 import 'home_item.dart';
 
 class HomePageBody extends StatefulWidget {
-  HomePageBody({
+  const HomePageBody({
     Key? key,
   }) : super(key: key);
 
@@ -40,7 +40,6 @@ class _HomePageBodyState extends State<HomePageBody> {
         },
       ),
       body: Consumer<ProjectsProvider>(builder: (ctx, projectProvider, c) {
-        print(projectProvider.getLoadingState);
         if (projectProvider.getLoadingState == LoadingState.loading && projectProvider.getCurrentPage == 1) {
           return HelperWidget.progressIndicator();
         }
@@ -48,12 +47,7 @@ class _HomePageBodyState extends State<HomePageBody> {
           return const Center(child: Text("Encounter an error please try again later"));
         }
         if (projectProvider.getProjects.isEmpty) {
-          return const Center(
-            child: Text(
-              "No Project Found",
-              style: TextStyle(color: Colors.black),
-            ),
-          );
+          return const Center(child: Text("No Project Found", style: TextStyle(color: Colors.black)));
         } else {
           return LazyLoadScrollView(
               isLoading: projectProvider.getLoadingState == LoadingState.loading,
@@ -62,20 +56,12 @@ class _HomePageBodyState extends State<HomePageBody> {
               child: GridView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1,
-                    // mainAxisExtent: 52.w,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 10,
-                  ),
+                      crossAxisCount: 2, childAspectRatio: 1, crossAxisSpacing: 8, mainAxisSpacing: 10),
                   itemCount: projectProvider.getProjects.length,
                   itemBuilder: (BuildContext ctx, index) {
                     var project = projectProvider.getProjects[index];
 
-                    return ChangeNotifierProvider<ProjectProvider>.value(
-                      value: project,
-                      child: const HomeItem(),
-                    );
+                    return ChangeNotifierProvider<ProjectProvider>.value(value: project, child: const HomeItem());
                   }));
         }
       }),

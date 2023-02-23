@@ -77,7 +77,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                             : Icons.visibility_off),
                       ),
                       hintText: "Password",
-                      prefixicon: AppConstant.passwordIcon),
+                      prefixIcon: AppConstant.passwordIcon),
                 ),
 
                 SizedBox(
@@ -103,7 +103,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                   decoration: customInputDecoration(
                       context: context,
                       hintText: "Re-type Password",
-                      prefixicon: AppConstant.passwordIcon),
+                      prefixIcon: AppConstant.passwordIcon),
                 ),
                 SizedBox(
                   height: 15.h,

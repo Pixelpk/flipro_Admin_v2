@@ -82,21 +82,20 @@ class _SearchUsersState extends State<SearchUsers> {
                     projectId: widget.projectId);
               },
               child: ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  UserRoleModel fetchedUser = projectProvider.getSearcherUsers[index];
-                  return InkWell(
-                      onTap: () {
-                        HelperWidget.handleTrademanNavigation(
-                            context: context,
-                            user: widget.appuser,
-                            currentRoute: widget.currentRoute,
-                            userRoleModel: fetchedUser);
-                      },
-                      child: TrademanListItem(userRoleModel: fetchedUser));
-                },
-                itemCount: projectProvider.getSearcherUsers.length,
-              ));
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    UserRoleModel fetchedUser = projectProvider.getSearcherUsers[index];
+                    return InkWell(
+                        onTap: () {
+                          HelperWidget.handleTrademanNavigation(
+                              context: context,
+                              user: widget.appuser,
+                              currentRoute: widget.currentRoute,
+                              userRoleModel: fetchedUser);
+                        },
+                        child: TrademanListItem(userRoleModel: fetchedUser));
+                  },
+                  itemCount: projectProvider.getSearcherUsers.length));
         });
       },
     );

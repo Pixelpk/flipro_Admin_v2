@@ -44,7 +44,7 @@ class TradeManSection extends StatelessWidget {
         children: [
           LabeledTextField(
             label: "Add Home Owner",
-            maxlines: 1,
+            maxLines: 1,
             readonly: true,
             labelWidget: showHomeOwnerRevokeAccess && homeOwner != null
                 ? ColoredLabel(
@@ -117,7 +117,7 @@ class TradeManSection extends StatelessWidget {
           // ),
           LabeledTextField(
             label: "Add Agents/Trades",
-            maxlines: 1,
+            maxLines: 1,
             readonly: true,
             onTab: () {
               if (builder != null && builder!.isNotEmpty) {
@@ -164,7 +164,7 @@ class TradeManSection extends StatelessWidget {
           ),
           LabeledTextField(
             label: "Add Valuer",
-            maxlines: 1,
+            maxLines: 1,
             onTab: () {
               if (valuer != null && valuer!.isNotEmpty) {
                 Navigator.pushNamed(context, AssignedTrademan.routeName, arguments: appUsers.evaluator);
