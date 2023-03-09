@@ -45,7 +45,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(
                 height: 15.h,
               ),
-              const Text('One time password will be send \n to your email so you can recover your password',
+              const Text('One time password will be sent \n to your email so you can recover your password',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(
                 height: 30,

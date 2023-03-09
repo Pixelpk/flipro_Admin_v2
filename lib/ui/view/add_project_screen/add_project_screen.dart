@@ -10,9 +10,11 @@ import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/helper/number_formatter.dart';
 import 'add_project_media_screen.dart';
 
 class AddProjectScreen extends StatefulWidget {
@@ -177,6 +179,15 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                       readonly: false,
                       textEditingController: currentPropertyValue,
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      onChange: (input) {
+                        if (input.isNotEmpty) {
+                          String string = formatter.format(double.parse(input.replaceAll(",", "")));
+                          currentPropertyValue.value = TextEditingValue(
+                            text: string,
+                            selection: TextSelection.collapsed(offset: string.length),
+                          );
+                        }
+                      },
                       validation: (e) {
                         if (e == null || e.isEmpty) {
                           return "Please add current property value";
@@ -194,6 +205,15 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                       hintText: 'Current Property Debt.',
                       readonly: false,
                       textEditingController: currentPropertyDebt,
+                      onChange: (input) {
+                        if (input.isNotEmpty) {
+                          String string = formatter.format(double.parse(input.replaceAll(",", "")));
+                          currentPropertyDebt.value = TextEditingValue(
+                            text: string,
+                            selection: TextSelection.collapsed(offset: string.length),
+                          );
+                        }
+                      },
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       validation: (e) {
                         if (e == null || e.isEmpty) {
@@ -287,8 +307,12 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
       applicantPhoneController = TextEditingController(text: project.phone!);
       applicantAddressController = TextEditingController(text: project.applicantAddress!);
       registeredOwnerController = TextEditingController(text: project.registeredOwners!);
-      currentPropertyDebt = TextEditingController(text: project.propertyDebt.toString());
-      currentPropertyValue = TextEditingController(text: project.currentPropertyValue.toString());
+      currentPropertyDebt = TextEditingController(
+        text: formatter.format(double.parse(project.propertyDebt!.toString().replaceAll(",", ""))),
+      );
+      currentPropertyValue = TextEditingController(
+        text: formatter.format(double.parse(project.currentPropertyValue!.toString().replaceAll(",", ""))),
+      );
       if (project.crossCollaterized == 0) {
         crossCollaterizedYes = false;
         crossCollaterizedNo = true;
@@ -311,13 +335,13 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
 
   save() {
     if (_formKey.currentState!.validate() && (crossCollaterizedYes == true || crossCollaterizedNo == true)) {
-      project.currentPropertyValue = double.tryParse(currentPropertyValue.text);
+      project.currentPropertyValue = int.tryParse(currentPropertyValue.text.replaceAll(",", ""));
       project.applicantName = applicantNameController.text.trim();
       project.email = applicantEmailController.text.trim();
       project.phone = applicantPhoneController.text.trim();
       project.applicantAddress = applicantAddressController.text;
       project.registeredOwners = registeredOwnerController.text;
-      project.propertyDebt = double.tryParse(currentPropertyDebt.text);
+      project.propertyDebt = int.tryParse(currentPropertyDebt.text.replaceAll(",", ""));
       project.crossCollaterized = crossCollaterizedYes ? 1 : 0;
 
       Navigator.of(context).pushNamed(AddProjectMediaScreen.routeName,

@@ -1,19 +1,14 @@
-import 'package:fliproadmin/core/utilities/app_colors.dart';
-import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
 import 'package:fliproadmin/ui/view/closed_project_screen/closed_project_screen.dart';
 import 'package:fliproadmin/ui/view/completed_project_screen/completed_project_screen.dart';
 import 'package:fliproadmin/ui/view/in_progress_project_screen/in_progress_project_screen.dart';
 import 'package:fliproadmin/ui/view/new_project_screen/new_project_screen.dart';
-import 'package:fliproadmin/ui/widget/colored_label.dart';
-import 'package:fliproadmin/ui/widget/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../search_projects/search_projects.dart';
-import 'activity_list_item.dart';
 import 'activity_tabbar.dart';
 
 class ActivityScreen extends StatefulWidget {

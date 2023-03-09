@@ -100,7 +100,7 @@ class Note {
       this.projectId,
       this.userId,
       this.isEditAble = false,
-      this.private = true,
+      this.private = false,
       this.createdAt,
       this.updatedAt,
       this.notes,

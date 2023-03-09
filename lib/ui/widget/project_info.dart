@@ -26,6 +26,8 @@ class ProjectInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Consumer<LoadedProjectProvider>(builder: (ctx, project, c) {
       if (project.getLoadingState == LoadingState.loading) {
         return SizedBox(height: 70.h, child: HelperWidget.progressIndicator());
@@ -39,6 +41,8 @@ class ProjectInfoSection extends StatelessWidget {
         );
       }
       print("=====>${project.getLoadedProject!.contractorSupplierDetails}");
+      print("=====>${project.getLoadedProject!.anticipatedBudget}");
+
       return SizedBox(
         width: double.infinity,
         child: Column(
@@ -75,12 +79,12 @@ class ProjectInfoSection extends StatelessWidget {
             SizedBox(
               height: 1.h,
             ),
-            LabeledTextField(
-              label: "Project Title",
-              maxLines: 1,
-              readonly: readOnly,
-              hintText: "${project.getLoadedProject!.title}",
-            ),
+            // LabeledTextField(
+            //   label: "Project Title",
+            //   maxLines: 1,
+            //   readonly: readOnly,
+            //   hintText: "${project.getLoadedProject!.title}",
+            // ),
             SizedBox(
               height: 1.h,
             ),
@@ -94,13 +98,12 @@ class ProjectInfoSection extends StatelessWidget {
               height: 1.h,
             ),
             LabeledTextField(
-              inputFormatter: [ThousandsFormatter()],
-              label: "Anticipated Budget:",
-              maxLines: 1,
-              readonly: true,
-              hintText:
-                  '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget!.toString().replaceAll(",", "")))}',
-            ),
+                inputFormatter: [ThousandsFormatter()],
+                label: "Anticipated Budget:",
+                maxLines: 1,
+                readonly: true,
+                hintText:
+                    '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget!.toString().replaceAll(",", "")))}'),
             SizedBox(
               height: 1.h,
             ),

@@ -22,6 +22,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/helper/number_formatter.dart';
 import 'add_value_bottom_sheet.dart';
 
 class ProjectOverviewScreen extends StatelessWidget {
@@ -33,7 +34,6 @@ class ProjectOverviewScreen extends StatelessWidget {
 
   bool clientSatisfied = true;
   bool clientNotSatisfied = false;
-  var formatter = NumberFormat('#,##0.' + "#" * 5);
 
   @override
   Widget build(BuildContext context) {
@@ -116,14 +116,13 @@ class ProjectOverviewScreen extends StatelessWidget {
                           child: Text("Current Value"),
                         ),
                         MainButton(
-                          userArrow: false,
-                          buttonText:
-                              "\$${formatter.format(double.parse(loadedProject.getLoadedProject!.currentPropertyValue!.toString().replaceAll(",", "")))}",
-                          callback: () {},
-                          radius: 15,
-                          width: 100.w,
-                          height: 7.h,
-                        ),
+                            userArrow: false,
+                            buttonText:
+                                "\$${formatter.format(double.parse(loadedProject.getLoadedProject!.currentPropertyValue!.toString().replaceAll(",", "")))}",
+                            callback: () {},
+                            radius: 15,
+                            width: 100.w,
+                            height: 7.h),
                       ],
                     ),
                   ),
@@ -297,23 +296,25 @@ class ProjectOverviewScreen extends StatelessWidget {
                                 height: 1.h,
                               ),
 
-                              //FOR COMPLETED PROJECT
-                              // LabeledTextField(
-                              //   label: "Your Remarks",
-                              //   maxLines: 4,
-                              //   textEditingController: reviewController,
-                              //   readonly: loadedProject.getLoadedProject!.progressReviewed! &&
-                              //       loadedProject.getLoadedProject!.progressSatisfied!,
-                              //   validation: (e) {
-                              //     if (e == null || e.trim().isEmpty) {
-                              //       return "Please add final review";
-                              //     }
-                              //     return null;
-                              //   },
-                              // ),
-                              // SizedBox(
-                              //   height: 2.h,
-                              // ),
+                              // FOR COMPLETED PROJECT
+
+                              if (loadedProject.getLoadedProject!.progressReviewed == false)
+                                LabeledTextField(
+                                  label: "Your Remarks",
+                                  maxLines: 4,
+                                  textEditingController: reviewController,
+                                  readonly: loadedProject.getLoadedProject!.progressReviewed! &&
+                                      loadedProject.getLoadedProject!.progressSatisfied!,
+                                  validation: (e) {
+                                    if (e == null || e.trim().isEmpty) {
+                                      return "Please add final review";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
                               if (!loadedProject.getLoadedProject!.progressSatisfied!)
                                 MainButton(
                                     buttonText: loadedProject.getLoadedProject!.progressReviewed!

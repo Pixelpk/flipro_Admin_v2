@@ -85,7 +85,7 @@ class PaymentReqListItem extends StatelessWidget {
                               child: Text(
                                 "Title: ${paymentRequest!.project!.title}",
                                 style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.mainThemeBlue),
-                                maxLines: 1,
+                                maxLines: 2,
                               ),
                             ),
                             Text(
