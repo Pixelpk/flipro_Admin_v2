@@ -217,7 +217,7 @@ class _AddProjectScreenState extends State<AddProjectScreen> {
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       validation: (e) {
                         if (e == null || e.isEmpty) {
-                          return "Please add current property value";
+                          return "Please add current property debt";
                         } else {
                           return null;
                         }

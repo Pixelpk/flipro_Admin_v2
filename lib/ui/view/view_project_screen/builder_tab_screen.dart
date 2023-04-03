@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/model/access_control_object.dart';
+import '../assigned_trademan_screen/assigned_trademan_view.dart';
 
 class BuilderTabScreen extends StatelessWidget {
   const BuilderTabScreen({Key? key}) : super(key: key);
@@ -58,14 +59,17 @@ class BuilderTabScreen extends StatelessWidget {
                                             userRoleModel: loadedProject.getBuilderById(
                                                 loadedProject.getLoadedProject!.latestProgress != null
                                                     ? loadedProject.getLoadedProject!.latestProgress!.userId
-                                                    : 00),
+                                                    : loadedProject.getLoadedProject?.builder != null &&
+                                                            loadedProject.getLoadedProject!.builder!.isNotEmpty
+                                                        ? loadedProject.getLoadedProject?.builder!.first.id
+                                                        : 00),
                                             routeName: ViewProjectScreen.routeName));
                                   },
                                 )
                               : loadedProject.getLoadedProject?.latestProgress != null
                                   ? ColoredLabel(
                                       color: AppColors.lightRed,
-                                      text: 'Edit P Access',
+                                      text: 'Edit Access',
                                       callback: () {
                                         print(loadedProject.getLoadedProject?.latestProgress?.user?.toJson());
                                         Navigator.pushNamed(context, BuilderAccessControlScreen.routeName,
@@ -85,8 +89,7 @@ class BuilderTabScreen extends StatelessWidget {
                         child: LabeledTextField(
                             label: "Agents/Trades Contact",
                             maxLines: null,
-                            onTab: () => launchCaller(
-                                "${loadedProject.getLoadedProject?.builder![0].phone}"),
+                            onTab: () => launchCaller("${loadedProject.getLoadedProject?.builder![0].phone}"),
                             readonly: true,
                             hintText: loadedProject.getLoadedProject?.builder != null &&
                                     loadedProject.getLoadedProject!.builder!.isNotEmpty
