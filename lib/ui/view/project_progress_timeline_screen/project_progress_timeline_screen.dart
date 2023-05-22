@@ -75,7 +75,7 @@ class _ProjectProgressTimeLineScreenState extends State<ProjectProgressTimeLineS
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
         child: const CustomAppBar(
           automaticallyImplyLeading: true,
-          bannerText: "wProgress Timeline",
+          bannerText: "Progress Timeline",
           showBothIcon: false,
         ),
       ),
