@@ -11,12 +11,15 @@ import 'package:fliproadmin/ui/widget/labeledTextField.dart';
 import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../widget/custom_input.dart';
+import '../../../widget/mask.dart';
 
 class AddMemberScreen extends StatefulWidget {
   AddMemberScreen({Key? key}) : super(key: key);
@@ -35,7 +38,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
 
   TextEditingController passwordController = TextEditingController();
 
-  TextEditingController phoneController = TextEditingController();
+  MaskedTextController phoneController =
+      MaskedTextController(mask: '000 000 000');
 
   TextEditingController addressController = TextEditingController();
   TextEditingController companyController = TextEditingController();
@@ -49,11 +53,54 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   late UsersProvider usersProvider;
 
   @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      if (mounted) {
+        final args = ModalRoute.of(context)!.settings.arguments as Map;
+        double page = args['page'];
+        print("this is the page number" + page.toString());
+        if (page == 0.0) {
+          isBuilder = true;
+          isHomeOwner = false;
+          isFranchisee = false;
+          isValuer = false;
+        }
+        if (page == 1.0) {
+          isBuilder = false;
+          isHomeOwner = false;
+          isFranchisee = false;
+          isValuer = true;
+        }
+        if (page == 2.0) {
+          isBuilder = false;
+          isHomeOwner = false;
+          isFranchisee = true;
+          isValuer = false;
+        }
+        if (page == 3.0) {
+          isBuilder = false;
+          isHomeOwner = true;
+          isFranchisee = false;
+          isValuer = false;
+        }
+        setState(() {
+
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(LogicHelper.getCustomAppBarHeight),
-        child: const CustomAppBar(bannerText: "Add Member", automaticallyImplyLeading: true, showBothIcon: false),
+        child: const CustomAppBar(
+            bannerText: "Add Member",
+            automaticallyImplyLeading: true,
+            showBothIcon: false),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 3.w),
@@ -70,7 +117,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           height: 7.h,
                           width: 60.w,
                           buttonText: "Add Member",
-                          isloading: usersProvider.getLoadingState == LoadingState.loading,
+                          isloading: usersProvider.getLoadingState ==
+                              LoadingState.loading,
                           callback: () async => addMember(),
                           userArrow: false);
                     }),
@@ -171,7 +219,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
             : Container(),
         Text(
           "Phone",
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1!
+              .copyWith(color: AppColors.greyFontColor),
         ),
         SizedBox(height: 1.h),
         TextFormField(
@@ -184,14 +235,19 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               return null;
             }
           },
+          inputFormatters: [
+            FilteringTextInputFormatter.deny(RegExp(r'^0+')),
+          ],
           keyboardType: TextInputType.phone,
           decoration: customInputDecoration1(
               prefixIcon: Container(
                 height: 7.5.h,
                 margin: const EdgeInsets.only(right: 4),
                 // constraints: BoxConstraints(minWidth: 10.w),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: SizedBox(
                   width: 120,
                   child: CountryCodePicker(
                     onChanged: (value) {
@@ -199,7 +255,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         countryCode = value.dialCode.toString();
                       });
                     },
-                    textStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black),
+                    textStyle: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(color: Colors.black),
                     backgroundColor: Colors.transparent,
 
                     dialogBackgroundColor: AppColors.mainThemeBlue,
@@ -208,7 +267,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                     textOverflow: TextOverflow.visible,
 
                     searchDecoration: customInputDecoration(
-                        context: context, hintText: 'Search', usePrefixIcon: true, prefixIcon: 'default'),
+                        context: context,
+                        hintText: 'Search',
+                        usePrefixIcon: true,
+                        prefixIcon: 'default'),
                     // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                     initialSelection: 'AU',
                     onInit: (code) {
@@ -247,11 +309,16 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               }
             },
             decoration: InputDecoration(
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none),
               fillColor: Colors.white,
               filled: true,
               hintText: "Password*",
-              hintStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .subtitle1!
+                  .copyWith(color: AppColors.greyFontColor),
               suffixIcon: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -259,7 +326,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                   InkWell(
                       onTap: () {
                         setState(() {
-                          passwordController.text = LogicHelper.generateRandomString(8);
+                          passwordController.text =
+                              LogicHelper.generateRandomString(8);
                         });
                       },
                       child: const Padding(
@@ -283,7 +351,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
         ),
         Text(
           "Please User Role",
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1!
+              .copyWith(color: AppColors.greyFontColor),
         ),
         const SizedBox(
           height: 6,
@@ -295,7 +366,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: CheckboxListTile(
                   tileColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
                   title: const Text("Partners"),
                   value: isFranchisee,
                   onChanged: (bool? value) {
@@ -315,7 +387,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 child: CheckboxListTile(
                   selectedTileColor: AppColors.blueUnselectedTabColor,
                   tileColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
                   title: const Text("Agents/Trades"),
                   value: isBuilder,
                   onChanged: (bool? value) {
@@ -341,7 +414,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: CheckboxListTile(
                   tileColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
                   title: const Text("Valuer"),
                   value: isValuer,
                   onChanged: (bool? value) {
@@ -361,7 +435,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 child: CheckboxListTile(
                   selectedTileColor: AppColors.blueUnselectedTabColor,
                   tileColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
                   title: const Text("Home Owner"),
                   value: isHomeOwner,
                   onChanged: (bool? value) {
@@ -395,7 +470,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           phoneCode: countryCode,
           companyName: companyController.text,
           userType: LogicHelper.getUserTypefromBool(
-              isBuilder: isBuilder, isFranchisee: isFranchisee, isHomeOwner: isHomeOwner, isvaluer: isValuer));
+              isBuilder: isBuilder,
+              isFranchisee: isFranchisee,
+              isHomeOwner: isHomeOwner,
+              isvaluer: isValuer));
 
       ///Create users and clear controller if success
       final args = ModalRoute.of(context)!.settings.arguments as Map;

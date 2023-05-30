@@ -63,6 +63,7 @@ class _MembersScreenState extends State<MembersScreen> {
           Navigator.of(context).pushNamed(AddMemberScreen.routeName, arguments: {
             "appUsers": getCurrentUser(_index),
             "createAssign": false,
+            "page" : pageController.page
           });
         },
         child: const Icon(

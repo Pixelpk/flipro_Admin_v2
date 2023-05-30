@@ -90,7 +90,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                   LabeledTextField(
                     label: "",
                     maxLines: null,
-                    hintText: "Area (Square Meter)",
+                    hintText: "Area (Square Metre)",
                     readonly: false,
                     textEditingController: areaController,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -105,7 +105,8 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     },
                     validation: (e) {
                       if (e == null || e.isEmpty) {
-                        return "Please location area";
+                        areaController?.text = "0";
+                        return null;
                       } else {
                         return null;
                       }
@@ -132,7 +133,8 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     },
                     validation: (e) {
                       if (e == null || e.isEmpty) {
-                        return "Please add project anticipated budget";
+                        anticipatedBudgetController?.text = "0";
+                        return null;
                       } else {
                         return null;
                       }
@@ -304,8 +306,8 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
       }
     } else {
       // titleController = TextEditingController();
-      areaController = TextEditingController();
-      anticipatedBudgetController = TextEditingController();
+      areaController = TextEditingController(text: "0");
+      anticipatedBudgetController = TextEditingController(text: "0");
       projectAddressController = TextEditingController();
       subStateController = TextEditingController();
       existingQuriesYes ? 1 : 0;
