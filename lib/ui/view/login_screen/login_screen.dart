@@ -40,11 +40,13 @@ class _LoginScreenState extends State<LoginScreen> {
       if (rememberMe) {
         RememberMeHelper.getUsername().then((username) {
           RememberMeHelper.getPassword().then((password) {
-            setState(() {
-              emailController.text = username ?? '';
-              passwordController.text = password ?? '';
-              rememberMe = true;
-            });
+            if(username !=null && password !=null){
+              setState(() {
+                emailController.text = username;
+                passwordController.text = password;
+                rememberMe = true;
+              });
+            }
           });
         });
       }

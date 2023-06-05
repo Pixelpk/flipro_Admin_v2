@@ -38,8 +38,9 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
         create: (context) =>
             AccessControlProvider(projectRoles: ProjectRoles()),
         update: (context, loadedProvider, projectsProvider) =>
-            AccessControlProvider(
-                projectRoles: loadedProvider.getFrancshiseeProjectRoles()),
+            AccessControlProvider(projectRoles: loadedProvider.getFrancshiseebyId(receivedObject.userRoleModel.id)),
+            // AccessControlProvider(
+            //     projectRoles: loadedProvider.getFrancshiseeProjectRoles()),
         child: Consumer2<LoadedProjectProvider, AccessControlProvider>(
             builder: (ctx, loadedProject, accessControlProvider, c) {
           return Container(
@@ -47,9 +48,9 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
             width: double.infinity,
             height: 75.h,
             child: ListView(
-              children: [
+              children: <Widget>[
                 SizedBox(
-                  height: 8.h,
+                  height: 2.h,
                 ),
                 SizedBox(
                   height: 8.h,
@@ -147,12 +148,26 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                           loadedProject.getLoadingState == LoadingState.loading,
                       userArrow: false,
                       callback: () async {
+                        // print(accessControlProvider.getSelectedRoles.toJson());
+                        // bool projectAssigned = await loadedProject.updateAccess(
+                        //     receivedObject.userRoleModel.id!,
+                        //     loadedProject.getLoadedProject!.id!,
+                        //     accessControlProvider.getSelectedRoles,
+                        //     receivedObject.routeName);
+
                         print(accessControlProvider.getSelectedRoles.toJson());
                         bool projectAssigned = await loadedProject.updateAccess(
                             receivedObject.userRoleModel.id!,
                             loadedProject.getLoadedProject!.id!,
                             accessControlProvider.getSelectedRoles,
                             receivedObject.routeName);
+
+                        if (projectAssigned) {
+                          Provider.of<ProjectsProvider>(context, listen: false)
+                              .removeProject(
+                              projectId:
+                              loadedProject.getLoadedProject!.id);
+                        }
                       },
                     ),
                   ],

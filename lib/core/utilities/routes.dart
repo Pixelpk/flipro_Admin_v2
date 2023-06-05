@@ -2,8 +2,10 @@ import 'package:fliproadmin/ui/view/access_control_screen/builder_access_control
 import 'package:fliproadmin/ui/view/access_control_screen/franchisee_access_control_screen.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/home_owner_access_control.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/valuer_access_control_screen.dart';
+import 'package:fliproadmin/ui/view/add_partners_screen/add_partner_screen.dart';
 import 'package:fliproadmin/ui/view/add_project_screen/add_project_media_screen.dart';
 import 'package:fliproadmin/ui/view/add_trademan_screen/add_trademan_screen.dart';
+import 'package:fliproadmin/ui/view/assigned_partner_screen/assigned_partner_screen.dart';
 import 'package:fliproadmin/ui/view/assigned_trademan_screen/assigned_trademan_view.dart';
 import 'package:fliproadmin/ui/view/forgot_password_screen/forgot_password_otp_screen.dart';
 import 'package:fliproadmin/ui/view/forgot_password_screen/forgot_password_screen.dart';
@@ -17,6 +19,7 @@ import 'package:fliproadmin/ui/view/notes_screen/note_view_screen.dart';
 import 'package:fliproadmin/ui/view/notes_screen/notes_screen.dart';
 import 'package:fliproadmin/ui/view/profile_screen/update_password.dart';
 import 'package:fliproadmin/ui/view/project_activity_timeline_screen/project_progress_timeline_screen.dart';
+import 'package:fliproadmin/ui/view/project_overview_screen/project_media_gallery/projectMediaGallery.dart';
 import 'package:fliproadmin/ui/view/project_overview_screen/project_overview_Screen.dart';
 import 'package:fliproadmin/ui/view/project_progress_timeline_screen/project_progress_timeline_screen.dart';
 import 'package:fliproadmin/ui/view/single_progress_screen/single_progress_screen.dart';
@@ -53,6 +56,9 @@ class Routes {
     AddMemberScreen.routeName: (_) => AddMemberScreen(),
     AddProjectMediaScreen.routeName: (_) => const AddProjectMediaScreen(),
     AssignedTrademan.routeName: (_) => const AssignedTrademan(),
-    HomeOwnerAccessControlScreen.routeName: (_) => const HomeOwnerAccessControlScreen()
+    HomeOwnerAccessControlScreen.routeName: (_) => const HomeOwnerAccessControlScreen(),
+    AddPartnersScreen.routeName: (_) => const AddPartnersScreen(),
+    AssignedPartners.routeName: (_) => const AssignedPartners(),
+    ProjectMediaGallery.routeName: (_) => const ProjectMediaGallery(),
   };
 }

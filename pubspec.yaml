@@ -36,8 +36,8 @@ dependencies:
   shimmer: ^2.0.0
   flutter_switch: ^0.3.2
   timeline_tile: ^2.0.0
-  material_floating_search_bar:
-  country_code_picker: ^2.0.2
+  material_floating_search_bar_2: ^0.5.0
+  country_code_picker: ^3.0.0
   flutter_native_image: ^0.0.6+1
   video_compress: ^3.1.0
   infinite_scroll_pagination: ^3.1.0

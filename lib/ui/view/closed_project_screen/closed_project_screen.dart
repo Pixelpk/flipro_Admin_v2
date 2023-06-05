@@ -112,7 +112,8 @@ class _ClosedProjectScreenState extends State<ClosedProjectScreen> {
               )
 
           ),
-        ));
+        ),
+    );
 
   }
 }
