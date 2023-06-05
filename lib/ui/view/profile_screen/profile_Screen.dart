@@ -107,6 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       TextFormField(
                         controller: phoneController,
+                        readOnly: true,
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r'^0+')),
                         ],
