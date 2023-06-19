@@ -1,5 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fliproadmin/core/services/assets_provider/assets_provider.dart';
+import 'package:fliproadmin/core/services/db_service/db_service.dart';
+import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/home_provider/home_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
@@ -30,12 +32,14 @@ void main() async {
   runApp(DevicePreview(
       enabled: false,
       builder: (context) {
-        return const FliproAdminApp();
+        return  FliproAdminApp();
       }));
 }
 
 class FliproAdminApp extends StatelessWidget {
-  const FliproAdminApp({Key? key}) : super(key: key);
+   FliproAdminApp({Key? key}) : super(key: key);
+final   _dbService = DbService();
+ late   String token = _dbService.readString(AppConstant.getToken) ?? 'null';
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +52,22 @@ class FliproAdminApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => SearchProjectProvider()),
           ChangeNotifierProvider(create: (_) => ShareProvider()),
           ChangeNotifierProvider(create: (_) => AssetProvider()),
+          ChangeNotifierProvider(create: (_) => LoadedProjectProvider(token)),
           ChangeNotifierProxyProvider<UserProvider, UsersProvider>(
             create: (context) => UsersProvider(null),
-            update: (context, userProvider, usersProvider) =>
-                UsersProvider(userProvider.getAuthToken),
+            update: (context, userProvider, usersProvider) => UsersProvider(userProvider.getAuthToken),
           ),
           ChangeNotifierProxyProvider<UserProvider, ProjectsProvider>(
             create: (context) => ProjectsProvider(null),
-            update: (context, userProvider, projectsProvider) =>
-                ProjectsProvider(userProvider.getAuthToken),
+            update: (context, userProvider, projectsProvider) => ProjectsProvider(userProvider.getAuthToken),
           ),
-          ChangeNotifierProxyProvider<UserProvider, LoadedProjectProvider>(
-            create: (context) => LoadedProjectProvider(null),
-            update: (context, loadedProvider, projectsProvider) =>
-                LoadedProjectProvider(loadedProvider.getAuthToken),
-          ),
+          // ChangeNotifierProxyProvider<UserProvider, LoadedProjectProvider>(
+          //   create: (context) => LoadedProjectProvider(null),
+          //
+          //   update: (context, loadedProvider, projectsProvider) => (loadedProvider.getAuthToken),
+          // ),
+
+
         ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,

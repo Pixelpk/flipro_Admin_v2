@@ -101,7 +101,7 @@ class Project {
   String? leadUserId;
   bool? assigned;
   List<String>? photoGallery;
-  UserRoleModel? franchisee;
+  List<UserRoleModel>? franchisee;
   UserRoleModel? lead;
   List<UserRoleModel>? builder;
   List<UserRoleModel>? valuers;
@@ -201,6 +201,12 @@ class Project {
         valuers!.add(UserRoleModel.fromJson(v));
       });
     }
+    if (json['franchisee'] != null) {
+      franchisee = <UserRoleModel>[];
+      json['franchisee'].forEach((v) {
+        franchisee!.add(UserRoleModel.fromJson(v));
+      });
+    }
 
     if (json['videos'] != null) {
       videos = <MediaCompressionModel>[];
@@ -211,7 +217,6 @@ class Project {
     if (json['latest_progress'] != null) {
       latestProgress = ProgressModel.fromJson(json['latest_progress']);
     }
-    franchisee = json['franchisee'] != null ? UserRoleModel.fromJson(json['franchisee']) : null;
     lead = json['lead'] != null && json['lead'].isNotEmpty ? UserRoleModel.fromJson(json['lead'][0]) : null;
     coverPhoto = json['cover_photo'];
 

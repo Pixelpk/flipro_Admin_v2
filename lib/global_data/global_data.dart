@@ -45,14 +45,20 @@ Future initServices() async {
 
 Future precacherSVG() async {
   List<String> svgs = [AppConstant.logoWhite, AppConstant.homeLogo];
-  return Future.wait(List.generate(svgs.length, (index) async {
-    print("precaching svg $index");
-    await precachePicture(
-      ExactAssetPicture(
-        SvgPicture.svgStringDecoderBuilder,
-        svgs[index],
-      ),
-      null,
-    );
-  }));
+  // return Future.wait(List.generate(svgs.length, (index) async {
+  //   print("precaching svg $index");
+  //   await precachePicture(
+  //     ExactAssetPicture(
+  //       SvgPicture.svgStringDecoderBuilder,
+  //       svgs[index],
+  //     ),
+  //     null,
+  //   );
+  // }));
+
+  for (String image in svgs) {
+    final SvgAssetLoader loader = SvgAssetLoader(image);
+    await svg.cache
+        .putIfAbsent(loader.cacheKey(null), () => loader.loadBytes(null));
+  }
 }

@@ -12,8 +12,11 @@ import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:fliproadmin/ui/widget/my_profile_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../widget/mask.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -26,12 +29,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController nameController;
   late TextEditingController addressController;
   late TextEditingController emailController;
-  late TextEditingController phoneController;
+  late MaskedTextController phoneController;
 
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
-
     initUserData();
 
     super.initState();
@@ -47,7 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         nameController = TextEditingController(text: userRoleModel.name);
         addressController = TextEditingController(text: userRoleModel.address);
         emailController = TextEditingController(text: userRoleModel.email);
-        phoneController = TextEditingController(text: userRoleModel.phone);
+        phoneController = MaskedTextController(
+            text: userRoleModel.phone, mask: '+00 000 000 000');
       });
     }
   }
@@ -104,6 +107,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       TextFormField(
                         controller: phoneController,
+                        readOnly: true,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'^0+')),
+                        ],
                         validator: (e) {
                           if (e != null && e.trim().isNotEmpty) {
                             return null;
@@ -166,7 +173,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             context,
                                             listen: false)
                                         .getSinglePickedImage);
-
                           }
                         },
                         buttonText: "Save",

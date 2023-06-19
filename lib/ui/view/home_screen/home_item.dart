@@ -19,7 +19,7 @@ class HomeItem extends StatelessWidget {
     print("HOME ITEM REBUIKTS");
     final projectProvider = Provider.of<ProjectProvider>(context).getProject;
     if (projectProvider == null) {
-      return Text(
+      return const Text(
         "shkgfb",
         style: TextStyle(color: Colors.black),
       );
@@ -64,11 +64,11 @@ class HomeItem extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                const Icon(
-                                  Icons.room,
-                                  size: 12,
-                                  color: AppColors.mainThemeBlue,
-                                ),
+                                // const Icon(
+                                //   Icons.room,
+                                //   size: 12,
+                                //   color: AppColors.mainThemeBlue,
+                                // ),
                                 Flexible(
                                     child: Text(
                                   projectProvider.title!,
@@ -78,14 +78,14 @@ class HomeItem extends StatelessWidget {
                                 ))
                               ],
                             ),
-                            Flexible(
-                              child: Text(
-                                projectProvider.projectAddress!,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ),
-                            ),
+                            // Flexible(
+                            //   child: Text(
+                            //     projectProvider.projectAddress!,
+                            //     overflow: TextOverflow.ellipsis,
+                            //     maxLines: 1,
+                            //     style: Theme.of(context).textTheme.subtitle2,
+                            //   ),
+                            // ),
                           ],
                         )),
                         Column(

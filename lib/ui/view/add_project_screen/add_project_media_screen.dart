@@ -16,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+  import '../../../core/helper/number_formatter.dart';
+
 class AddProjectMediaScreen extends StatefulWidget {
   const AddProjectMediaScreen({Key? key}) : super(key: key);
   static const routeName = '/AddProjectMediaScreen';
@@ -28,7 +30,8 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
   late Project project;
   bool isNewProject = true;
   TextEditingController? areaController;
-  TextEditingController? titleController;
+
+  // TextEditingController? titleController;
   TextEditingController? anticipatedBudgetController;
   TextEditingController? projectAddressController;
   TextEditingController? subStateController;
@@ -75,7 +78,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     hintText: "Project Address ",
                     readonly: false,
                     keyboardType: TextInputType.text,
-                    textEditingController: titleController,
+                    textEditingController: projectAddressController,
                     validation: (e) {
                       if (e == null || e.isEmpty) {
                         return "Please add project Address";
@@ -87,13 +90,23 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                   LabeledTextField(
                     label: "",
                     maxLines: null,
-                    hintText: "Area (Square Meter)",
+                    hintText: "Area (Square Metre)",
                     readonly: false,
                     textEditingController: areaController,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    onChange: (input) {
+                      if (input.isNotEmpty) {
+                        String string = formatter.format(double.parse(input.replaceAll(",", "")));
+                        areaController?.value = TextEditingValue(
+                          text: string,
+                          selection: TextSelection.collapsed(offset: string.length),
+                        );
+                      }
+                    },
                     validation: (e) {
                       if (e == null || e.isEmpty) {
-                        return "Please location area";
+                        areaController?.text = "0";
+                        return null;
                       } else {
                         return null;
                       }
@@ -109,29 +122,39 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     readonly: false,
                     textEditingController: anticipatedBudgetController,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    onChange: (input) {
+                      if (input.isNotEmpty) {
+                        String string = formatter.format(double.parse(input.replaceAll(",", "")));
+                        anticipatedBudgetController?.value = TextEditingValue(
+                          text: string,
+                          selection: TextSelection.collapsed(offset: string.length),
+                        );
+                      }
+                    },
                     validation: (e) {
                       if (e == null || e.isEmpty) {
-                        return "Please add project anticipated budget";
+                        anticipatedBudgetController?.text = "0";
+                        return null;
                       } else {
                         return null;
                       }
                     },
                   ),
-                  LabeledTextField(
-                    label: "",
-                    maxLines: 1,
-                    hintText: 'Project title',
-                    readonly: false,
-                    textEditingController: projectAddressController,
-                    keyboardType: TextInputType.streetAddress,
-                    validation: (e) {
-                      if (e == null || e.isEmpty) {
-                        return "Please add project title";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
+                  // LabeledTextField(
+                  //   label: "",
+                  //   maxLines: 1,
+                  //   hintText: 'Project title',
+                  //   readonly: false,
+                  //   textEditingController: projectAddressController,
+                  //   keyboardType: TextInputType.streetAddress,
+                  //   validation: (e) {
+                  //     if (e == null || e.isEmpty) {
+                  //       return "Please add project title";
+                  //     } else {
+                  //       return null;
+                  //     }
+                  //   },
+                  // ),
                   LabeledTextField(
                     label: "",
                     maxLines: 1,
@@ -205,7 +228,7 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
                     readonly: false,
                     hintText: "Description",
                     textEditingController: description,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.multiline,
                     validation: (e) {
                       if (e == null || e.isEmpty) {
                         return "Please add project description";
@@ -262,8 +285,14 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
         crossCollaterizedNo = false;
       }
       areaController = TextEditingController(text: project.area!.trim());
-      anticipatedBudgetController = TextEditingController(text: project.anticipatedBudget.toString());
-      titleController = TextEditingController(text: project.projectAddress!);
+      anticipatedBudgetController = TextEditingController(
+        text: formatter.format(
+          double.parse(
+            project.propertyDebt!.toString().replaceAll(",", ""),
+          ),
+        ),
+      );
+      // titleController = TextEditingController(text: project.projectAddress!);
       projectAddressController = TextEditingController(text: project.title!);
       subStateController = TextEditingController(text: project.projectState!);
       description = TextEditingController(text: project.description.toString());
@@ -276,10 +305,9 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
         existingQueriesNo = true;
       }
     } else {
-      titleController = TextEditingController();
-      areaController = TextEditingController();
-
-      anticipatedBudgetController = TextEditingController();
+      // titleController = TextEditingController();
+      areaController = TextEditingController(text: "0");
+      anticipatedBudgetController = TextEditingController(text: "0");
       projectAddressController = TextEditingController();
       subStateController = TextEditingController();
       existingQuriesYes ? 1 : 0;
@@ -296,9 +324,9 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
     }
     if (_formKey.currentState!.validate() &&
         Provider.of<AssetProvider>(context, listen: false).getPickedImages.isNotEmpty) {
-      project.title = titleController!.text.trim();
+      project.title = projectAddressController!.text.trim();
       project.area = areaController!.text.trim();
-      project.anticipatedBudget = double.tryParse(anticipatedBudgetController!.text.trim());
+      project.anticipatedBudget = int.tryParse(anticipatedBudgetController!.text.replaceAll(",", ""));
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = subStateController!.text.trim();
       project.contractorSupplierDetails = existingQuriesYes ? '1' : '0';
@@ -317,9 +345,9 @@ class _AddProjectMediaScreenState extends State<AddProjectMediaScreen> {
 
   updateProjectProject() async {
     if (_formKey.currentState!.validate()) {
-      project.title = titleController!.text.trim();
+      project.title = projectAddressController!.text.trim();
       project.area = areaController!.text;
-      project.anticipatedBudget = double.tryParse(anticipatedBudgetController!.text.trim());
+      project.anticipatedBudget = int.tryParse(anticipatedBudgetController!.text.replaceAll(",", ""));
       project.projectAddress = projectAddressController!.text.trim();
       project.projectState = subStateController!.text.trim();
       project.contractorSupplierDetails = existingQuriesYes ? '1' : '0';

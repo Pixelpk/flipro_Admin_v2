@@ -42,7 +42,9 @@ class ViewTradeManProfile extends StatelessWidget {
                   readOnly: true,
                   controller: emailController,
                   decoration: customInputDecoration(
-                      context: context, hintText: "${_member.name}", prefixIcon: AppConstant.person),
+                      context: context,
+                      hintText: "${_member.name}",
+                      prefixIcon: AppConstant.person),
                 ),
                 SizedBox(height: 2.h),
                 _member.userType == "builder" || _member.userType == "evaluator"
@@ -56,20 +58,27 @@ class ViewTradeManProfile extends StatelessWidget {
                             hintText: "${_member.companyName}",
                             prefixIcon: AppConstant.companyIcon))
                     : Container(),
-                _member.userType == "builder" || _member.userType == "evaluator" ? SizedBox(height: 2.h) : Container(),
+                _member.userType == "builder" || _member.userType == "evaluator"
+                    ? SizedBox(height: 2.h)
+                    : Container(),
                 TextFormField(
                   readOnly: true,
                   controller: emailController,
                   decoration: customInputDecoration(
-                      context: context, hintText: "${_member.email}", prefixIcon: AppConstant.emailIdon),
+                      context: context,
+                      hintText: "${_member.email}",
+                      prefixIcon: AppConstant.emailIdon),
                 ),
                 SizedBox(height: 2.h),
                 TextFormField(
                     readOnly: true,
-                    onTap: () => launchCaller("${_member.phone}"),
+                    onTap: () =>
+                        launchCaller("${_member.phoneCode} ${_member.phone}"),
                     controller: emailController,
                     decoration: customInputDecoration(
-                        context: context, hintText: "${_member.phone}", prefixIcon: AppConstant.phoneIcon)),
+                        context: context,
+                        hintText: "${_member.phoneCode} ${_member.phone}",
+                        prefixIcon: AppConstant.phoneIcon)),
                 SizedBox(height: 2.h),
                 TextFormField(
                     readOnly: true,

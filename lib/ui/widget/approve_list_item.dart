@@ -63,9 +63,9 @@ class ApproveListItem extends StatelessWidget {
                                           .headline6!
                                           .copyWith(color: AppColors.mainThemeBlue),
                                       maxLines: 1),
-                                  Text("${projectProvider!.getProject.projectAddress}",
-                                      style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyDark),
-                                      maxLines: 3)
+                                  // Text("${projectProvider!.getProject.projectAddress}",
+                                  //     style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyDark),
+                                  //     maxLines: 3)
                                 ])))
                   ]))),
           Expanded(

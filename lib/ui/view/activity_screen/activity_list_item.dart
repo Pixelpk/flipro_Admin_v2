@@ -28,16 +28,14 @@ class ActivityListItem extends StatelessWidget {
   final Color? labelColor;
   final String? timeStampLabel;
   final ProjectProvider? project;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Provider.of<HomeProvider>(context, listen: false)
-            .onProjectViewPageChange(0);
-        Provider.of<LoadedProjectProvider>(context, listen: false)
-            .fetchLoadedProject(project!.getProject.id!);
-        Navigator.of(context)
-            .pushNamed(ViewProjectScreen.routeName, arguments: false);
+        Provider.of<HomeProvider>(context, listen: false).onProjectViewPageChange(0);
+        Provider.of<LoadedProjectProvider>(context, listen: false).fetchLoadedProject(project!.getProject.id!);
+        Navigator.of(context).pushNamed(ViewProjectScreen.routeName, arguments: false);
       },
       child: Container(
         height: 15.h,
@@ -66,25 +64,19 @@ class ActivityListItem extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                        project!.getProject.title!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .copyWith(color: AppColors.mainThemeBlue),
-                        maxLines: 1,
+                      Flexible(
+                        child: Text(project!.getProject.projectAddress!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(color: AppColors.mainThemeBlue, fontSize: 18),
+                        maxLines: 2,
+
+                        ),
+
                       ),
-                      Text(
-                        project!.getProject.projectAddress!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1!
-                            .copyWith(color: AppColors.greyDark),
-                        maxLines: 3,
-                        overflow: TextOverflow.fade,
-                      ),
+                      const Spacer(),
                       Row(
                         children: [
                           showColoredLabel
@@ -97,15 +89,13 @@ class ActivityListItem extends StatelessWidget {
                               : const Spacer(),
                           const Spacer(),
                           Text(
-                            "${LogicHelper.getTimeAgo(
-                              project!.getProject.createdAt!,
-                            )}",
+                            LogicHelper.getTimeAgo(
+                              DateTime.parse(project!.getProject.createdAt!).toLocal().toString(),
+                            ),
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1!
-                                .copyWith(
-                                    color: AppColors.mainThemeBlue,
-                                    overflow: TextOverflow.visible),
+                                .copyWith(color: AppColors.mainThemeBlue, overflow: TextOverflow.visible),
                           )
                         ],
                       )

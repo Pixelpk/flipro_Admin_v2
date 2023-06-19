@@ -60,7 +60,7 @@ class ViewUnassignedProject extends StatelessWidget {
                     maxLines: null,
                     readonly: true,
                     hintText: projectProvider.getLoadedProject!.franchisee != null
-                        ? projectProvider.getLoadedProject!.franchisee!.name
+                        ? projectProvider.getLoadedProject!.franchisee![0].name
                         : "Partners Name",
                     labelWidget: ColoredLabel(
                       color: AppColors.lightRed,
@@ -68,7 +68,7 @@ class ViewUnassignedProject extends StatelessWidget {
                       callback: () {
                         Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
                             arguments: AccessControlObject(
-                                userRoleModel: projectProvider.getLoadedProject!.franchisee!,
+                                userRoleModel: projectProvider.getLoadedProject!.franchisee![0],
                                 routeName: ViewUnassignedProject.routeName));
                       },
                     ),

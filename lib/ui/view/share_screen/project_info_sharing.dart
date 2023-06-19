@@ -56,11 +56,11 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                 onTab: () {
                   shareProvider.updateTitleStatus(project.getLoadedProject!.title!);
                 },
-                label: "Project title:",
+                label: "Project Address:",
                 maxLines: null,
                 readonly: widget.readOnly,
-                fillColor: shareProvider.projectInfo.title! ? AppColors.mainThemeBlue : null,
-                hintText: "${project.getLoadedProject!.title}",
+                fillColor: shareProvider.projectInfo.projectAddress! ? AppColors.mainThemeBlue : null,
+                hintText: "${project.getLoadedProject!.projectAddress}",
               ),
               LabeledTextField(
                 onTab: () {
@@ -162,16 +162,16 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                 readonly: widget.readOnly,
                 hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.projectLatestMarkedValue.toString().replaceAll(",", "")))}',
               ),
-              LabeledTextField(
-                onTab: () {
-                  shareProvider.updateProjectAddressStatus(project.getLoadedProject!.projectAddress.toString());
-                },
-                fillColor: shareProvider.projectInfo.projectAddress! ? AppColors.mainThemeBlue : null,
-                label: "Project Address",
-                maxLines: null,
-                readonly: widget.readOnly,
-                hintText: "${project.getLoadedProject!.projectAddress}",
-              ),
+              // LabeledTextField(
+              //   onTab: () {
+              //     shareProvider.updateProjectAddressStatus(project.getLoadedProject!.projectAddress.toString());
+              //   },
+              //   fillColor: shareProvider.projectInfo.projectAddress! ? AppColors.mainThemeBlue : null,
+              //   label: "Project Address",
+              //   maxLines: null,
+              //   readonly: widget.readOnly,
+              //   hintText: "${project.getLoadedProject!.projectAddress}",
+              // ),
               LabeledTextField(
                 onTab: () {
                   shareProvider.updatePostCodeStatus(project.getLoadedProject!.projectState.toString());

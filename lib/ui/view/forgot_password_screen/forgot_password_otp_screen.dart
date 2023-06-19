@@ -17,8 +17,7 @@ class ForgotPasswordOtpScreen extends StatefulWidget {
   static const routeName = '/ForgotPasswordOtpScreen';
 
   @override
-  State<ForgotPasswordOtpScreen> createState() =>
-      _ForgotPasswordOtpScreenState();
+  State<ForgotPasswordOtpScreen> createState() => _ForgotPasswordOtpScreenState();
 }
 
 class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
@@ -69,7 +68,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      'An 6-digit code has been sent to ${verificationData['email']}',
+                      'A 6-digit code has been sent to ${verificationData['email']}',
                       style: Theme.of(context).textTheme.bodyText1,
                       maxLines: 2,
                     ),
@@ -100,8 +99,8 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                   textStyle: const TextStyle(color: Colors.white),
                   animationType: AnimationType.fade,
                   pinTheme: PinTheme(
-                    inactiveFillColor: AppColors.mainThemeBlue,
-                      inactiveColor:AppColors.mainThemeBlue ,
+                      inactiveFillColor: AppColors.mainThemeBlue,
+                      inactiveColor: AppColors.mainThemeBlue,
                       shape: PinCodeFieldShape.box,
                       activeColor: Colors.white,
                       selectedFillColor: Colors.white,
@@ -113,14 +112,14 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                   animationDuration: const Duration(milliseconds: 300),
 
                   enableActiveFill: true,
-                  // errorAnimationController: errorController,
+// errorAnimationController: errorController,
                   controller: otpController,
                   onCompleted: (v) {},
                   onChanged: (_) {},
                   beforeTextPaste: (text) {
                     print("Allowing to paste $text");
-                    //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                    //but you can show anything you want here, like your pop up saying wrong paste format or etc
+//if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+//but you can show anything you want here, like your pop up saying wrong paste format or etc
                     return true;
                   },
                 ),
@@ -134,7 +133,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                       endTime: endTime,
                       widgetBuilder: (_, CurrentRemainingTime? time) {
                         if (time == null) {
-                          //return Text('0', style: TextStyle(fontSize: 16, color: Color(0xFFCC9821),));
+//return Text('0', style: TextStyle(fontSize: 16, color: Color(0xFFCC9821),));
 
                           return Container();
                         }
@@ -145,8 +144,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                     ),
                   ),
                   MaterialButton(
-                    onPressed: authProvider.getLoadingState ==
-                            LoadingState.loading
+                    onPressed: authProvider.getLoadingState == LoadingState.loading
                         ? null
                         : resend
                             ? () {
@@ -156,10 +154,8 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                                     doNavigation: false);
                                 setState(() {
                                   resend = false;
-                                  endTime =
-                                      DateTime.now().millisecondsSinceEpoch +
-                                          const Duration(seconds: 60)
-                                              .inMilliseconds;
+                                  endTime = DateTime.now().millisecondsSinceEpoch +
+                                      const Duration(seconds: 60).inMilliseconds;
                                   controller = CountdownTimerController(
                                       endTime: endTime,
                                       onEnd: () {
@@ -171,12 +167,11 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                                 });
                               }
                             : () {},
-                    color:
-                        resend ? AppColors.mainThemeBlue : AppColors.lightGrey,
+                    color: resend ? AppColors.mainThemeBlue : AppColors.lightGrey,
                     child: Text(
                       "Resend",
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: resend ? Colors.white : Colors.black),
+                      style:
+                          Theme.of(context).textTheme.bodyText1!.copyWith(color: resend ? Colors.white : Colors.black),
                     ),
                   )
                 ],
@@ -196,9 +191,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                 callback: () {
                   if (_formKey.currentState!.validate()) {
                     authProvider.forgotPasswordOtpConfirmation(
-                        email: verificationData['email'],
-                        otp: otpController.text.trim(),
-                        doNavigation: true);
+                        email: verificationData['email'], otp: otpController.text.trim(), doNavigation: true);
                   }
                 },
               )

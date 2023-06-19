@@ -1,7 +1,7 @@
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 

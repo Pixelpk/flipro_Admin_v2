@@ -20,10 +20,10 @@ class AccessControlService {
         'Authorization': "Bearer $token",
       };
 
-      var response = await http
-          .post(
-            Uri.parse(
-                '${ENV.baseURL}/api/accesses?project_id=$projectId&user_id=$userId&roles=${projectRoles.toJson()}'),
+      print('THIS IS THE URL::: ${ENV.baseURL}/api/accesses?project_id=$projectId&user_id=$userId&roles=${projectRoles.toJson()}');
+
+      var response = await http.post(
+            Uri.parse('${ENV.baseURL}/api/accesses?project_id=$projectId&user_id=$userId&roles=${projectRoles.toJson()}'),
             headers: headers,
           )
           .timeout(const Duration(seconds: 30));

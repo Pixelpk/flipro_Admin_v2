@@ -39,14 +39,14 @@ class FranchiseeTabScreen extends StatelessWidget {
                       label: "Partners Info",
                       maxLines: null,
                       readonly: false,
-                      hintText: loadedProject.getLoadedProject!.franchisee!.name!,
+                      hintText: loadedProject.getLoadedProject!.franchisee![0].name!,
                       labelWidget: ColoredLabel(
                         color: AppColors.lightRed,
                         text: 'Edit Access',
                         callback: () {
                           Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
                               arguments: AccessControlObject(
-                                  userRoleModel: loadedProject.getLoadedProject!.franchisee!,
+                                  userRoleModel: loadedProject.getLoadedProject!.franchisee![0],
                                   routeName: ViewProjectScreen.routeName));
                         },
                       ),

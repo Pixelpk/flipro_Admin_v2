@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/helper/remeber_me.dart';
 import 'login_appbar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,6 +28,31 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool rememberMe = false;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    RememberMeHelper.getRememberMe().then((rememberMe) {
+      if (rememberMe) {
+        RememberMeHelper.getUsername().then((username) {
+          RememberMeHelper.getPassword().then((password) {
+            if(username !=null && password !=null){
+              setState(() {
+                emailController.text = username;
+                passwordController.text = password;
+                rememberMe = true;
+              });
+            }
+          });
+        });
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,23 +140,59 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                 )),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, ForgotPasswordScreen.routeName);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Forgot Password?",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1!
-                                      .copyWith(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      checkColor: Colors.white,
+                                      activeColor: AppColors.mainThemeBlue,
+                                      value: rememberMe,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          rememberMe = value!;
+                                        });
+                                      },
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Remember Me",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .copyWith(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context,
+                                        ForgotPasswordScreen.routeName);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Forgot Password?",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1!
+                                          .copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 8.h,
@@ -144,9 +206,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                   buttonText: "Login",
                                   callback: () {
                                     if (_formKey.currentState!.validate()) {
-                                      authProvider.emailLogin(
-                                          emailController.text.trim(),
-                                          passwordController.text.trim());
+                                      if(rememberMe){
+                                        RememberMeHelper.saveCredentials( emailController.text.trim(), passwordController.text.trim());
+                                        RememberMeHelper.setRememberMe(true);
+                                        authProvider.emailLogin(
+                                            emailController.text.trim(),
+                                            passwordController.text.trim());
+                                      }
+                                      else {
+                                        RememberMeHelper.setRememberMe(false);
+                                        authProvider.emailLogin(
+                                            emailController.text.trim(),
+                                            passwordController.text.trim());
+                                      }
+
                                     }
                                     // Navigator.of(context)
                                     //     .pushNamed(HomeScreen.routeName);

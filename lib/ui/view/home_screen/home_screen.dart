@@ -33,7 +33,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> bodyWidgets = [
-    HomePageBody(),
+    const HomePageBody(),
     const ActivityScreen(),
     const ProjectAcceptanceScreen(),
     const MembersScreen(),
