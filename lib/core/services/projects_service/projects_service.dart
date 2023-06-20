@@ -265,6 +265,8 @@ class ProjectService {
     try {
       var headers = {'Accept': 'application/json', 'Authorization': 'Bearer $accessToken'};
       var request = http.MultipartRequest('POST', Uri.parse('${ENV.baseURL}/api/projects?_method=PATCH'));
+      print(1111);
+      print(project.toJson());
       request.fields.addAll(project.toJson());
 
       ///UPLOADS PROJECT IMAGES

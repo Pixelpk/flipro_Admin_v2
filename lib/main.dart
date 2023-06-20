@@ -32,14 +32,14 @@ void main() async {
   runApp(DevicePreview(
       enabled: false,
       builder: (context) {
-        return  FliproAdminApp();
+        return FliproAdminApp();
       }));
 }
 
 class FliproAdminApp extends StatelessWidget {
-   FliproAdminApp({Key? key}) : super(key: key);
-final   _dbService = DbService();
- late   String token = _dbService.readString(AppConstant.getToken) ?? 'null';
+  FliproAdminApp({Key? key}) : super(key: key);
+  final _dbService = DbService();
+  late String token = _dbService.readString(AppConstant.getToken) ?? 'null';
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +66,6 @@ final   _dbService = DbService();
           //
           //   update: (context, loadedProvider, projectsProvider) => (loadedProvider.getAuthToken),
           // ),
-
-
         ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,

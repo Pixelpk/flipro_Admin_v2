@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/ui/widget/helper_widget.dart';
+import 'package:fliproadmin/ui/widget/mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' as intl;
@@ -31,8 +32,7 @@ class ProjectInfoSection extends StatelessWidget {
       if (project.getLoadingState == LoadingState.loading) {
         return SizedBox(height: 70.h, child: HelperWidget.progressIndicator());
       }
-      if (project.getLoadedProject == null &&
-          project.getLoadingState == LoadingState.loaded) {
+      if (project.getLoadedProject == null && project.getLoadingState == LoadingState.loaded) {
         return SizedBox(
           height: 70.h,
           child: const Center(
@@ -61,15 +61,14 @@ class ProjectInfoSection extends StatelessWidget {
                 label: "Project Date:",
                 maxLines: null,
                 readonly: readOnly,
-                hintText: DateFormat.yMMMMd().format(DateTime.tryParse(
-                    project.getLoadedProject!.createdAt.toString())!)),
+                hintText:
+                    DateFormat.yMMMMd().format(DateTime.tryParse(project.getLoadedProject!.createdAt.toString())!)),
             SizedBox(height: 1.h),
             LabeledTextField(
                 label: "Area(Square Metre):",
                 maxLines: null,
                 readonly: readOnly,
-                hintText: formatter.format(double.parse(
-                    project.getLoadedProject!.area!.replaceAll(",", "")))),
+                hintText: formatter.format(double.parse(project.getLoadedProject!.area!.replaceAll(",", "")))),
             SizedBox(height: 1.h),
             LabeledTextField(
               label: "Description",
@@ -119,12 +118,15 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             LabeledTextField(
               onTab: () {
-                launchCaller('${project.getLoadedProject!.phone}');
+                launchCaller('${project.getLoadedProject!.phoneCode}${project.getLoadedProject!.phone}');
               },
               label: "Applicant Phone:",
               maxLines: 1,
               readonly: true,
-              hintText: '${project.getLoadedProject!.phone}',
+              hintText: MaskedTextController(
+                      mask: '+00 000 000 000',
+                      text: '${project.getLoadedProject!.phoneCode}${project.getLoadedProject!.phone}')
+                  .text,
             ),
             SizedBox(
               height: 1.h,
@@ -142,9 +144,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Cross Collaterized:",
               maxLines: 1,
               readonly: true,
-              hintText: project.getLoadedProject!.crossCollaterized == 1
-                  ? "Yes"
-                  : "No",
+              hintText: project.getLoadedProject!.crossCollaterized == 1 ? "Yes" : "No",
             ),
             SizedBox(
               height: 1.h,
@@ -173,10 +173,7 @@ class ProjectInfoSection extends StatelessWidget {
               label: "Existing Queries:",
               maxLines: 1,
               readonly: true,
-              hintText:
-                  project.getLoadedProject!.contractorSupplierDetails == '1'
-                      ? 'Yes'
-                      : 'No',
+              hintText: project.getLoadedProject!.contractorSupplierDetails == '1' ? 'Yes' : 'No',
             ),
             SizedBox(
               height: 1.h,
@@ -208,8 +205,7 @@ class ProjectInfoSection extends StatelessWidget {
 
 class CurrencyInputFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
@@ -220,8 +216,6 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
     String newText = formatter.format(value / 100);
 
-    return newValue.copyWith(
-        text: newText,
-        selection: TextSelection.collapsed(offset: newText.length));
+    return newValue.copyWith(text: newText, selection: TextSelection.collapsed(offset: newText.length));
   }
 }

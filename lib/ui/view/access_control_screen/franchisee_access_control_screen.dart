@@ -23,24 +23,21 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
     ///one is userObject,
     ///other is routeName to which the user will navigate to then he save the access controll
     ///basically there are two routes where user will be naviagte to, viewUnassigned project & projectOverviewScreen
-    final receivedObject =
-        ModalRoute.of(context)!.settings.arguments as AccessControlObject;
+    final receivedObject = ModalRoute.of(context)!.settings.arguments as AccessControlObject;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(25.h),
-        child:  AccessControlAppBar(
+        child: AccessControlAppBar(
           title: "Partners",
           imageUrl: receivedObject.userRoleModel.avatar ?? '',
         ),
       ),
-      body: ChangeNotifierProxyProvider<LoadedProjectProvider,
-          AccessControlProvider>(
-        create: (context) =>
-            AccessControlProvider(projectRoles: ProjectRoles()),
+      body: ChangeNotifierProxyProvider<LoadedProjectProvider, AccessControlProvider>(
+        create: (context) => AccessControlProvider(projectRoles: ProjectRoles()),
         update: (context, loadedProvider, projectsProvider) =>
             AccessControlProvider(projectRoles: loadedProvider.getFrancshiseebyId(receivedObject.userRoleModel.id)),
-            // AccessControlProvider(
-            //     projectRoles: loadedProvider.getFrancshiseeProjectRoles()),
+        // AccessControlProvider(
+        //     projectRoles: loadedProvider.getFrancshiseeProjectRoles()),
         child: Consumer2<LoadedProjectProvider, AccessControlProvider>(
             builder: (ctx, loadedProject, accessControlProvider, c) {
           return Container(
@@ -61,20 +58,18 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                       Flexible(
                         child: Text(
                           "${receivedObject.userRoleModel.name}",
-                          style:
-                              Theme.of(context).textTheme.headline5!.copyWith(
-                                    color: AppColors.mainThemeBlue,
-                                  ),
+                          style: Theme.of(context).textTheme.headline5!.copyWith(
+                                color: AppColors.mainThemeBlue,
+                              ),
                           maxLines: 2,
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Flexible(
                         child: Text("${receivedObject.userRoleModel.address}",
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      color: AppColors.greyDark,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  color: AppColors.greyDark,
+                                ),
                             maxLines: 2,
                             textAlign: TextAlign.center),
                       ),
@@ -98,30 +93,25 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                   width: 90.w,
                   heigth: 7.5.h,
                   callback: accessControlProvider.setUploadProgressAccess,
-                  private:
-                      accessControlProvider.getSelectedRoles.uploadProgress,
+                  private: accessControlProvider.getSelectedRoles.uploadProgress,
                   tileTitle: "Update Progress",
                 ),
                 SizedBox(
                   height: 3.h,
                 ),
                 SwitchTile(
-                  private: accessControlProvider.getSelectedRoles.addValue,
-                  width: 90.w,
-                  heigth: 7.5.h,
-                  callback: accessControlProvider.setAddValueAccess,
-                  tileTitle: "Can Add value",
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
+                    private: accessControlProvider.getSelectedRoles.addValue ?? true,
+                    width: 90.w,
+                    heigth: 7.5.h,
+                    callback: accessControlProvider.setAddValueAccess,
+                    tileTitle: "Can Add value"),
+                SizedBox(height: 4.h),
                 SwitchTile(
                   width: 90.w,
                   heigth: 7.5.h,
                   tileTitle: "Payment Request",
                   callback: accessControlProvider.setRequestPaymentAccess,
-                  private:
-                      accessControlProvider.getSelectedRoles.requestPayment,
+                  private: accessControlProvider.getSelectedRoles.requestPayment,
                 ),
                 SizedBox(
                   height: 3.h,
@@ -134,8 +124,6 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                 SizedBox(
                   height: 4.h,
                 ),
-
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -144,8 +132,7 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
                       buttonText: "Confirm",
                       width: 60.w,
                       radius: 15,
-                      isloading:
-                          loadedProject.getLoadingState == LoadingState.loading,
+                      isloading: loadedProject.getLoadingState == LoadingState.loading,
                       userArrow: false,
                       callback: () async {
                         // print(accessControlProvider.getSelectedRoles.toJson());
@@ -164,9 +151,7 @@ class FranchiseeAccessControlScreen extends StatelessWidget {
 
                         if (projectAssigned) {
                           Provider.of<ProjectsProvider>(context, listen: false)
-                              .removeProject(
-                              projectId:
-                              loadedProject.getLoadedProject!.id);
+                              .removeProject(projectId: loadedProject.getLoadedProject!.id);
                         }
                       },
                     ),

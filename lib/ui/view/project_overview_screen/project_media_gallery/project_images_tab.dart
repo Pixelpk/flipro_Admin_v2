@@ -12,12 +12,12 @@ import 'image_preview.dart';
 class ProjectImagesTab extends StatelessWidget {
   const ProjectImagesTab({Key? key, this.galleryMedia}) : super(key: key);
   final ProjectMediaGalleryResModel? galleryMedia;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<LoadedProjectProvider>(
       builder: (ctx, loadedProjectProvider, c) {
-        if (loadedProjectProvider.getLoadedProject == null ||
-            galleryMedia?.data?.projectImages == null) {
+        if (loadedProjectProvider.getLoadedProject == null || galleryMedia?.data?.projectImages == null) {
           return const Center(
             child: Text("No Images Available"),
           );
@@ -32,89 +32,86 @@ class ProjectImagesTab extends StatelessWidget {
               padding: EdgeInsets.only(top: 10, bottom: 5, left: 10),
               child: Text("Project images"),
             ),
-            GridView.builder(
-              shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 4,
-                    mainAxisSpacing: 4),
-                itemCount: galleryMedia?.data?.projectImages!.length,
-                itemBuilder: (BuildContext ctx, index) {
-                  return InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => ImagePreview(
-                                  images: galleryMedia!.data!.projectImages!,
-                                  index: index,
-                                )));
-                      },
-                      child: CustomCachedImage(
-                        imageUrl: galleryMedia!.data!.projectImages![index],
-                        fit: BoxFit.cover,
-                        width: 100.w,
-                      ));
-                }),
+            (galleryMedia?.data?.projectImages ?? []).isNotEmpty
+                ? GridView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, childAspectRatio: 1, crossAxisSpacing: 4, mainAxisSpacing: 4),
+                    itemCount: galleryMedia?.data?.projectImages?.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => ImagePreview(
+                                      images: galleryMedia!.data!.projectImages!,
+                                      index: index,
+                                    )));
+                          },
+                          child: CustomCachedImage(
+                            imageUrl: galleryMedia!.data!.projectImages![index],
+                            fit: BoxFit.cover,
+                            width: 100.w,
+                          ));
+                    })
+                : SizedBox.shrink(),
             const Padding(
               padding: EdgeInsets.only(top: 10, bottom: 5, left: 10),
               child: Text("Progress images"),
             ),
-            GridView.builder(
-              shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 4,
-                    mainAxisSpacing: 4),
-                itemCount: galleryMedia!.data!.progress![0].photos!.length,
-                itemBuilder: (BuildContext ctx, index) {
-                  return InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => ImagePreview(
-                              images: galleryMedia!.data!.progress![0].photos!,
-                              index: index,
-                            )));
-                      },
-                      child: CustomCachedImage(
-                        imageUrl: galleryMedia!.data!.progress![0].photos![index],
-                        fit: BoxFit.cover,
-                        width: 100.w,
-                      ));
-                }),
+            (galleryMedia!.data!.progress ?? []).isNotEmpty
+                ? GridView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, childAspectRatio: 1, crossAxisSpacing: 4, mainAxisSpacing: 4),
+                    itemCount: galleryMedia!.data!.progress![0].photos!.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => ImagePreview(
+                                      images: galleryMedia!.data!.progress![0].photos!,
+                                      index: index,
+                                    )));
+                          },
+                          child: CustomCachedImage(
+                            imageUrl: galleryMedia!.data!.progress![0].photos![index],
+                            fit: BoxFit.cover,
+                            width: 100.w,
+                          ));
+                    })
+                : SizedBox.shrink(),
             const Padding(
               padding: EdgeInsets.only(top: 10, bottom: 5, left: 10),
               child: Text("Payment images"),
             ),
-            GridView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 4,
-                    mainAxisSpacing: 4),
-                itemCount: galleryMedia!.data!.paymentRequest![0].images!.length,
-                itemBuilder: (BuildContext ctx, index) {
-                  return InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => ImagePreview(
-                              images: galleryMedia!.data!.paymentRequest![0].images!,
-                              index: index,
-                            )));
-                      },
-                      child: CustomCachedImage(
-                        imageUrl: galleryMedia!.data!.paymentRequest![0].images![index],
-                        fit: BoxFit.cover,
-                        width: 100.w,
-                      ));
-                }),
+            (galleryMedia!.data!.paymentRequest ?? []).isNotEmpty
+                ? GridView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, childAspectRatio: 1, crossAxisSpacing: 4, mainAxisSpacing: 4),
+                    itemCount: galleryMedia!.data!.paymentRequest![0].images!.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => ImagePreview(
+                                      images: galleryMedia!.data!.paymentRequest![0].images!,
+                                      index: index,
+                                    )));
+                          },
+                          child: CustomCachedImage(
+                            imageUrl: galleryMedia!.data!.paymentRequest![0].images![index],
+                            fit: BoxFit.cover,
+                            width: 100.w,
+                          ));
+                    })
+                : SizedBox.shrink(),
           ],
         );
       },

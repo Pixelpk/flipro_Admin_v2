@@ -128,7 +128,6 @@ class ShareProvider extends ChangeNotifier {
     _infoShareModel.title = !_infoShareModel.title!;
     _infoShareModel.titleText = title;
     notifyListeners();
-    print('sdcsdcsd');
   }
 
   updateAreaStatus(String area) {

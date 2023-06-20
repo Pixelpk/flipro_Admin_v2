@@ -23,6 +23,7 @@ class ProjectInFoShare extends StatefulWidget {
 
 class _ProjectInFoShareState extends State<ProjectInFoShare> {
   var formatter = NumberFormat('#,##0.' + "#" * 5);
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<LoadedProjectProvider, ShareProvider>(builder: (ctx, project, shareProvider, c) {
@@ -54,7 +55,7 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
               ),
               LabeledTextField(
                 onTab: () {
-                  shareProvider.updateTitleStatus(project.getLoadedProject!.title!);
+                  shareProvider.updateProjectAddressStatus(project.getLoadedProject!.projectAddress!);
                 },
                 label: "Project Address:",
                 maxLines: null,
@@ -120,7 +121,8 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                 label: "Property debt",
                 maxLines: null,
                 readonly: widget.readOnly,
-                hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.propertyDebt.toString().replaceAll(",", "")))}',
+                hintText:
+                    '\$${formatter.format(double.parse(project.getLoadedProject!.propertyDebt.toString().replaceAll(",", "")))}',
               ),
               LabeledTextField(
                 onTab: () {
@@ -130,7 +132,8 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                 label: "Anticipated Budget",
                 maxLines: null,
                 readonly: widget.readOnly,
-                hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget.toString().replaceAll(",", "")))}',
+                hintText:
+                    '\$${formatter.format(double.parse(project.getLoadedProject!.anticipatedBudget.toString().replaceAll(",", "")))}',
               ),
               LabeledTextField(
                 onTab: () {
@@ -150,7 +153,8 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                 label: "Current Value",
                 maxLines: null,
                 readonly: widget.readOnly,
-                hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.currentPropertyValue.toString().replaceAll(",", "")))}',
+                hintText:
+                    '\$${formatter.format(double.parse(project.getLoadedProject!.currentPropertyValue.toString().replaceAll(",", "")))}',
               ),
               LabeledTextField(
                 onTab: () {
@@ -160,7 +164,8 @@ class _ProjectInFoShareState extends State<ProjectInFoShare> {
                 label: "Market Value",
                 maxLines: null,
                 readonly: widget.readOnly,
-                hintText: '\$${formatter.format(double.parse(project.getLoadedProject!.projectLatestMarkedValue.toString().replaceAll(",", "")))}',
+                hintText:
+                    '\$${formatter.format(double.parse(project.getLoadedProject!.projectLatestMarkedValue.toString().replaceAll(",", "")))}',
               ),
               // LabeledTextField(
               //   onTab: () {

@@ -3,6 +3,7 @@ import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/loaded_project/loaded_project.dart';
 import 'package:fliproadmin/ui/view/access_control_screen/franchisee_access_control_screen.dart';
+import 'package:fliproadmin/ui/view/project_overview_screen/project_overview_Screen.dart';
 import 'package:fliproadmin/ui/view/single_progress_screen/single_progress_screen.dart';
 import 'package:fliproadmin/ui/view/view_project_screen/view_project_screen.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
@@ -12,8 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../assigned_partner_screen/assigned_partner_screen.dart';
+
+import 'package:fliproadmin/core/utilities/logic_helper.dart';
+
 class FranchiseeTabScreen extends StatelessWidget {
-  const FranchiseeTabScreen({Key? key}) : super(key: key);
+  FranchiseeTabScreen({Key? key, this.parentRouteName}) : super(key: key);
+
+  final String? parentRouteName;
 
   @override
   Widget build(BuildContext context) {
@@ -36,22 +43,63 @@ class FranchiseeTabScreen extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                     child: LabeledTextField(
-                      label: "Partners Info",
+                      label: "Partners",
                       maxLines: null,
-                      readonly: false,
-                      hintText: loadedProject.getLoadedProject!.franchisee![0].name!,
-                      labelWidget: ColoredLabel(
-                        color: AppColors.lightRed,
-                        text: 'Edit Access',
-                        callback: () {
-                          Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
-                              arguments: AccessControlObject(
-                                  userRoleModel: loadedProject.getLoadedProject!.franchisee![0],
-                                  routeName: ViewProjectScreen.routeName));
-                        },
-                      ),
+                      readonly: true,
+                      hintText: loadedProject.getLoadedProject!.franchisee != null &&
+                              loadedProject.getLoadedProject!.franchisee!.isNotEmpty
+                          ? "${loadedProject.getLoadedProject!.franchisee!.length} Partners Assigned"
+                          : "Partners Name",
+                      labelWidget: loadedProject.getLoadedProject!.franchisee != null
+                          ? loadedProject.getLoadedProject!.franchisee!.isNotEmpty &&
+                                  loadedProject.getLoadedProject!.franchisee!.length > 1
+                              ? ColoredLabel(
+                                  color: AppColors.lightRed,
+                                  text: 'view all',
+                                  callback: () {
+                                    ///ALL ASSIGNED Builder
+                                    Navigator.pushNamed(context, AssignedPartners.routeName,
+                                        arguments: appUsers.franchise);
+                                  },
+                                )
+                              : loadedProject.getLoadedProject!.franchisee!.isNotEmpty &&
+                                      loadedProject.getLoadedProject!.franchisee!.length == 1
+                                  ? ColoredLabel(
+                                      color: AppColors.lightRed,
+                                      text: 'Edit Access',
+                                      callback: () {
+                                        Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
+                                            arguments: AccessControlObject(
+                                                userRoleModel: loadedProject.getLoadedProject!.franchisee![0],
+                                                routeName: parentRouteName ?? ProjectOverviewScreen.routeName));
+                                      },
+                                    )
+                                  : null
+                          : null,
                     ),
                   );
+
+                  //   Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                  //   child: LabeledTextField(
+                  //     label: "Partners Info",
+                  //     maxLines: null,
+                  //     readonly: false,
+                  //     hintText: (loadedProject.getLoadedProject?.franchisee ?? []).isNotEmpty
+                  //         ? loadedProject.getLoadedProject?.franchisee?.first.name ?? ""
+                  //         : "",
+                  //     labelWidget: ColoredLabel(
+                  //       color: AppColors.lightRed,
+                  //       text: 'Edit Access',
+                  //       callback: () {
+                  //         Navigator.pushNamed(context, FranchiseeAccessControlScreen.routeName,
+                  //             arguments: AccessControlObject(
+                  //                 userRoleModel: loadedProject.getLoadedProject!.franchisee![0],
+                  //                 routeName: ViewProjectScreen.routeName));
+                  //       },
+                  //     ),
+                  //   ),
+                  // );
                 } else {
                   return Container();
                 }

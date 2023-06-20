@@ -36,36 +36,36 @@ class Data {
     if (json['projectVideos'] != null) {
       projectVideos = <ProjectVideos>[];
       json['projectVideos'].forEach((v) {
-        projectVideos!.add(new ProjectVideos.fromJson(v));
+        projectVideos!.add(ProjectVideos.fromJson(v));
       });
     }
     if (json['paymentRequest'] != null) {
       paymentRequest = <PaymentRequest>[];
       json['paymentRequest'].forEach((v) {
-        paymentRequest!.add(new PaymentRequest.fromJson(v));
+        paymentRequest!.add(PaymentRequest.fromJson(v));
       });
     }
     if (json['progress'] != null) {
       progress = <Progress>[];
       json['progress'].forEach((v) {
-        progress!.add(new Progress.fromJson(v));
+        progress!.add(Progress.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['projectImages'] = this.projectImages;
-    if (this.projectVideos != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['projectImages'] = projectImages;
+    if (projectVideos != null) {
       data['projectVideos'] =
-          this.projectVideos!.map((v) => v.toJson()).toList();
+          projectVideos!.map((v) => v.toJson()).toList();
     }
-    if (this.paymentRequest != null) {
+    if (paymentRequest != null) {
       data['paymentRequest'] =
-          this.paymentRequest!.map((v) => v.toJson()).toList();
+          paymentRequest!.map((v) => v.toJson()).toList();
     }
-    if (this.progress != null) {
-      data['progress'] = this.progress!.map((v) => v.toJson()).toList();
+    if (progress != null) {
+      data['progress'] = progress!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -83,9 +83,9 @@ class ProjectVideos {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['file'] = this.file;
-    data['thumbnail'] = this.thumbnail;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['file'] = file;
+    data['thumbnail'] = thumbnail;
     return data;
   }
 }

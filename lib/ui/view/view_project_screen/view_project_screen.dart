@@ -31,7 +31,6 @@ class _ViewProjectScreenState extends State<ViewProjectScreen> {
 
   @override
   void dispose() {
-    print("DISPOSING");
     pageController.dispose();
     super.dispose();
   }
@@ -69,7 +68,7 @@ class _ViewProjectScreenState extends State<ViewProjectScreen> {
               controller: pageController,
               children: <Widget>[
                 ProjectOverviewScreen(parentRouteName: ViewProjectScreen.routeName),
-                const FranchiseeTabScreen(),
+                FranchiseeTabScreen(),
                 const BuilderTabScreen(),
               ],
             ),

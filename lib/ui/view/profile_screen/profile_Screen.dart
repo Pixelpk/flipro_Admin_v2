@@ -1,16 +1,12 @@
-import 'package:fliproadmin/core/model/project_response/project_response.dart';
 import 'package:fliproadmin/core/model/user_model/user_model.dart';
 import 'package:fliproadmin/core/services/assets_provider/assets_provider.dart';
-import 'package:fliproadmin/core/utilities/app_colors.dart';
 import 'package:fliproadmin/core/utilities/app_constant.dart';
 import 'package:fliproadmin/core/view_model/auth_provider/auth_provider.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
-import 'package:fliproadmin/ui/view/profile_screen/profile_appbar.dart';
 import 'package:fliproadmin/ui/view/profile_screen/update_password.dart';
 import 'package:fliproadmin/ui/widget/custom_input_decoration.dart';
 import 'package:fliproadmin/ui/widget/main_button.dart';
 import 'package:fliproadmin/ui/widget/my_profile_appbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late MaskedTextController phoneController;
 
   final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     initUserData();
@@ -40,17 +37,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   initUserData() {
-    Provider.of<AssetProvider>(context, listen: false)
-        .disposeSinglePickedImage();
+    Provider.of<AssetProvider>(context, listen: false).disposeSinglePickedImage();
     if (mounted) {
       setState(() {
-        User userRoleModel =
-            Provider.of<UserProvider>(context, listen: false).getCurrentUser;
+        User userRoleModel = Provider.of<UserProvider>(context, listen: false).getCurrentUser;
         nameController = TextEditingController(text: userRoleModel.name);
         addressController = TextEditingController(text: userRoleModel.address);
         emailController = TextEditingController(text: userRoleModel.email);
-        phoneController = MaskedTextController(
-            text: userRoleModel.phone, mask: '+00 000 000 000');
+        phoneController =
+            MaskedTextController(text: "${userRoleModel.phoneCode}${userRoleModel.phone}", mask: '+00 000 000 000');
       });
     }
   }
@@ -87,9 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return "Please add valid name";
                         },
                         decoration: customInputDecoration(
-                            context: context,
-                            hintText: userRoleModel.name ?? '',
-                            prefixIcon: AppConstant.person),
+                            context: context, hintText: userRoleModel.name ?? '', prefixIcon: AppConstant.person),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -98,9 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         controller: emailController,
                         readOnly: true,
                         decoration: customInputDecoration(
-                            context: context,
-                            hintText: userRoleModel.email ?? '',
-                            prefixIcon: AppConstant.emailIdon),
+                            context: context, hintText: userRoleModel.email ?? '', prefixIcon: AppConstant.emailIdon),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -118,9 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return "Please add valid phone number";
                         },
                         decoration: customInputDecoration(
-                            context: context,
-                            hintText: userRoleModel.phone ?? '',
-                            prefixIcon: AppConstant.phoneIcon),
+                            context: context, hintText: userRoleModel.phone ?? '', prefixIcon: AppConstant.phoneIcon),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -134,9 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return "Please add valid Address";
                         },
                         decoration: customInputDecoration(
-                            context: context,
-                            hintText: userRoleModel.address ?? '',
-                            prefixIcon: AppConstant.homeIcon),
+                            context: context, hintText: userRoleModel.address ?? '', prefixIcon: AppConstant.homeIcon),
                       ),
                       SizedBox(
                         height: 2.h,
@@ -146,8 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 90.w,
                         buttonText: "Update Password",
                         callback: () {
-                          Navigator.of(context)
-                              .pushNamed(UpdatePassword.routeName);
+                          Navigator.of(context).pushNamed(UpdatePassword.routeName);
                         },
                       ),
                       SizedBox(
@@ -156,9 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       MainButton(
                         height: 7.h,
                         width: 60.w,
-                        isloading: Provider.of<UserProvider>(context)
-                                .getLoadingState ==
-                            LoadingState.loading,
+                        isloading: Provider.of<UserProvider>(context).getLoadingState == LoadingState.loading,
                         callback: () {
                           if (_formKey.currentState!.validate()) {
                             User user = User(
@@ -167,12 +151,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               name: nameController.text,
                               phone: phoneController.text,
                             );
-                            Provider.of<UserProvider>(context, listen: false)
-                                .updateUserProfile(user,
-                                    pickedImage: Provider.of<AssetProvider>(
-                                            context,
-                                            listen: false)
-                                        .getSinglePickedImage);
+                            Provider.of<UserProvider>(context, listen: false).updateUserProfile(user,
+                                pickedImage: Provider.of<AssetProvider>(context, listen: false).getSinglePickedImage);
                           }
                         },
                         buttonText: "Save",

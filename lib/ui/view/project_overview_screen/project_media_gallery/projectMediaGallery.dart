@@ -19,8 +19,10 @@ class ProjectMediaGallery extends StatefulWidget {
 
 class _ProjectMediaGalleryState extends State<ProjectMediaGallery> {
   int segmentedControlValue = 0;
+
   // late MediaObject mediaObject ;
   late ProjectMediaGalleryResModel galleryMedia;
+
   // late List<String> projectImages;
   // late List<ProjectVideos> projectVideos;
   Widget segmentedControl() {
@@ -43,24 +45,26 @@ class _ProjectMediaGalleryState extends State<ProjectMediaGallery> {
     );
   }
 
-  late List<Widget> bodyWidgets = [
-    Expanded(
-      child: ProjectImagesTab(
-        galleryMedia: galleryMedia,
-      ),
-    ),
-    Expanded(
-      child: ProjectVideosTab(
-        galleryMedia: galleryMedia,
-      ),
-    ),
-  ];
+  List<Widget> bodyWidgets = [];
 
   @override
   void initState() {
     Future.microtask(() {
-      galleryMedia = ModalRoute.of(context)!.settings.arguments
-          as ProjectMediaGalleryResModel;
+      galleryMedia = ModalRoute.of(context)!.settings.arguments as ProjectMediaGalleryResModel;
+
+      print(galleryMedia.toJson());
+      bodyWidgets = [
+        Expanded(
+          child: ProjectImagesTab(
+            galleryMedia: galleryMedia,
+          ),
+        ),
+        Expanded(
+          child: ProjectVideosTab(
+            galleryMedia: galleryMedia,
+          ),
+        ),
+      ];
       setState(() {});
     });
     super.initState();

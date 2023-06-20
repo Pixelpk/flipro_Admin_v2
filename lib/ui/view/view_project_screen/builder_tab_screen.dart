@@ -7,6 +7,7 @@ import 'package:fliproadmin/ui/view/single_progress_screen/single_progress_scree
 import 'package:fliproadmin/ui/view/view_project_screen/view_project_screen.dart';
 import 'package:fliproadmin/ui/widget/colored_label.dart';
 import 'package:fliproadmin/ui/widget/labeledTextField.dart';
+import 'package:fliproadmin/ui/widget/mask.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -21,9 +22,7 @@ class BuilderTabScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () => Future.sync(() =>
-            Provider.of<LoadedProjectProvider>(context, listen: false)
-                .refresh()),
+        onRefresh: () => Future.sync(() => Provider.of<LoadedProjectProvider>(context, listen: false).refresh()),
         child: Container(
           width: 100.w,
           padding: EdgeInsets.symmetric(horizontal: 3.w),
@@ -35,36 +34,24 @@ class BuilderTabScreen extends StatelessWidget {
                 }
                 if (loadedProject.getLoadedProject != null &&
                     (loadedProject.getLoadedProject!.builder != null ||
-                        loadedProject.getLoadedProject!.latestProgress !=
-                            null)) {
+                        loadedProject.getLoadedProject!.latestProgress != null)) {
                   return Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5.w, vertical: 1.h),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                         child: LabeledTextField(
                             label: "Agents/Trades Info",
                             maxLines: null,
                             readonly: true,
-                            hintText: loadedProject
-                                        .getLoadedProject?.latestProgress !=
-                                    null
-                                ? loadedProject.getLoadedProject?.latestProgress
-                                    ?.user?.name!
-                                : loadedProject.getLoadedProject?.builder !=
-                                            null &&
-                                        loadedProject.getLoadedProject!.builder!
-                                            .isNotEmpty
-                                    ? loadedProject
-                                        .getLoadedProject?.builder![0].name
+                            hintText: loadedProject.getLoadedProject?.latestProgress != null
+                                ? loadedProject.getLoadedProject?.latestProgress?.user?.name!
+                                : loadedProject.getLoadedProject?.builder != null &&
+                                        loadedProject.getLoadedProject!.builder!.isNotEmpty
+                                    ? loadedProject.getLoadedProject?.builder![0].name
                                     : "No Agents/Trades Info",
-                            labelWidget: loadedProject
-                                            .getLoadedProject?.builder !=
-                                        null &&
-                                    loadedProject
-                                        .getLoadedProject!.builder!.isNotEmpty || loadedProject
-                                .getLoadedProject?.latestProgress !=
-                                null
+                            labelWidget: loadedProject.getLoadedProject?.builder != null &&
+                                        loadedProject.getLoadedProject!.builder!.isNotEmpty ||
+                                    loadedProject.getLoadedProject?.latestProgress != null
                                 ? ColoredLabel(
                                     color: AppColors.lightRed,
                                     text: 'Edit Access',
@@ -73,31 +60,15 @@ class BuilderTabScreen extends StatelessWidget {
                                         context,
                                         BuilderAccessControlScreen.routeName,
                                         arguments: AccessControlObject(
-                                          userRoleModel:
-                                              loadedProject.getBuilderById(
-                                            loadedProject.getLoadedProject!
-                                                        .latestProgress !=
-                                                    null
-                                                ? loadedProject
-                                                    .getLoadedProject!
-                                                    .latestProgress!
-                                                    .userId
-                                                : loadedProject.getLoadedProject
-                                                                ?.builder !=
-                                                            null &&
-                                                        loadedProject
-                                                            .getLoadedProject!
-                                                            .builder!
-                                                            .isNotEmpty
-                                                    ? loadedProject
-                                                        .getLoadedProject
-                                                        ?.builder!
-                                                        .first
-                                                        .id
+                                          userRoleModel: loadedProject.getBuilderById(
+                                            loadedProject.getLoadedProject!.latestProgress != null
+                                                ? loadedProject.getLoadedProject!.latestProgress!.userId
+                                                : loadedProject.getLoadedProject?.builder != null &&
+                                                        loadedProject.getLoadedProject!.builder!.isNotEmpty
+                                                    ? loadedProject.getLoadedProject?.builder!.first.id
                                                     : 00,
                                           ),
-                                          routeName:
-                                              ViewProjectScreen.routeName,
+                                          routeName: ViewProjectScreen.routeName,
                                         ),
                                       );
                                     },
@@ -174,22 +145,21 @@ class BuilderTabScreen extends StatelessWidget {
                             ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5.w, vertical: 1.h),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                         child: LabeledTextField(
                             label: "Agents/Trades Contact",
                             maxLines: null,
-                            onTab: () => launchCaller(
-                                "${loadedProject.getLoadedProject?.builder![0].phone}"),
+                            onTab: () => launchCaller("${loadedProject.getLoadedProject?.builder![0].phone}"),
                             readonly: true,
-                            hintText: loadedProject.getLoadedProject?.builder !=
-                                        null &&
-                                    loadedProject
-                                        .getLoadedProject!.builder!.isNotEmpty
-                                ? "${loadedProject.getLoadedProject?.builder![0].phone}"
-                                // : loadedProject.getLoadedProject?.latestProgress != null
-                                //     ? loadedProject.getLoadedProject?.latestProgress?.user?.name!
-                                : "No Agents/Trades Contact"),
+                            hintText: MaskedTextController(
+                                    mask: "+00 000 000 000",
+                                    text: loadedProject.getLoadedProject?.builder != null &&
+                                            loadedProject.getLoadedProject!.builder!.isNotEmpty
+                                        ? "${loadedProject.getLoadedProject?.builder![0].phoneCode}${loadedProject.getLoadedProject?.builder![0].phone}"
+                                        // : loadedProject.getLoadedProject?.latestProgress != null
+                                        //     ? loadedProject.getLoadedProject?.latestProgress?.user?.name!
+                                        : "No Agents/Trades Contact")
+                                .text),
                       ),
                     ],
                   );
@@ -199,21 +169,15 @@ class BuilderTabScreen extends StatelessWidget {
               }),
               SizedBox(
                   height: 55.h,
-                  child: Consumer<LoadedProjectProvider>(
-                      builder: (ctx, loadedProject, c) {
+                  child: Consumer<LoadedProjectProvider>(builder: (ctx, loadedProject, c) {
                     if (loadedProject.getLoadingState == LoadingState.loading) {
                       return SizedBox(height: 1.h);
                     }
                     if (loadedProject.getLoadedProject != null &&
-                        loadedProject.getLoadedProject!.latestProgress !=
-                            null &&
-                        loadedProject.getLoadedProject!.latestProgress!.user!
-                                .userType ==
-                            'builder') {
+                        loadedProject.getLoadedProject!.latestProgress != null &&
+                        loadedProject.getLoadedProject!.latestProgress!.user!.userType == 'builder') {
                       return SingleProgressScreen(
-                          showAppBar: false,
-                          progressModel:
-                              loadedProject.getLoadedProject!.latestProgress!);
+                          showAppBar: false, progressModel: loadedProject.getLoadedProject!.latestProgress!);
                     } else {
                       return const Center(
                         child: Text("No Progress submitted by Agents/Trades"),
@@ -226,15 +190,12 @@ class BuilderTabScreen extends StatelessWidget {
                 }
                 if (loadedProject.getLoadedProject != null &&
                     loadedProject.getLoadedProject!.latestNote != null &&
-                    loadedProject
-                            .getLoadedProject!.latestNote!.user!.userType ==
-                        'builder') {
+                    loadedProject.getLoadedProject!.latestNote!.user!.userType == 'builder') {
                   return LabeledTextField(
                     label: "Note",
                     maxLines: 10,
                     readonly: true,
-                    hintText:
-                        loadedProject.getLoadedProject!.latestNote!.notes!,
+                    hintText: loadedProject.getLoadedProject!.latestNote!.notes!,
                   );
                 } else {
                   return Container();

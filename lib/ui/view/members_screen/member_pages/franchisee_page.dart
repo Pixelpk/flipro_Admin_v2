@@ -9,7 +9,9 @@ import 'package:fliproadmin/ui/widget/trade_man_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
-enum TypeAdmin{builder, valuer, franchise,owner}
+
+enum TypeAdmin { builder, valuer, franchise, owner }
+
 class FranchiseePage extends StatefulWidget {
   const FranchiseePage({Key? key}) : super(key: key);
 
@@ -19,12 +21,10 @@ class FranchiseePage extends StatefulWidget {
 
 class _FranchiseePageState extends State<FranchiseePage> {
   static const _pageSize = 20;
-  final PagingController<int, UserRoleModel> _pagingController =
-  PagingController(firstPageKey: 0);
+  final PagingController<int, UserRoleModel> _pagingController = PagingController(firstPageKey: 0);
 
   @override
   void initState() {
-
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -33,21 +33,18 @@ class _FranchiseePageState extends State<FranchiseePage> {
 
   @override
   void dispose() {
-    _pagingController.dispose();    super.dispose();
+    _pagingController.dispose();
+    super.dispose();
   }
+
   Future<void> _fetchPage(int pageKey) async {
     try {
       GenericModel genericModel = await UsersService.getUsers(
-          page: pageKey,
-          type: 'franchise',
-          token:
-          Provider.of<UserProvider>(context, listen: false).getAuthToken);
+          page: pageKey, type: 'franchise', token: Provider.of<UserProvider>(context, listen: false).getAuthToken);
       if (genericModel.statusCode == 200) {
         UsersModel usersModel = genericModel.returnedModel;
 
-        if (usersModel != null &&
-            usersModel.data != null &&
-            usersModel.data!.users != null) {
+        if (usersModel != null && usersModel.data != null && usersModel.data!.users != null) {
           final newItems = usersModel.data!.users;
           final isLastPage = newItems.length < _pageSize;
           if (isLastPage) {
@@ -63,23 +60,18 @@ class _FranchiseePageState extends State<FranchiseePage> {
       _pagingController.error = error;
     }
   }
+
   @override
-  Widget build(BuildContext context) =>
-      PagedListView<int, UserRoleModel>(
+  Widget build(BuildContext context) => PagedListView<int, UserRoleModel>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<UserRoleModel>(
             itemBuilder: (context, user, index) => InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, ViewTradeManProfile.routeName,
-                    arguments: user);
-              },
-              child:  TrademanListItem(
-             userRoleModel: user,
-
-              ),
-            )
-        ),
+                  onTap: () {
+                    Navigator.pushNamed(context, ViewTradeManProfile.routeName, arguments: user);
+                  },
+                  child: TrademanListItem(
+                    userRoleModel: user,
+                  ),
+                )),
       );
-
-
 }

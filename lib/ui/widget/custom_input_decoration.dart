@@ -9,6 +9,7 @@ InputDecoration customInputDecoration(
         String? prefixText = '',
         required String hintText,
         bool usePrefixIcon = true,
+        Widget? prefix,
         Widget? suffixIcon,
         Color fillColor = Colors.white,
         double? height,
@@ -24,10 +25,11 @@ InputDecoration customInputDecoration(
         suffixIcon: suffixIcon,
         hintStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppColors.greyFontColor),
         prefixIcon: usePrefixIcon
-            ? Padding(
-                padding: EdgeInsets.all(2.2.h),
-                child: prefixIcon == 'default'
-                    ? const Icon(Icons.search, color: AppColors.mainThemeBlue)
-                    : SvgPicture.asset(prefixIcon,
-                        color: prefixColor ?? AppColors.blueUnselectedTabColor, height: height, width: width))
+            ? prefix ??
+                Padding(
+                    padding: EdgeInsets.all(2.2.h),
+                    child: prefixIcon == 'default'
+                        ? const Icon(Icons.search, color: AppColors.mainThemeBlue)
+                        : SvgPicture.asset(prefixIcon,
+                            color: prefixColor ?? AppColors.blueUnselectedTabColor, height: height, width: width))
             : null);

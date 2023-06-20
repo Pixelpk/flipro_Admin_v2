@@ -59,8 +59,8 @@ class ViewUnassignedProject extends StatelessWidget {
                     label: "Partners",
                     maxLines: null,
                     readonly: true,
-                    hintText: projectProvider.getLoadedProject!.franchisee != null
-                        ? projectProvider.getLoadedProject!.franchisee![0].name
+                    hintText: (projectProvider.getLoadedProject?.franchisee ?? []).isNotEmpty
+                        ? projectProvider.getLoadedProject?.franchisee?.first.name ?? ""
                         : "Partners Name",
                     labelWidget: ColoredLabel(
                       color: AppColors.lightRed,

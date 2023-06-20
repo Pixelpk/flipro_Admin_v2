@@ -81,6 +81,7 @@ class Project {
   String? applicantName;
   String? email;
   String? phone;
+  String? phoneCode;
   String? applicantAddress;
   String? registeredOwners;
   num? currentPropertyValue;
@@ -132,6 +133,7 @@ class Project {
       this.applicantName,
       this.area,
       this.description,
+      this.phoneCode,
       this.progressSatisfied,
       this.progressReviewed,
       this.valuationReviewed,
@@ -168,6 +170,7 @@ class Project {
     applicantName = json['applicant_name'];
     email = json['email'];
     phone = json['phone'];
+    phoneCode = json['phone_code'];
     // latestProgress = json['latest_progress'];
     if (json['latest_note'] != null) {
       latestNote = Note.fromJson(json["latest_note"]);
@@ -243,6 +246,10 @@ class Project {
   }
 
   Map<String, String> toJson() {
+
+    print(phoneCode);
+
+
     final Map<String, String> data = <String, String>{};
 
     if (id != null) {
@@ -256,6 +263,7 @@ class Project {
     data['applicant_name'] = applicantName!;
     data['email'] = email!;
     data['phone'] = phone!;
+    data['phone_code'] = phoneCode!;
     data['applicant_address'] = applicantAddress!;
     data['registered_owners'] = registeredOwners!;
     data['current_property_value'] = currentPropertyValue.toString();
@@ -295,7 +303,7 @@ class Project {
     //   data['action_required'] =
     //       actionRequired!.map((v) => v.toJson()).toList();
     // }
-    // if (projectRoles != null) {
+    // if (projectRoles != nu ll) {
     //   data['project_roles'] = projectRoles!.toJson();
     // }
     return data;
