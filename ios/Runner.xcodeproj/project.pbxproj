@@ -367,7 +367,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = NBMV5C6JV6;
+				DEVELOPMENT_TEAM = 2QG5P3SHS9;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NAME = 2.0.0;
 				FLUTTER_BUILD_NUMBER = 4;
@@ -378,7 +378,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.flipro.renovateadminapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flipro.renovateadminappp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -505,7 +505,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = NBMV5C6JV6;
+				DEVELOPMENT_TEAM = 2QG5P3SHS9;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NAME = 2.0.0;
 				FLUTTER_BUILD_NUMBER = 4;
@@ -516,7 +516,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.flipro.renovateadminapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flipro.renovateadminappp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -537,7 +537,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = NBMV5C6JV6;
+				DEVELOPMENT_TEAM = 2QG5P3SHS9;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NAME = 2.0.0;
 				FLUTTER_BUILD_NUMBER = 4;
@@ -548,7 +548,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.flipro.renovateadminapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flipro.renovateadminappp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
