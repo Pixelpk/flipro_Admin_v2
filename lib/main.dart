@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fliproadmin/core/services/assets_provider/assets_provider.dart';
 import 'package:fliproadmin/core/services/db_service/db_service.dart';
@@ -10,36 +12,44 @@ import 'package:fliproadmin/core/view_model/share_provider/share_provider.dart';
 import 'package:fliproadmin/core/view_model/user_provider/user_provider.dart';
 import 'package:fliproadmin/core/view_model/users_provider/users_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
 import 'core/services/firebase_messaging_service/firebase_messaging_service.dart';
 import 'core/utilities/app_colors.dart';
 import 'core/utilities/routes.dart';
 import 'core/view_model/search_project_provider/search_project_provider.dart';
-import 'firebase_options.dart';
 import 'global_data/global_data.dart';
-import 'package:sizer/sizer.dart';
-import 'package:provider/provider.dart';
-import 'package:device_preview/device_preview.dart';
 import 'ui/view/splash_screen/splash_screen.dart';
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("background handler${message.data}");
+  print(message);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
+  final firebaseMessaging = FirebaseMessaging.instance;
+
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-  print("TOKEN${await FirebaseMessaging.instance.getToken()}");
+  await firebaseMessaging.setForegroundNotificationPresentationOptions(alert: false, badge: false, sound: true);
+  await firebaseMessaging.requestPermission(alert: false, badge: false, sound: true, provisional: false);
+  print("TOKEN : ${await FirebaseMessaging.instance.getToken()}");
   await initServices();
   runApp(DevicePreview(
       enabled: false,
       builder: (context) {
-        return  FliproAdminApp();
+        return FliproAdminApp();
       }));
 }
 
 class FliproAdminApp extends StatelessWidget {
-   FliproAdminApp({Key? key}) : super(key: key);
-final   _dbService = DbService();
- late   String token = _dbService.readString(AppConstant.getToken) ?? 'null';
+  FliproAdminApp({Key? key}) : super(key: key);
+  final _dbService = DbService();
+  late String token = _dbService.readString(AppConstant.getToken) ?? 'null';
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +76,6 @@ final   _dbService = DbService();
           //
           //   update: (context, loadedProvider, projectsProvider) => (loadedProvider.getAuthToken),
           // ),
-
-
         ],
         child: GetMaterialApp(
           navigatorKey: navigatorKey,
@@ -75,6 +83,7 @@ final   _dbService = DbService();
           onInit: () {
             FirebaseMessagingService.setupBackgroundInteractedMessage();
           },
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: AppColors.primaryBlueSwatch,
             scaffoldBackgroundColor: AppColors.blueScaffoldBackground,
@@ -98,21 +107,9 @@ final   _dbService = DbService();
                     fontFamily: "SF-Pro-Display-Bold",
                     overflow: TextOverflow.ellipsis,
                     fontWeight: FontWeight.w800),
-                caption: TextStyle(
-                    fontSize: 12,
-                    fontFamily: "SF-Pro-Display-Regular",
-                    color: Colors.white,
-                    overflow: TextOverflow.ellipsis),
-                button: TextStyle(
-                    fontFamily: "SF-Pro-Display-Semibold",
-                    fontSize: 18,
-                    color: Colors.white,
-                    overflow: TextOverflow.ellipsis),
-                subtitle1: TextStyle(
-                    fontSize: 12,
-                    fontFamily: "SF-Pro-Display-Regular",
-                    color: Colors.black,
-                    overflow: TextOverflow.ellipsis),
+                caption: TextStyle(fontSize: 12, fontFamily: "SF-Pro-Display-Regular", color: Colors.white, overflow: TextOverflow.ellipsis),
+                button: TextStyle(fontFamily: "SF-Pro-Display-Semibold", fontSize: 18, color: Colors.white, overflow: TextOverflow.ellipsis),
+                subtitle1: TextStyle(fontSize: 12, fontFamily: "SF-Pro-Display-Regular", color: Colors.black, overflow: TextOverflow.ellipsis),
                 subtitle2: TextStyle(
                   fontSize: 10,
                   fontFamily: "SF-Pro-Display-Regular",

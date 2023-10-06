@@ -28,21 +28,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBbgU093yOUmPj-UsHTH4AJlwt8FXPo_zQ',
-    appId: '1:865306367197:android:bdb947485e5eadcbf17734',
-    messagingSenderId: '865306367197',
-    projectId: 'flipro-c6b6d',
-    storageBucket: 'flipro-c6b6d.appspot.com',
+    apiKey: 'AIzaSyBfUxkhCklD8roDbt0hMxgMu3KGaieA3VA',
+    appId: '1:936207297131:android:7a32abce5e9fcdaa741f2e',
+    messagingSenderId: '936207297131',
+    projectId: 'flipro-admin',
+    storageBucket: 'flipro-admin.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDRkNxdGUBNUPqAiCjG970oGcUM1XAPMPs',
-    appId: '1:865306367197:ios:c7ec873ccbf9a4c4f17734',
-    messagingSenderId: '865306367197',
-    projectId: 'flipro-c6b6d',
-    storageBucket: 'flipro-c6b6d.appspot.com',
-    androidClientId: '865306367197-fgfc33ecn84me1ibt4tlfecr37lfa3fr.apps.googleusercontent.com',
-    iosClientId: '865306367197-59kpvjqrp32cvlvpoav5fr9j4sqertcu.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDnZStALyqRqrqF7XdiT6-sPzTIHGKbB7I',
+    appId: '1:936207297131:ios:d9a8d032b54cf927741f2e',
+    messagingSenderId: '936207297131',
+    projectId: 'flipro-admin',
+    storageBucket: 'flipro-admin.appspot.com',
+    // androidClientId: '865306367197-fgfc33ecn84me1ibt4tlfecr37lfa3fr.apps.googleusercontent.com',
+    // iosClientId: '865306367197-59kpvjqrp32cvlvpoav5fr9j4sqertcu.apps.googleusercontent.com',
     iosBundleId: 'com.flipro.renovateadminapp',
   );
 }
